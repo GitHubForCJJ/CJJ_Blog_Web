@@ -3,6 +3,37 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Content/ueditornet/ueditor.config.js"></script>
+<script src="~/Content/ueditornet/ueditor.all.js"></script>
+<script src="~/Content/ueditornet/lang/zh-cn/zh-cn.js"></script>
+<style>
+    .editorcontain {
+        min-height: 400px;
+        width: 100%;
+        padding-left: 30rem;
+    }
+</style>
 
-<h2>Index</h2>
+<div style="width:100%;">
+    <div class="editorcontain">
+        <script id="ueditor" name="ueditor" type="text/plain" style="width:1000px;height:240px;">
+            测试内容
+        </script>
+    </div>
+
+
+
+    <script type="text/javascript">
+        //var ue = UM.getEditor('umditor', {
+        //    initialFrameWidth: 800,
+        //    initialFrameHeight: 320
+        //});
+        var um = UE.getEditor('ueditor', {
+            initialFrameWidth: 800,
+            initialFrameHeight: 320
+        });
+    </script>
+
+
+</div>
 
