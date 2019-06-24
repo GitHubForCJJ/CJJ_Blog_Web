@@ -3,35 +3,105 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Content/ueditornet/ueditor.config.js"></script>
-<script src="~/Content/ueditornet/ueditor.all.js"></script>
-<script src="~/Content/ueditornet/lang/zh-cn/zh-cn.js"></script>
-<style>
-    .editorcontain {
-        min-height: 400px;
-        width: 100%;
-        padding-left: 30rem;
-    }
-</style>
+<link href="~/Content/index.css" rel="stylesheet" />
+<link href="~/Content/Swiper/swiper.min.css" rel="stylesheet" />
 
-<div style="width:100%;">
+<script src="~/ueditornet/ueditor.config.js"></script>
+<script src="~/ueditornet/ueditor.all.js"></script>
+<script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>
+
+
+
+<div>
     <div class="editorcontain">
-        <script id="ueditor" name="ueditor" type="text/plain" style="width:1000px;height:240px;">
-            测试内容
-        </script>
+        @*<script id="ueditor" name="ueditor" type="text/plain" style="width:1000px;height:240px;">
+                测试内容
+            </script>*@
+        <div class="swcon">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a>
+                            <img src="~/Content/201904121811113335369828.jpg" />
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a>
+                            <img src="~/Content/201904121811133022935876.jpg"/>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a>
+                            <img src="~/Content/201904121811145366134525.jpg"/>
+                        </a> 
+                    </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+        @*热点推荐*@
+        <div class="hot-container">
+            <div class="hotitem">
+                <img src="~/Content/201904121811133022935876.jpg" />
+                <h2>FastDev框架的日志组件1</h2>
+                <span>框架整理</span>
+            </div>
+            <div class="hotitem">
+                <img src="~/Content/201904121811145366134525.jpg" />
+                <h2>FastDev框架的日志组件</h2>
+                <span>框架整理</span>
+            </div>
+        </div>
+
+        @*main blog*@
+        <div class="main">
+            <div class="blogitem">
+                <h3 class="blogtitle">fastdev 日志组件学习</h3>
+                <span class="blogpic">
+                    <a href="~/Content/201904121811133022935876.jpg" ></a>
+                </span>
+                <p class="blogcontent"></p>
+                <div class="bloginfo">
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
 
-
+    <script src="~/Content/Swiper/swiper.min.js"></script>
     <script type="text/javascript">
         //var ue = UM.getEditor('umditor', {
         //    initialFrameWidth: 800,
         //    initialFrameHeight: 320
         //});
-        var um = UE.getEditor('ueditor', {
-            initialFrameWidth: 800,
-            initialFrameHeight: 320
-        });
+        //var um = UE.getEditor('ueditor', {
+        //    initialFrameWidth: 800,
+        //    initialFrameHeight: 320
+        //});
+
+        $(function () {
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        })
+
     </script>
 
 

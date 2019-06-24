@@ -67,10 +67,10 @@ public class MyUploadHandler : Handler
         config.ChunkSize = ChunkUnit.U512K;
         ResumableUploader target = new ResumableUploader(config);
         PutExtra extra = new PutExtra();
-        //设置断点续传进度记录文件
-        extra.ResumeRecordFile = ResumeHelper.GetDefaultRecordKey(uploadFileName, key);
-        Console.WriteLine("record file:" + extra.ResumeRecordFile);
-        extra.ResumeRecordFile = "test.progress";
+        //设置断点续传进度记录文件,,报文件没又访问权限
+        //extra.ResumeRecordFile = ResumeHelper.GetDefaultRecordKey(uploadFileName, key);
+        //Console.WriteLine("record file:" + extra.ResumeRecordFile);
+        //extra.ResumeRecordFile = "test.progress";
         try
         {
             HttpResult result = target.UploadStream(myStream, key, token, extra);

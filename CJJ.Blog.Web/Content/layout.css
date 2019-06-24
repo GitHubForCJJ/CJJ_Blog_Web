@@ -1,0 +1,81 @@
+﻿html {
+    display: block;
+    min-height:100%;
+    width:100%;
+}
+
+
+body {
+    font: 15px "Microsoft YaHei", Arial, Helvetica, sans-serif;
+    color: #555;
+    background: #efefef;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+header {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.header-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background: #fff;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    z-index: 9999;
+    display:block;
+}
+nav {
+    width: 1000px;
+    margin: auto;
+    position: relative
+}
+.logo {
+    float: left;
+    font-size: 22px;
+    width:150px;
+    height:100%;
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#catlist {
+    float: left;
+    margin:0 0 0 50px;
+}
+#catlist li {
+    float: left;
+    width: 100px;
+    height: 100%;
+    text-align: center;
+    display: block;
+    font-size: 16px;
+    margin-right: 5px ;
+    vertical-align:top;
+}
+
+a{
+    text-decoration: none;
+    color: #444;
+}
+#catlist #selected {
+    background-color: lightseagreen;
+}
+
+/*文章内容*/
+article {
+    width: 1000px;
+    margin: 80px auto 0;
+    overflow: hidden;
+    z-index: 999;
+}
+
