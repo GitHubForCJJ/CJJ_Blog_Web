@@ -4,9 +4,7 @@
         padding-left: 30rem;*/
 }
 
-*{
-    margin:0;
-}
+
 
 .swcon {
     width: 45.333333333333336rem;
@@ -18,54 +16,6 @@
 .swiper-slide a img {
     width: 100%;
     height: 27.2rem;
-}
-
-.hot-container {
-    float: right;
-    margin-bottom: 1.3333333333333333rem;
-}
-
-.hotitem {
-    width: 20rem;
-    height: 13.066666666666666rem;
-    background-color: forestgreen;
-    position: relative;
-}
-
-.hot-container .hotitem:last-child {
-    margin-top: 1.0666666666666667rem;
-}
-
-.hotitem img {
-    height: 13.066666666666666rem;
-    width: 100%;
-    border-radius:2px;
-}
-
-.hotitem span {
-    position: absolute;
-    top: 1.3333333333333333rem;
-    left: 1.3333333333333333rem;
-    padding: 0.4rem 0.6666666666666666rem;
-    background: rgba(54, 144, 207,.8);
-    font-size: 0.8rem;
-    display: block;
-    color: #FFF;
-    border-radius: 3px;
-}
-
-.hotitem h2 {
-    color: #fff;
-    display: block;
-    font-weight: normal;
-    font-size: 1.0666666666666667rem;
-    position: absolute;
-    bottom: 0;
-    padding: 0.3333333333333333rem 1.3333333333333333rem;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, .7);
-    margin: 0;
 }
 
 /* 博客blogitem*/
@@ -158,6 +108,7 @@
     font-family: personicon !important;
     font-size: 0.8rem;
     font-style: normal;
+    margin-right:0.4rem;
 }
 
 .ico1 {
@@ -174,94 +125,4 @@
     color: #fff;
     border-radius: 3px;
 }
-/*右侧aside*/
-.aside {
-    float: right;
-    width: 20rem;
-    min-height: 66.66666666666667rem;
-}
 
-.about_me {
-    box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7);
-    border-radius: 3px;
-    background: rgba(42,42,42,1);
-    overflow: hidden;
-    margin-bottom: 1.3333333333333333rem;
-}
-
-    .about_me h2 {
-        font-size: 1.4666666666666666rem;
-        margin: 0.6666666666666666rem;
-        color: #89919a;
-        font-weight: normal;
-        padding-bottom: 0.6666666666666666rem;
-    }
-
-    .about_me p {
-        font-size: 0.8rem;
-        padding: 0 0 0 1.3333333333333333rem;
-        line-height: 1.8666666666666667rem;
-        text-shadow: 0rem 0.06666666666666667rem 0.13333333333333333rem rgba(0,0,0,.5);
-        color: #d0d2d4;
-        margin: 0;
-    }
-
-    .about_me .link {
-        font-family: personicon !important;
-        font-size: 2.3333333333333335rem;
-        font-style: normal;
-    }
-
-    .about_me li {
-        display: inline-block;
-        width: 3.3333333333333335rem;
-        margin-left: 1.3333333333333333rem;
-    }
-    .about_me .email {
-        color: rgb(251,146,54);
-    }
-    .about_me .qq {
-        color: #12b7de;
-    }
-    .about_me .wx {
-        color: rgb(39,154,15);
-    }
-    .about_me .github {
-        color: rgb(235,69,33);
-    }
-    .about_me .link:hover {
-       opacity:0.5;
-    }
-
-/*博客分类*/
-
-.category {
-    background: #fff;
-    margin-bottom: 1.3333333333333333rem;
-    overflow: hidden;
-    border: 1px solid #ddd;
-    border-radius:2px;
-}
-    .category h2 {
-        color: #333;
-        font-size: 0.9333333333333333rem;
-        line-height: 2rem;
-        padding-left: 1.3333333333333333rem;
-        background: #f8f8f8;
-        border-bottom: 1px solid #ddd;
-    }
-    .category ul{
-        padding:0.8rem;
-    }
-    .category li a {
-        position: relative;
-        display: block;
-        padding: 10px 20px;
-        border-radius: 4px;
-        color: #337ab7;
-        text-decoration: none;
-
-    }
-        .category li a:hover {
-            background: rgba(0,0,0,0.2)
-        }

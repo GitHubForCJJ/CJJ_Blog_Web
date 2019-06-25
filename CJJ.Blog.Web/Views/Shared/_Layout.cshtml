@@ -14,18 +14,70 @@
             <div class="logo"><a href="#">Rodman博客</a></div>
             <ul id="catlist">
                 <li id="selected"><a href="#">首页</a></li>
-                <li><a href="#">框架</a></li>
-                <li><a href="#">心情</a></li>
-                <li><a href="#">风景</a></li>
-                <li><a href="#">关于我</a></li>
+                <li><a href="#">技术杂谈</a></li>
+                <li><a href="#">框架整理</a></li>
+                <li><a href="#">经验积累</a></li>
+                <li><a href="#">实用工具</a></li>
             </ul>
         </nav>
     </header>
 
     <article>
-
-    @RenderBody()</article>
-    <footer></footer>
+        <div class="left_main">
+            @RenderBody()
+        </div>
+        @*右边aside*@
+        <div class="aside">
+            @*热点推荐*@
+            <div class="hot-container">
+                <div class="hotitem">
+                    <img src="~/Content/201904121811133022935876.jpg" />
+                    <h2>FastDev框架的日志组件1</h2>
+                    <span>框架整理</span>
+                </div>
+                @*<div class="hotitem">
+                    <img src="~/Content/201904121811145366134525.jpg" />
+                    <h2>FastDev框架的日志组件</h2>
+                    <span>框架整理</span>
+                </div>*@
+            </div>
+            @*关于我*@
+            <div class="about_me">
+                <h3>个人资料</h3>
+                <p>网名：Rodman</p>
+                <p>职业：码农</p>
+                <p>现居：四川成都</p>
+                <p>Email：1057295105@qq.com</p>
+                <ul>
+                    <li class=""><a href="#"><i class="link email">&#xe612;</i></a></li>
+                    <li class=""><a href="#"><i class="link qq">&#xf00a6;</i></a></li>
+                    <li class=""><a href="#"><i class="link wx">&#xe637;</i></a></li>
+                    <li class=""><a href="#"><i class="link github">&#xea0a;</i></a></li>
+                </ul>
+            </div>
+            @*博客分类*@
+            <div class="category">
+                <h2>文章分类</h2>
+                <ul>
+                    <li><a href="#">技术框架分享</a></li>
+                    <li><a href="#">Bug整理</a></li>
+                    <li><a href="#">技术点分享</a></li>
+                </ul>
+            </div>
+            @*推荐*@
+            <div class="recommend">
+                <h2>博客推荐</h2>
+                <ul>
+                    <li><i></i><a href="#">技术框架分享</a></li>
+                    <li><i></i><a href="#">Bug整理</a></li>
+                    <li><a href="#">技术点分享</a></li>
+                </ul>
+            </div>
+        </div>
+    </article>
+    <footer>
+        <a href="#">腾讯云服务器</a>&<a href="#">七牛云存储</a>
+    </footer>
 
 
     <script type="text/javascript">

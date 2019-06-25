@@ -13,45 +13,48 @@
 
 @media screen and (max-width: 2000px) and (min-width: 1400px) {
     html {
-        font-size: 17px;
+        font-size: 15px;
     }
 }
 
-    html {
-        display: block;
-        /*min-height: 100%;
+html {
+    display: block;
+    /*min-height: 100%;
         width: 100%;*/
-    }
+}
 
+* {
+    margin: 0;
+}
 
-    body {
-        font: 1rem "Microsoft YaHei", Arial, Helvetica, sans-serif;
-        color: #555;
-        background: #efefef;
-        line-height: 1.5;
-        margin: 0;
-        padding: 0;
-    }
+body {
+    font: 1rem "Microsoft YaHei", Arial, Helvetica, sans-serif;
+    color: #555;
+    background: #efefef;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
 
-    header {
-        display: block;
-        margin: 0;
-        padding: 0;
-    }
+header {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
 
-    .header-nav {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 4rem;
-        line-height: 4rem;
-        background: #fff;
-        text-align: center;
-        border-bottom: 0.06666666666666667rem solid #ddd;
-        box-shadow: 0 0.06666666666666667rem 0.06666666666666667rem rgba(0,0,0,.04);
-        z-index: 9999;
-        display: block;
-    }
+.header-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 4rem;
+    line-height: 4rem;
+    background: #fff;
+    text-align: center;
+    border-bottom: 0.06666666666666667rem solid #ddd;
+    box-shadow: 0 0.06666666666666667rem 0.06666666666666667rem rgba(0,0,0,.04);
+    z-index: 9999;
+    display: block;
+}
 
 nav {
     width: 66.66666666666667rem;
@@ -59,45 +62,45 @@ nav {
     position: relative
 }
 
-    .logo {
+.logo {
+    float: left;
+    font-size: 1.4666666666666666rem;
+    width: 10rem;
+    height: 100%;
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#catlist {
+    float: left;
+    margin: 0 0 0 3.3333333333333335rem;
+}
+
+    #catlist li {
         float: left;
-        font-size: 1.4666666666666666rem;
-        width: 10rem;
+        width: 6.666666666666667rem;
         height: 100%;
+        text-align: center;
+        display: block;
+        font-size: 1.0666666666666667rem;
+        margin-right: 0.3333333333333333rem;
+        vertical-align: top;
     }
 
-    ul, li {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+a {
+    text-decoration: none;
+    color: #444;
+}
 
-    #catlist {
-        float: left;
-        margin: 0 0 0 3.3333333333333335rem;
-    }
+#catlist #selected {
+    background-color: lightseagreen;
+}
 
-        #catlist li {
-            float: left;
-            width: 6.666666666666667rem;
-            height: 100%;
-            text-align: center;
-            display: block;
-            font-size: 1.0666666666666667rem;
-            margin-right: 0.3333333333333333rem;
-            vertical-align: top;
-        }
-
-    a {
-        text-decoration: none;
-        color: #444;
-    }
-
-    #catlist #selected {
-        background-color: lightseagreen;
-    }
-
-    /*文章内容*/
+/*文章内容*/
 article {
     width: 66.66666666666667rem;
     margin: 5.333333333333333rem auto 0;
@@ -105,8 +108,190 @@ article {
     z-index: 999;
 }
 
-    @font-face {
-        font-family: 'personicon';
-        src: url('Icon/iconfont.eot');
-        src: url('Icon/iconfont.eot?#iefix') format('embedded-opentype'), url('Icon/iconfont.woff2') format('woff2'), url('Icon/iconfont.woff') format('woff'), url('Icon/iconfont.ttf') format('truetype'), url('Icon/iconfont.svg#iconfont') format('svg');
+@font-face {
+    font-family: 'personicon';
+    src: url('Icon/iconfont.eot');
+    src: url('Icon/iconfont.eot?#iefix') format('embedded-opentype'), url('Icon/iconfont.woff2') format('woff2'), url('Icon/iconfont.woff') format('woff'), url('Icon/iconfont.ttf') format('truetype'), url('Icon/iconfont.svg#iconfont') format('svg');
+}
+
+.left_main {
+    width: 680px;
+    min-height: 1300px;
+    float: left;
+}
+
+.aside {
+    float: right;
+    width: 20rem;
+    min-height: 66.66666666666667rem;
+}
+
+    .aside h2 {
+        color: #333;
+        font-size: 0.9333333333333333rem;
+        line-height: 2rem;
+        padding-left: 1.3333333333333333rem;
+        background: #f8f8f8;
+        border-bottom: 1px solid #ddd;
     }
+
+    .aside ul {
+        padding: 0.8rem;
+    }
+
+/*热门专题*/
+.hot-container {
+    margin-bottom: 1.3333333333333333rem;
+}
+
+.hotitem {
+    width: 20rem;
+    height: 13.066666666666666rem;
+    background-color: forestgreen;
+    position: relative;
+}
+
+/*.hot-container .hotitem:last-child {
+    margin-top: 1.0666666666666667rem;
+}*/
+
+.hotitem img {
+    height: 13.066666666666666rem;
+    width: 100%;
+    border-radius: 2px;
+}
+
+.hotitem span {
+    position: absolute;
+    top: 1.3333333333333333rem;
+    left: 1.3333333333333333rem;
+    padding: 0.4rem 0.6666666666666666rem;
+    background: rgba(54, 144, 207,.8);
+    font-size: 0.8rem;
+    display: block;
+    color: #FFF;
+    border-radius: 3px;
+}
+
+.hotitem h2 {
+    color: #fff;
+    display: block;
+    font-weight: normal;
+    font-size: 1.0666666666666667rem;
+    position: absolute;
+    bottom: 0;
+    padding: 0.3333333333333333rem 1.3333333333333333rem;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .7);
+    margin: 0;
+}
+
+/*关于我*/
+.about_me {
+    box-shadow: 0px 1px 0px rgba(255,255,255,.1), inset 0px 1px 1px rgba(0,0,0,.7);
+    border-radius: 3px;
+    background: rgba(42,42,42,1);
+    overflow: hidden;
+    margin-bottom: 1.3333333333333333rem;
+}
+
+    .about_me > h3  {
+        font-size: 1.4666666666666666rem;
+        margin: 0.6666666666666666rem;
+        color: #89919a;
+        font-weight: normal;
+        padding-bottom: 0.6666666666666666rem;
+    }
+
+    .about_me p {
+        font-size: 0.8rem;
+        padding: 0 0 0 1.3333333333333333rem;
+        line-height: 1.8666666666666667rem;
+        text-shadow: 0rem 0.06666666666666667rem 0.13333333333333333rem rgba(0,0,0,.5);
+        color: #d0d2d4;
+        margin: 0;
+    }
+
+    .about_me .link {
+        font-family: personicon !important;
+        font-size: 3rem;
+        font-style: normal;
+    }
+
+    .about_me li {
+        display: inline-block;
+        width: 3rem;
+        margin-right: 1.3333333333333333rem;
+    }
+
+    .about_me .email {
+        color: rgb(251,146,54);
+    }
+
+    .about_me .qq {
+        color: #12b7de;
+    }
+
+    .about_me .wx {
+        color: rgb(39,154,15);
+    }
+
+    .about_me .github {
+        color: rgb(235,69,33);
+    }
+
+    .about_me .link:hover {
+        opacity: 0.5;
+    }
+
+/*博客分类*/
+
+.category {
+    background: #fff;
+    margin-bottom: 1.3333333333333333rem;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+
+
+    .category li a {
+        position: relative;
+        display: block;
+        padding: 10px 20px;
+        border-radius: 4px;
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+        .category li a:hover {
+            background: rgba(0,0,0,0.2)
+        }
+
+ /*推荐博客*/
+ .recommend{
+     background-color:white;
+ }
+    .recommend li a {
+        position: relative;
+        display: block;
+        padding: 10px 20px;
+        border-radius: 4px;
+        color: #337ab7;
+        text-decoration: none;
+        position: relative;
+        text-overflow: ellipsis;
+    }
+        .recommend li a:hover {
+            background: rgba(0,0,0,0.2)
+        }
+
+/*footer*/
+footer {
+    width: 100%;
+    height: 6rem;
+    line-height: 6rem;
+    text-align: center;
+    background: #fff;
+}
