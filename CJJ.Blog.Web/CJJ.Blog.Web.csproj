@@ -99,8 +99,7 @@
     <Content Include="Content\201904121811113335369828.jpg" />
     <Content Include="Content\201904121811133022935876.jpg" />
     <Content Include="Content\201904121811145366134525.jpg" />
-    <Content Include="Content\ceshi.css" />
-    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Icon\iconfont.svg" />
     <Content Include="Content\index.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\Swiper\swiper.min.css" />
@@ -388,6 +387,10 @@
     <Content Include="ueditornet\third-party\video-js\font\vjs.eot" />
     <Content Include="ueditornet\third-party\video-js\font\vjs.ttf" />
     <Content Include="ueditornet\third-party\video-js\font\vjs.woff" />
+    <Content Include="Content\Icon\iconfont.ttf" />
+    <Content Include="Content\Icon\iconfont.woff" />
+    <Content Include="Content\Icon\iconfont.eot" />
+    <Content Include="Content\Icon\iconfont.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -1,11 +1,10 @@
 ﻿<!DOCTYPE html>
-<html style="font-size:14px;">
+<html style="">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rodman博客首页</title>
     <link href="~/Content/layout.css" rel="stylesheet" />
-    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 </head>
@@ -23,7 +22,9 @@
         </nav>
     </header>
 
-    <article>@RenderBody()</article>
+    <article>
+
+    @RenderBody()</article>
     <footer></footer>
 
 
@@ -39,9 +40,9 @@
 
             var isUpDown = updown > 0 ? "down" : "up";  //判断往上还是往下
             if (updown > 0) {
-                $(".navcontainer").fadeOut(1000);
+                $(".header-nav").fadeOut(500);
             } else {
-                $(".navcontainer").fadeIn(1000);
+                $(".header-nav").fadeIn(500);
             }
 
         })
