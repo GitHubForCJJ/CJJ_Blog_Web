@@ -9,7 +9,7 @@ namespace CJJ.Blog.Main.Controllers
     public class HomeController : BaseController
     {
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index(int a=123)
         {
             return View();
         }

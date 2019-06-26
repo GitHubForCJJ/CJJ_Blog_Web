@@ -15,7 +15,7 @@ namespace CJJ.Blog.Main.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-
+            var a = filterContext.HttpContext;
         }
     }
 }
