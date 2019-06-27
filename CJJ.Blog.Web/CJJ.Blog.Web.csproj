@@ -44,6 +44,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CJJ.Blog.NetWork.IService">
+      <HintPath>..\dll\CJJ.Blog.NetWork.IService.dll</HintPath>
+    </Reference>
+    <Reference Include="CJJ.Blog.NetWork.WcfHelper">
+      <HintPath>..\dll\CJJ.Blog.NetWork.WcfHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="CJJ.Blog.Service.Model">
+      <HintPath>..\dll\CJJ.Blog.Service.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="FastDev.Common">
+      <HintPath>..\dll\FastDev.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="FastDev.WCF">
+      <HintPath>..\dll\FastDev.WCF.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -104,6 +119,7 @@
     <Content Include="Content\layout.css" />
     <Content Include="Content\Swiper\swiper.min.css" />
     <Content Include="Content\Swiper\swiper.min.js" />
+    <Content Include="Scripts\Blog\Index.js" />
     <Content Include="ueditornet\dialogs\anchor\anchor.html" />
     <Content Include="ueditornet\dialogs\attachment\attachment.css" />
     <Content Include="ueditornet\dialogs\attachment\attachment.html" />
@@ -391,7 +407,6 @@
     <Content Include="Content\Icon\iconfont.woff" />
     <Content Include="Content\Icon\iconfont.eot" />
     <Content Include="Content\Icon\iconfont.woff2" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -401,6 +416,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="ueditornet\net\App_Code\Config.cs" />
     <Compile Include="ueditornet\net\App_Code\ConfigHandler.cs" />
     <Compile Include="ueditornet\net\App_Code\CrawlerHandler.cs" />
@@ -425,7 +442,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Blog\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -435,8 +452,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\Pic\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

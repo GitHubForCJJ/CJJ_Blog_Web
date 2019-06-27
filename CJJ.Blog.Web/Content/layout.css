@@ -96,7 +96,7 @@ a {
     color: #444;
 }
 
-#catlist #selected {
+ #catlist .selected {
     background-color: lightseagreen;
 }
 

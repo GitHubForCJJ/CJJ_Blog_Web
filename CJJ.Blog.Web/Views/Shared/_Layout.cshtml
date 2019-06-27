@@ -13,8 +13,8 @@
         <nav>
             <div class="logo"><a href="#">Rodman博客</a></div>
             <ul id="catlist">
-                <li id="selected"><a href="#">首页</a></li>
-                <li><a href="#">技术杂谈</a></li>
+                <li class="selected"><a href="#">首页</a></li>
+                <li><a href="http://www.baidu.com" target="_blank">技术杂谈</a></li>
                 <li><a href="#">框架整理</a></li>
                 <li><a href="#">经验积累</a></li>
                 <li><a href="#">实用工具</a></li>
@@ -76,7 +76,7 @@
         </div>
     </article>
     <footer>
-        <a href="#">腾讯云服务器</a>&<a href="#">七牛云存储</a>
+        <a href="#">腾讯云提供服务</a>&<a href="#">七牛云存储</a>
     </footer>
 
 
@@ -88,7 +88,6 @@
                 updown = afterScrollTop - beforeScrollTop;
             if (updown === 0) return false;
             beforeScrollTop = afterScrollTop;
-            console.log(updown > 0 ? "down" : "up");
 
             var isUpDown = updown > 0 ? "down" : "up";  //判断往上还是往下
             if (updown > 0) {
@@ -97,6 +96,9 @@
                 $(".header-nav").fadeIn(500);
             }
 
+        })
+        $("#catlist li a").on("click", function (e) {
+            $(this).parent().addClass('selected').siblings().removeClass('selected');
         })
     </script>
 </body>

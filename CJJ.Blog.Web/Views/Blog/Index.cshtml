@@ -1,156 +1,114 @@
 ﻿
+@model IEnumerable<CJJ.Blog.Service.Model.View.BloginfoView>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 <link href="~/Content/index.css" rel="stylesheet" />
 <link href="~/Content/Swiper/swiper.min.css" rel="stylesheet" />
 
 
 @*<script src="~/ueditornet/ueditor.config.js"></script>
-<script src="~/ueditornet/ueditor.all.js"></script>
-<script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>*@
+    <script src="~/ueditornet/ueditor.all.js"></script>
+    <script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>*@
 
 
 
-<div>
-    <div class="editorcontain">
-        @*<script id="ueditor" name="ueditor" type="text/plain" style="width:1000px;height:240px;">
-                测试内容
-            </script>*@
-        <div class="swcon">
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a>
-                            <img src="~/Content/201904121811113335369828.jpg" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a>
-                            <img src="~/Content/201904121811133022935876.jpg" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a>
-                            <img src="~/Content/201904121811145366134525.jpg" />
-                        </a>
-                    </div>
+
+<div class="editorcontain">
+    @*<script id="ueditor" name="ueditor" type="text/plain" style="width:1000px;height:240px;">
+            测试内容
+        </script>*@
+    <div class="swcon">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="http://www.baidu.com">
+                        <img src="~/Content/201904121811113335369828.jpg" />
+                    </a>
                 </div>
-                <!-- Add Pagination -->
-                <div class="swiper-pagination"></div>
-                <!-- Add Arrows -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+                <div class="swiper-slide">
+                    <a href="www.baidu.com">
+                        <img src="~/Content/201904121811133022935876.jpg" />
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="www.baidu.com">
+                        <img src="~/Content/201904121811145366134525.jpg" />
+                    </a>
+                </div>
             </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Arrows -->
+
+            <div class="swiper-button-next swiper-button-black"></div>
+            <div class="swiper-button-prev swiper-button-black"></div> <!-- 黑色 -->
+        </div>
+    </div>
+
+
+    @*main blog*@
+    <div class="main">
+        @foreach (var item in Model)
+        {
+            <div class="blogitem">
+                <h3 class="blogtitle"><a href="http://www.baidu.com">@item.Title</a></h3>
+                <span class="blogpic">
+                    <a href="#">
+                        <img src="~/Content/201904121811113335369828.jpg" />
+                    </a>
+                </span>
+                <p class="blogcontent">@item.Content</p>
+                <div class="bloginfo">
+                    <ul>
+                        <li class="author"><span class="authoricon">&#xe663;</span> Rodman</li>
+                        <li class="cat"><span class="authoricon">&#xe660;</span>技术框架</li>
+                        <li class="createtime"><span class="authoricon">&#xe687;</span>2019-02-03</li>
+                        <li class="viewtimes"><span class="authoricon">&#xe62b;</span>200</li>
+                    </ul>
+                </div>
+                <a href="#" class="viewmore">阅读更多</a>
+            </div>
+        }
+
+        <div class="blogitem">
+            <h3 class="blogtitle"><a href="http://www.baidu.com">fastdev 日志组件学习</a></h3>
+            <span class="blogpic">
+                <a href="#">
+                    <img src="~/Content/201904121811113335369828.jpg" />
+                </a>
+            </span>
+            <p class="blogcontent">有很多朋友都在问帝国cms列表页怎么调用关键字tag，tag作为内链手法，对于SEO有一定的好处，下面杨青博客就实例讲述一下帝国cms列表页面调用关键字tag标签的方法，分享给大...</p>
+            <div class="bloginfo">
+                <ul>
+                    <li class="author"><span class="authoricon">&#xe663;</span> Rodman</li>
+                    <li class="cat"><span class="authoricon">&#xe660;</span>技术框架</li>
+                    <li class="createtime"><span class="authoricon">&#xe687;</span>2019-02-03</li>
+                    <li class="viewtimes"><span class="authoricon">&#xe62b;</span>200</li>
+                </ul>
+            </div>
+            <a href="#" class="viewmore">阅读更多</a>
         </div>
 
-
-        @*main blog*@
-        <div class="main">
-            <div class="blogitem">
-                <h3 class="blogtitle"><a href="#">fastdev 日志组件学习</a></h3>
-                <span class="blogpic">
-                    <a href="#">
-                        <img src="~/Content/201904121811113335369828.jpg" />
-                    </a>
-                </span>
-                <p class="blogcontent">有很多朋友都在问帝国cms列表页怎么调用关键字tag，tag作为内链手法，对于SEO有一定的好处，下面杨青博客就实例讲述一下帝国cms列表页面调用关键字tag标签的方法，分享给大...</p>
-                <div class="bloginfo">
-                    <ul>
-                        <li class="author"><span class="authoricon">&#xe663;</span> Rodman</li>
-                        <li class="cat"><span class="authoricon">&#xe660;</span>技术框架</li>
-                        <li class="createtime"><span class="authoricon">&#xe687;</span>2019-02-03</li>
-                        <li class="viewtimes"><span class="authoricon">&#xe62b;</span>200</li>
-                    </ul>
-                </div>
-                <a href="#" class="viewmore">阅读更多</a>
-            </div>
-            <div class="blogitem">
-                <h3 class="blogtitle"><a href="#">fastdev 日志组件学习</a></h3>
-                <span class="blogpic">
-                    <a href="#">
-                        <img src="~/Content/201904121811113335369828.jpg" />
-                    </a>
-                </span>
-                <p class="blogcontent">有很多朋友都在问帝国cms列表页怎么调用关键字tag，tag作为内链手法，对于SEO有一定的好处，下面杨青博客就实例讲述一下帝国cms列表页面调用关键字tag标签的方法，分享给大...</p>
-                <div class="bloginfo">
-                    <ul>
-                        <li class="author"><span class="authoricon">&#xe663;</span> Rodman</li>
-                        <li class="cat"><span class="authoricon">&#xe660;</span>技术框架</li>
-                        <li class="createtime"><span class="authoricon">&#xe687;</span>2019-02-03</li>
-                        <li class="viewtimes"><span class="authoricon">&#xe62b;</span>200</li>
-                    </ul>
-                </div>
-                <a href="#" class="viewmore">阅读更多</a>
-            </div>
-            <div class="blogitem">
-                <h3 class="blogtitle"><a href="#">fastdev 日志组件学习</a></h3>
-                <span class="blogpic">
-                    <a href="#">
-                        <img src="~/Content/201904121811113335369828.jpg" />
-                    </a>
-                </span>
-                <p class="blogcontent">有很多朋友都在问帝国cms列表页怎么调用关键字tag，tag作为内链手法，对于SEO有一定的好处，下面杨青博客就实例讲述一下帝国cms列表页面调用关键字tag标签的方法，分享给大...</p>
-                <div class="bloginfo">
-                    <ul>
-                        <li class="author"><span class="authoricon">&#xe663;</span> Rodman</li>
-                        <li class="cat"><span class="authoricon">&#xe660;</span>技术框架</li>
-                        <li class="createtime"><span class="authoricon">&#xe687;</span>2019-02-03</li>
-                        <li class="viewtimes"><span class="authoricon">&#xe62b;</span>200</li>
-                    </ul>
-                </div>
-                <a href="#" class="viewmore">阅读更多</a>
-            </div>
-            <div class="blogitem">
-                <h3 class="blogtitle"><a href="#">fastdev 日志组件学习</a></h3>
-                <span class="blogpic">
-                    <a href="#">
-                        <img src="~/Content/201904121811113335369828.jpg" />
-                    </a>
-                </span>
-                <p class="blogcontent">有很多朋友都在问帝国cms列表页怎么调用关键字tag，tag作为内链手法，对于SEO有一定的好处，下面杨青博客就实例讲述一下帝国cms列表页面调用关键字tag标签的方法，分享给大...</p>
-                <div class="bloginfo">
-                    <ul>
-                        <li class="author"><span class="authoricon">&#xe663;</span> Rodman</li>
-                        <li class="cat"><span class="authoricon">&#xe660;</span>技术框架</li>
-                        <li class="createtime"><span class="authoricon">&#xe687;</span>2019-02-03</li>
-                        <li class="viewtimes"><span class="authoricon">&#xe62b;</span>200</li>
-                    </ul>
-                </div>
-                <a href="#" class="viewmore">阅读更多</a>
-            </div>
-        </div>
 
     </div>
 
 
     <script src="~/Content/Swiper/swiper.min.js"></script>
+    <script src="~/Scripts/Blog/Index.js"></script>
     <script type="text/javascript">
-        //var ue = UM.getEditor('umditor', {
-        //    initialFrameWidth: 800,
-        //    initialFrameHeight: 320
-        //});
-        //var um = UE.getEditor('ueditor', {
-        //    initialFrameWidth: 800,
-        //    initialFrameHeight: 320
-        //});
+                        //var ue = UM.getEditor('umditor', {
+                        //    initialFrameWidth: 800,
+                        //    initialFrameHeight: 320
+                        //});
+                        //var um = UE.getEditor('ueditor', {
+                        //    initialFrameWidth: 800,
+                        //    initialFrameHeight: 320
+                        //});
 
-        $(function () {
-            var swiper = new Swiper('.swiper-container', {
-                slidesPerView: 1,
-                spaceBetween: 30,
-                loop: true,
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            });
-        })
+
 
     </script>
 

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using CJJ.Blog.NetWork.WcfHelper;
+using CJJ.Blog.Service.Model.View;
+using CJJ.Blog.Service.Models.Data;
+using FastDev.Common.Code;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,10 +10,52 @@ using System.Web.Mvc;
 
 namespace CJJ.Blog.Web.Controllers
 {
-    public class BlogController : Controller
+    public class BlogController : BaseController
     {
-        // GET: Blog
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string categorytype)
+        {
+            var list = new List<BloginfoView>();
+            var where = new Dictionary<string, object>();
+            if (!string.IsNullOrEmpty(categorytype))
+            {
+                where.Add(nameof(Bloginfo.Type), categorytype);
+            }
+            var jresult = BlogHelper.GetListPage_Bloginfo(1, 15, where);
+            if (jresult!=null && jresult.Count>0)
+            {
+                list = jresult;
+            }
+            return View(list);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categorytype"></param>
+        /// <returns></returns>
+        //[HttpPost]
+        //public List<Bloginfo> Index(string categorytype)
+        //{
+        //    var list = new List<Bloginfo>();
+        //    var where = new Dictionary<string, object>();
+        //    if (!string.IsNullOrEmpty(categorytype))
+        //    {
+        //        where.Add(nameof(Bloginfo.Type), categorytype);
+        //    }
+        //    var jresult = BlogHelper.GetJsonListPage_Bloginfo(1, 15, "", where);
+        //    if (jresult.code.Toint() == 0)
+        //    {
+        //        list = jresult.data;
+        //    }
+        //    return list;
+        //    //return FastJson(list,"操作成功",0,list.Count);
+        //}
+        public ActionResult Detail(int blogid)
+        {
+            var blog = BlogHelper.GetModelByKID_Bloginfo(blogid);
+            return View(blog);
+        }
+        public ActionResult ceshi()
         {
             return View();
         }
