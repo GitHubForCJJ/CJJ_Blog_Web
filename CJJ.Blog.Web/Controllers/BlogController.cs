@@ -15,16 +15,16 @@ namespace CJJ.Blog.Web.Controllers
         [HttpGet]
         public ActionResult Index(string categorytype)
         {
-            var list = new List<BloginfoView>();
+            var list = new List<Bloginfo>();
             var where = new Dictionary<string, object>();
             if (!string.IsNullOrEmpty(categorytype))
             {
                 where.Add(nameof(Bloginfo.Type), categorytype);
             }
-            var jresult = BlogHelper.GetListPage_Bloginfo(1, 15, where);
-            if (jresult!=null && jresult.Count>0)
+            var jresult = BlogHelper.GetJsonListPage_Bloginfo(1, 15,"", where);
+            if (jresult!=null && jresult.code.Toint()==0)
             {
-                list = jresult;
+                list = jresult.data;
             }
             return View(list);
         }
@@ -50,9 +50,13 @@ namespace CJJ.Blog.Web.Controllers
         //    return list;
         //    //return FastJson(list,"操作成功",0,list.Count);
         //}
+
+        [HttpGet]
         public ActionResult Detail(int blogid)
         {
-            var blog = BlogHelper.GetModelByKID_Bloginfo(blogid);
+            var blog = BlogHelper.GetModelByWhere_Blogcontent(new Dictionary<string, object>() {
+                { nameof(Blogcontent.BloginfoId),blogid}
+            });
             return View(blog);
         }
         public ActionResult ceshi()

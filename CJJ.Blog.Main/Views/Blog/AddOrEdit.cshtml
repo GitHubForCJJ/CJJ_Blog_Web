@@ -1,0 +1,60 @@
+﻿
+
+<html style="margin:0 auto">
+<head>
+    <script src="~/ueditornet/ueditor.config.js"></script>
+    <script src="~/ueditornet/ueditor.all.js"></script>
+    <script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>
+</head>
+<body>
+    <form class="form1">
+        <div class="row">
+            <input type="text" name="Title" placeholder="TItle" />
+        </div>
+        <div class="row">
+            <textarea name="DetailTitle" placeholder="DetailTitle">
+
+            </textarea>
+        </div>
+    </form>
+    <script id="ueditor" name="ueditor" type="text/plain">
+
+    </script>
+    <button onclick="addoredit()" class="">提交</button>
+
+
+    <script type="text/javascript">
+        var ue = UE.getEditor('ueditor', {
+            initialFrameWidth: 800,
+            initialFrameHeight: 620
+        });
+
+        var gethtml = function () {
+            var html = ue.getContent();
+            console.log(html)
+            return html;
+        }
+        var addoredit = function () {
+            var form = $(".form1").serializeArray();
+            console.log(form)
+            var dd = { "content": ue.getContent() };
+
+            $.ajax({
+                type="post",
+                contentType: 'json',
+                data: JSON.parse(dd),
+                url: 'blog/addoredit',
+                success: function (res) {
+                    console.log(res)
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        }
+
+
+    </script>
+</body>
+</html>
+

@@ -1,8 +1,24 @@
-﻿
+﻿@model CJJ.Blog.Service.Models.Data.Blogcontent
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/detail.css" rel="stylesheet" />
 
-<h2>Detail</h2>
+<html>
+<head>
+</head>
+<body>
+    <div class="detail">
+        @Html.Raw(Model.Content.ToString())
+    </div>
+   
 
+
+</body>
+</html>
+
+<script>
+
+
+</script>

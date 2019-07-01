@@ -114,6 +114,7 @@
     <Content Include="Content\201904121811113335369828.jpg" />
     <Content Include="Content\201904121811133022935876.jpg" />
     <Content Include="Content\201904121811145366134525.jpg" />
+    <Content Include="Content\detail.css" />
     <Content Include="Content\Icon\iconfont.svg" />
     <Content Include="Content\index.css" />
     <Content Include="Content\layout.css" />
@@ -443,6 +444,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Blog\Detail.cshtml" />
+    <Content Include="Views\Blog\ceshi.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
