@@ -143,12 +143,8 @@
     <Content Include="Content\Layui\lay\modules\upload.js" />
     <Content Include="Content\Layui\lay\modules\util.js" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="ueditornet\dialogs\anchor\anchor.html" />
     <Content Include="ueditornet\dialogs\attachment\attachment.css" />
     <Content Include="ueditornet\dialogs\attachment\attachment.html" />
@@ -452,7 +448,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Blog\Index.cshtml" />
     <Content Include="ueditornet\net\config.json" />
     <Content Include="ueditornet\net\controller.ashx">
@@ -467,6 +462,7 @@
     <Content Include="ueditornet\third-party\video-js\font\vjs.ttf" />
     <Content Include="ueditornet\third-party\video-js\font\vjs.woff" />
     <Content Include="Views\Blog\AddOrEdit.cshtml" />
+    <Content Include="Views\Common\SysLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -477,7 +473,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Tools\" />
-    <Folder Include="Views\Common\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <PropertyGroup>
