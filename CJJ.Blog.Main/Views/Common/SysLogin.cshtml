@@ -133,18 +133,19 @@
             <div class="input-content">
                 <div>
                     <input type="text" autocomplete="off"
-                           placeholder="用户名" name="UserAccount" required />
+                           placeholder="用户名" id="UserAccount" name="UserAccount" required />
                 </div>
 
                 <div style="margin-top: 16px">
                     <input type="password"
-                           autocomplete="off" placeholder="登录密码" name="UserPassword" required maxlength="32" />
+                           autocomplete="off" id="UserPassword" placeholder="登录密码" name="UserPassword" required maxlength="32" />
                 </div>
             </div>
 
             <!--登入按钮-->
+            <!--登入按钮-->
             <div style="text-align: center">
-                <button type="submit" class="enter-btn">登录</button>
+                <button type="button" class="enter-btn">登录</button>
             </div>
 
             <div class="foor">
@@ -155,9 +156,32 @@
         </form>
 
         <script src="~/Scripts/jquery-1.10.2.js"></script>
+        <script src="~/Scripts/md5.js"></script>
         <script type="text/javascript">
-            $(".login-form").submit(function () {
+            //$(".login-form").submit(function (res) {
+            //    var a = $(".login-form").serialize();
+            //    console.log(a)
+            //})
 
+            $(".enter-btn").click(function () {
+                var a = $(".login-form").serialize();
+                var uc = $("#UserAccount").val();
+                var pw = $("#UserPassword").val();
+                var pass = hex_md5(pw);
+                var dd = { "UserAccount": uc, "Password": pass };
+                console.log(dd)
+                $.ajax({
+                    url: '/commom/Login',
+                    type: 'post',
+                    data: JSON.stringify(dd),
+                    dataType: 'json',
+                    contentType:"applcation/json",
+                    success: function (res) {
+                        console.log(res)
+                    }, error: function (err) {
+                        console.log(err)
+                    }
+                })
             })
         </script>
 

@@ -145,6 +145,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\md5.js" />
     <Content Include="ueditornet\dialogs\anchor\anchor.html" />
     <Content Include="ueditornet\dialogs\attachment\attachment.css" />
     <Content Include="ueditornet\dialogs\attachment\attachment.html" />

@@ -29,25 +29,25 @@ namespace CJJ.Blog.Main.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResponse SysUserLogin(LoginView model)
+        public JsonResponse Login(string UserAccount,string Password)
         {
-            if (model == null||string.IsNullOrWhiteSpace(model.UserAccount)||string.IsNullOrWhiteSpace(model.Password))
-            {
-                return new JsonResponse("", 1,"数据不合法");
-            }
-            var srcip = System.Web.HttpContext.Current?.Request?.UserHostAddress;
-            var agent = System.Web.HttpContext.Current?.Request?.UserAgent;
-            var dns = System.Web.HttpContext.Current?.Request?.UserHostName;
-            var res = BlogHelper.EmployeePasswordLogin(model.UserAccount, model.Password, srcip, agent, dns);
-            if (res.IsSucceed)
-            {
-                var cookie = new HttpCookie("Token", res.Token);
-                cookie.Domain = ".cjj81.cn";
-                cookie.HttpOnly = true;
+            //if (model == null||string.IsNullOrWhiteSpace(model.UserAccount)||string.IsNullOrWhiteSpace(model.Password))
+            //{
+            //    return new JsonResponse("", 1,"数据不合法");
+            //}
+            //var srcip = System.Web.HttpContext.Current?.Request?.UserHostAddress;
+            //var agent = System.Web.HttpContext.Current?.Request?.UserAgent;
+            //var dns = System.Web.HttpContext.Current?.Request?.UserHostName;
+            //var res = BlogHelper.EmployeePasswordLogin(model.UserAccount, model.Password, srcip, agent, dns);
+            //if (res.IsSucceed)
+            //{
+            //    var cookie = new HttpCookie("Token", res.Token);
+            //    cookie.Domain = ".cjj81.cn";
+            //    cookie.HttpOnly = true;
                 
-                System.Web.HttpContext.Current?.Response.Cookies.Add(cookie);
-                return new JsonResponse(res, 0, "登录成功");
-            }
+            //    System.Web.HttpContext.Current?.Response.Cookies.Add(cookie);
+            //    return new JsonResponse(res, 0, "登录成功");
+            //}
             return new JsonResponse("", 1, "登录失败");
 
         }

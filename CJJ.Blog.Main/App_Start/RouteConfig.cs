@@ -15,7 +15,7 @@ namespace CJJ.Blog.Main
 
             routes.MapRoute(
                 name: "Default",
-                url: "cjjmain/{controller}/{action}/{id}",
+                url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
