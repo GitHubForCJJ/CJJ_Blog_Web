@@ -1,30 +1,97 @@
 ﻿
 
-<html>
-<head>
-    <script src="~/ueditornet/ueditor.config.js"></script>
-    <script src="~/ueditornet/ueditor.all.js"></script>
-    <script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>
-</head>
-<body>
-    <script id="ueditor" name="ueditor" type="text/plain">
-        
+
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">订单编号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="OrderId|l" placeholder="请输入" autocomplete="on" class="layui-input" style="width: 212px;">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="LoginId|l" placeholder="请输入" autocomplete="on" class="layui-input" style="width: 212px;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-card-body">
+
+            <div style="padding-bottom: 10px;margin:0 auto;">
+                <button class="layui-btn layui-btn-danger layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Blog-front-search">查询</button>
+
+                <button class="layui-btn layui-btn-normal layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Blog-front-Add">添加</button>
+
+            </div>
+
+            <table class="layui-table" lay-data="{url:'/Blog/GetListData',method:'post',dataType: 'json', page:true, id:'LAY-Blog-manage'}" lay-filter="LAY-Blog-manage">
+                <thead>
+                    <tr>
+                        <th lay-data="{ field: 'KID', align:'center',  width: 200}">kid</th>
+                        <th lay-data="{ field: 'Title', align:'center',  width: 300}">标题</th>
+                        <th lay-data="{ field: 'DetailTitle', align:'center',  width: 600}">详细标题</th>
+                        <th lay-data="{ field: 'CreateTime', align:'center',  width: 200}">下单时间</th>
+                        <th lay-data="{align:'center', toolbar: '#table-bloginfo-opertool'}"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="table-bloginfo-opertool">
+
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="Delete">取消</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Log">日志</a>
+
+</script>
+
+
+
+<script src="~/ueditornet/ueditor.config.js"></script>
+<script src="~/ueditornet/ueditor.all.js"></script>
+<script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>
+@*<script id="ueditor" name="ueditor" type="text/plain">
+
     </script>
+    <p>11111111111</p>*@
 
 
-    <script type="text/javascript">
-        var ue = UE.getEditor('ueditor', {
-            initialFrameWidth: 800,
-            initialFrameHeight: 320
+<script type="text/javascript">
+                            //var ue = UE.getEditor('ueditor', {
+                            //    initialFrameWidth: 800,
+                            //    initialFrameHeight: 320
+                            //});
+
+                            //var gethtml = function () {
+                            //    var html = ue.getContent();
+                            //    console.log(html)
+                            //}
+
+
+</script>
+
+<script>
+    layui.use(['index', 'Blog', 'table', 'laydate'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        //laydate init
+        lay('.search_date').each(function () {
+            laydate.render({
+                elem: this
+            })
         });
+    });
+</script>
 
-        var gethtml = function () {
-            var html = ue.getContent();
-            console.log(html)
-        }
-
-
-    </script>
-</body>
-</html>
 

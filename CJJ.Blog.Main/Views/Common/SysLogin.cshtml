@@ -164,21 +164,24 @@
             //})
 
             $(".enter-btn").click(function () {
-                var a = $(".login-form").serialize();
                 var uc = $("#UserAccount").val();
                 var pw = $("#UserPassword").val();
-                var pass = hex_md5(pw);
+                var pass = hex_md5(pw).toUpperCase();
                 var dd = { "UserAccount": uc, "Password": pass };
                 console.log(dd)
                 $.ajax({
-                    url: '/commom/Login',
+                    url: '/Common/Login',
                     type: 'post',
                     data: JSON.stringify(dd),
+                    contentType:'application/json',
                     dataType: 'json',
-                    contentType:"applcation/json",
                     success: function (res) {
                         console.log(res)
+                        if (res.Code == 0) {
+                            window.location = "/Blog/Addoredit";
+                        }
                     }, error: function (err) {
+                        console.log("err")
                         console.log(err)
                     }
                 })
