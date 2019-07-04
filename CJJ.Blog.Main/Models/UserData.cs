@@ -10,11 +10,17 @@ namespace CJJ.Blog.Main.Models
 {
     public class UserData
     {
-        public static SysLoginUser GetSysLoginUser(string token)
+        public static SysLoginUser GetSysLoginUser()
         {
+            string token = "";
+            token = HttpContext.Current.Request.Params?["Token"]?.ToString();
             if (string.IsNullOrEmpty(token))
             {
-                return null;
+                token = HttpContext.Current.Request.Cookies?["Token"].Value?.ToString();
+            }
+            if (string.IsNullOrEmpty(token))
+            {
+                return new SysLoginUser { IsSucceed=false};
             }
             var sys = BlogHelper.GetSysLoginUserByToken(token);
             return sys;
@@ -23,12 +29,7 @@ namespace CJJ.Blog.Main.Models
         {
             get
             {
-                var token = HttpContext.Current.Request.Cookies["Token"]?.Value.ToString();
-                if (string.IsNullOrEmpty(token))
-                {
-                    return false;
-                }
-                var sys = GetSysLoginUser(token);
+                var sys = GetSysLoginUser();
                 if (sys.IsSucceed && DateTime.Parse(sys.TokenExpiration) > DateTime.Now)
                 {
                     return true;

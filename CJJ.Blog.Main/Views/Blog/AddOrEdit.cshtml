@@ -1,60 +1,137 @@
-﻿
+﻿@*@{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+@using CJJ.Blog.Service.Model.View;
+@model CJJ.Blog.Service.Model.View.BloginfoView
 
-<html style="margin:0 auto">
-<head>
-    <script src="~/ueditornet/ueditor.config.js"></script>
-    <script src="~/ueditornet/ueditor.all.js"></script>
-    <script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>
-</head>
-<body>
-    <form class="form1">
-        <div class="row">
-            <input type="text" name="Title" placeholder="TItle" />
+
+
+<div class="layui-form form1" style="width:65%">
+
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">Title</label>
+        <div class="layui-input-block">
+            <input type="text" id="Title" name="Title" value="@Model.Title" placeholder="TItle" class="layui-input" />
         </div>
-        <div class="row">
-            <textarea name="DetailTitle" placeholder="DetailTitle">
 
-            </textarea>
+
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">DetailTitle</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" id="DetailTitle" value="@Model.DetailTitle" name="DetailTitle" placeholder="DetailTitle">
+@Model.DetailTitle
+                </textarea>
         </div>
-    </form>
-    <script id="ueditor" name="ueditor" type="text/plain">
 
-    </script>
-    <button onclick="addoredit()" class="">提交</button>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">artic</label>
+        <div class="layui-input-block">
+            <script id="ueditor" name="ueditor" type="text/plain">
+                @Html.Raw(Model.Content.ToString())
+            </script>
+        </div>
+
+    </div>
+    <input type="hidden" name="KID" value="@Model.KID"/>
+    <div class="layui-form-item" style="text-align:center">
+        <button lay-submit class="layui-btn layui-btn-danger">提交</button>
+    </div>
+
+</div>
 
 
-    <script type="text/javascript">
+
+
+<script src="~/ueditornet/ueditor.config.js"></script>
+<script src="~/ueditornet/ueditor.all.js"></script>
+<script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>
+
+<script type="text/javascript">
+    layui.use(['jquery', 'form', 'laydate'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            laydate = layui.laydate;
+
         var ue = UE.getEditor('ueditor', {
-            initialFrameWidth: 800,
-            initialFrameHeight: 620
+            initialFrameWidth: 1000,
+            initialFrameHeight: 520
         });
+        ue.ready(function () {
+
+        })
+
+        $(function () {
+
+ 
+        })
+  
+
+
 
         var gethtml = function () {
             var html = ue.getContent();
             console.log(html)
             return html;
         }
-        var addoredit = function () {
-            var form = $(".form1").serializeArray();
-            console.log(form)
-            var dd = { "content": ue.getContent() };
 
+        form.on('submit', function (data) {
+
+
+            console.log(data)
+            if (checkData()) {
+                var field = data.field;
+                field.Content = ue.getContent();
+                PostSubmit(field);
+            }
+        })
+
+        //提交后台
+        var PostSubmit = function (Obj) {
+            var load = layer.load(0, { shade: 0.5 });
+            console.log(Obj);
             $.ajax({
-                type="post",
-                contentType: 'json',
-                data: JSON.parse(dd),
-                url: 'blog/addoredit',
+                type: "post",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(Obj),
+                url: '/Blog/AddOrEditPost',
                 success: function (res) {
                     console.log(res)
+                    layer.closeAll();
+                    parent.layer.closeAll();
                 },
                 error: function (err) {
                     console.log(err)
+                    layer.msg(err.msg);
                 }
             })
+
         }
 
+        var checkData = function () {
+            var title = $("#Title").val();
+            var detailtitle = $("#DetailTitle").val();
+            var uecontent = ue.getContent();
+            if (title.length <= 0) {
+                $("#Title").focus();
+                return false;
+            }
+            if (detailtitle.length <= 0) {
+                $("#DetailTitle").focus();
+                return false;
+            }
+            if (uecontent.length <= 0) {
+                return false;
+            }
+            return true;
+        }
 
-    </script>
-</body>
-</html>
+    });
+</script>
+
 

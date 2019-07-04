@@ -201,7 +201,7 @@
     <Content Include="Content\Layui\lay\modules\element.js" />
     <Content Include="Content\Layui\lay\modules\flow.js" />
     <Content Include="Content\Layui\lay\modules\form.js" />
-    <Content Include="Content\index.js" />
+    <Content Include="Content\Views\index.js" />
     <Content Include="Content\Layui\lay\modules\jquery.js" />
     <Content Include="Content\Layui\lay\modules\laydate.js" />
     <Content Include="Content\Layui\lay\modules\layedit.js" />
@@ -506,10 +506,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Blogview.cs" />
+    <Compile Include="Models\JsonRequest.cs" />
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\LoginView.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\CommonHelper.cs" />
     <Compile Include="ueditornet\net\App_Code\Config.cs" />
     <Compile Include="ueditornet\net\App_Code\ConfigHandler.cs" />
     <Compile Include="ueditornet\net\App_Code\CrawlerHandler.cs" />
@@ -555,7 +558,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Tools\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <PropertyGroup>

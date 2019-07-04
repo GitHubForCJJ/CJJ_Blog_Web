@@ -132,8 +132,8 @@ layui.define(['table', 'form'], function (exports) {
             layer.confirm('确认删除该条出团信息？,删除后信息不可恢复', { title: '删除' }, function (index) {
                 $.ajax({
                     type: "post",
-                    url: "Delete",
-                    data: { "Blogid": data.KID },
+                    url: "/Blog/Delete",
+                    data: { "KID": data.KID },
                     dataType: "json",
                     success: function (ret) {
                         if (ret.code == "0") {
@@ -179,19 +179,22 @@ layui.define(['table', 'form'], function (exports) {
         //编辑
         else if (obj.event === 'Edit') {
             var kid = data.KID;
-            layer.open({
-                type: 2
-                , title: '编辑'
-                , content: 'AddOrEdit?kID=' + kid
-                , area: [resizeIframe(640) + 'px', resizeIframe(740) + 'px']
-                , end: function () {
-                    table.reload('LAY-Blog-manage'); //数据刷新
-                    layer.close(index); //关闭弹层
-                }
-                , success: function (layero, index) {
+            console.log(kid)
+            window.location.href = '/Blog/AddOrEdit?blogid=' + kid;
+            //layer.open({
+            //    type: 2
+            //    , title: '编辑'
+            //    , maxmin: true
+            //    , content: '/Blog/AddOrEdit?blogid=' + kid,
+            //     area: 'auto'
+            //    , end: function () {
+            //        table.reload('LAY-Blog-manage'); //数据刷新
+            //        //layer.close(index); //关闭弹层
+            //    }
+            //    , success: function (layero, index) {
 
-                }
-            });
+            //    }
+            //});
 
         }
         //日志
@@ -199,7 +202,7 @@ layui.define(['table', 'form'], function (exports) {
             var kid = data.KID;
             var proedit = layer.open({
                 type: 2,
-                area: [resizeIframe(860) + 'px', resizeIframe(760) + 'px']
+                area: ["860px","860px"]
                 , title: '日志'
                 , content: '/Bloglog/List?Blogid=' + kid
                 , btn: ['关闭']

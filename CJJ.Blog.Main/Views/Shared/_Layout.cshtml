@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Layui/css/layui.css" rel="stylesheet" />
+
 </head>
 
 
 <body class="layui-layout-body">
+    <script src="~/Content/Layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: '../Content/Views/' //你存放新模块的目录，注意，不是layui的模块目录
+        }).use('index', 'jquery'); //加载入口
+    </script>
 
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
@@ -50,7 +57,7 @@
                         <a class="" href="javascript:;">博客管理</a>
                         <dl class="layui-nav-child">
                             <dd><a href="/Blog/Index">博客</a></dd>
-                            <dd><a href="javascript:;">列表二</a></dd>
+                            <dd><a href="/Blog/Addoredit">添加</a></dd>
                             <dd><a href="javascript:;">列表三</a></dd>
                             <dd><a href="">超链接</a></dd>
                         </dl>
@@ -72,7 +79,7 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <div style="padding: 15px;">
-                  @RenderBody()
+                @RenderBody()
             </div>
         </div>
 
@@ -84,15 +91,11 @@
 
 
 
-    <script src="~/Content/Layui/layui.js"></script>
-    <script>
-        layui.config({
-            base: '../Content/' //你存放新模块的目录，注意，不是layui的模块目录
-        }).use('index', 'jquery'); //加载入口
-    </script>
+
+
     <script>
         //layui模块的使用
-        layui.use(['table', 'element'], function (args) {
+        layui.use(['index', 'table', 'element'], function (args) {
             var table = layui.table,
                 element = layui.element;
 

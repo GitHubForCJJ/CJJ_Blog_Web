@@ -1,5 +1,7 @@
 ﻿
-
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 
 
@@ -37,7 +39,7 @@
                         <th lay-data="{ field: 'KID', align:'center',  width: 200}">kid</th>
                         <th lay-data="{ field: 'Title', align:'center',  width: 300}">标题</th>
                         <th lay-data="{ field: 'DetailTitle', align:'center',  width: 600}">详细标题</th>
-                        <th lay-data="{ field: 'CreateTime', align:'center',  width: 200}">下单时间</th>
+                        <th lay-data="{ field: 'CreateTime', align:'center',  width: 200，templet:'<div>{{ layui.laytpl.toDateString(d.createdTime) }}</div>'}">创建时间</th>
                         <th lay-data="{align:'center', toolbar: '#table-bloginfo-opertool'}"></th>
                     </tr>
                 </thead>
@@ -45,10 +47,13 @@
         </div>
     </div>
 </div>
+<script type="text/html" id="temp_Blog_CreateTime">
+    <div>1{{ layui.laytpl.toDateString(d.CreatedTime) }}</div>
+</script>
 <script type="text/html" id="table-bloginfo-opertool">
 
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="Delete">取消</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="Delete">删除</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Log">日志</a>
 
 </script>
@@ -58,25 +63,6 @@
 <script src="~/ueditornet/ueditor.config.js"></script>
 <script src="~/ueditornet/ueditor.all.js"></script>
 <script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>
-@*<script id="ueditor" name="ueditor" type="text/plain">
-
-    </script>
-    <p>11111111111</p>*@
-
-
-<script type="text/javascript">
-                            //var ue = UE.getEditor('ueditor', {
-                            //    initialFrameWidth: 800,
-                            //    initialFrameHeight: 320
-                            //});
-
-                            //var gethtml = function () {
-                            //    var html = ue.getContent();
-                            //    console.log(html)
-                            //}
-
-
-</script>
 
 <script>
     layui.use(['index', 'Blog', 'table', 'laydate'], function () {
@@ -91,6 +77,41 @@
                 elem: this
             })
         });
+        //时间戳的处理
+        layui.laytpl.toDateString = function (d, format) {
+            var date = new Date(d || new Date())
+                , ymd = [
+                    this.digit(date.getFullYear(), 4)
+                    , this.digit(date.getMonth() + 1)
+                    , this.digit(date.getDate())
+                ]
+                , hms = [
+                    this.digit(date.getHours())
+                    , this.digit(date.getMinutes())
+                    , this.digit(date.getSeconds())
+                ];
+
+            format = format || 'yyyy-MM-dd HH:mm:ss';
+
+            return format.replace(/yyyy/g, ymd[0])
+                .replace(/MM/g, ymd[1])
+                .replace(/dd/g, ymd[2])
+                .replace(/HH/g, hms[0])
+                .replace(/mm/g, hms[1])
+                .replace(/ss/g, hms[2]);
+        };
+
+        //数字前置补零
+        layui.laytpl.digit = function (num, length, end) {
+            var str = '';
+            num = String(num);
+            length = length || 2;
+            for (var i = num.length; i < length; i++) {
+                str += '0';
+            }
+            return num < Math.pow(10, length) ? str + (num | 0) : num;
+        }
+
     });
 </script>
 

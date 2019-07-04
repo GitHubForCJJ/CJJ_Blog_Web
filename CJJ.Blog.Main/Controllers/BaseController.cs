@@ -1,4 +1,6 @@
 ﻿using CJJ.Blog.Main.Filters;
+using CJJ.Blog.Main.Models;
+using CJJ.Blog.Service.Model.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,18 @@ namespace CJJ.Blog.Main.Controllers
         public JsonResult MyJson(object data)
         {
             return Json(data, "application/json; charset=utf-8", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+        //public JsonResult FastRes(string data, int code = 0, string msg = "", int count = 0)
+        //{
+           
+        //}
+
+        public SysLoginUser EmployeeInfo
+        {
+            get
+            {
+                return UserData.GetSysLoginUser();
+            }
         }
 
         /// <summary>
