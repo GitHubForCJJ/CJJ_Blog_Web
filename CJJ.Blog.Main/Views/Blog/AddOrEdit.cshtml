@@ -12,7 +12,7 @@
 
         <label class="layui-form-label">Title</label>
         <div class="layui-input-block">
-            <input type="text" id="Title" name="Title" value="@Model.Title" placeholder="TItle" class="layui-input" />
+            <input type="text" id="Title" name="Title" value='@(Model?.Title ?? " ")'  placeholder="TItle" class="layui-input" />
         </div>
 
 
@@ -21,8 +21,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">DetailTitle</label>
         <div class="layui-input-block">
-            <textarea class="layui-textarea" id="DetailTitle" value="@Model.DetailTitle" name="DetailTitle" placeholder="DetailTitle">
-@Model.DetailTitle
+            <textarea class="layui-textarea" id="DetailTitle" value='@(Model?.DetailTitle ?? "")' name="DetailTitle" placeholder="DetailTitle">
+@(Model?.DetailTitle ?? "")
                 </textarea>
         </div>
 
@@ -32,12 +32,12 @@
         <label class="layui-form-label">artic</label>
         <div class="layui-input-block">
             <script id="ueditor" name="ueditor" type="text/plain">
-                @Html.Raw(Model.Content.ToString())
+                @Html.Raw(Model.Content?.ToString() ?? "")
             </script>
         </div>
 
     </div>
-    <input type="hidden" name="KID" value="@Model.KID"/>
+    <input type="hidden" name="KID" value='@(Model?.KID >0?Model.KID.ToString() : "" )'/>
     <div class="layui-form-item" style="text-align:center">
         <button lay-submit class="layui-btn layui-btn-danger">提交</button>
     </div>
