@@ -68,7 +68,8 @@ namespace CJJ.Blog.Main.Controllers
             }
             var modelwhere = CommonHelper.ModelToDic<Blogview>(model);
             if (string.IsNullOrEmpty(model.KID))
-            {            
+            {
+                modelwhere.Add(nameof(Bloginfo.Type), 1);
                 modelwhere.Add(nameof(Bloginfo.CreateUserId), EmployeeInfo.Model?.KID);
                 modelwhere.Add(nameof(Bloginfo.CreateUserName), EmployeeInfo.Model?.UserName);
                 modelwhere.Add(nameof(Bloginfo.CreateTime), DateTime.Now);

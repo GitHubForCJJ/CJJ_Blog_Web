@@ -13,7 +13,7 @@
 
 @media screen and (max-width: 2000px) and (min-width: 1400px) {
     html {
-        font-size: 17px;
+        font-size: 15px;
     }
 }
 
@@ -57,7 +57,7 @@ header {
 }
 
 nav {
-    width: 66.66666666666667rem;
+    width: 80rem;
     margin: auto;
     position: relative
 }
@@ -102,7 +102,7 @@ a {
 
 /*文章内容*/
 article {
-    width: 66.66666666666667rem;
+    width: 80rem;
     margin: 5.333333333333333rem auto 0;
     overflow: hidden;
     z-index: 999;
@@ -115,7 +115,7 @@ article {
 }
 
 .left_main {
-    width: 45.33333333333333rem;
+    width: 58.666666rem;
     min-height: 1300px;
     float: left;
     background-color:white;
@@ -207,7 +207,7 @@ article {
     }
 
     .about_me p {
-        font-size: 0.8rem;
+        font-size: 0.6rem;
         padding: 0 0 0 1.3333333333333333rem;
         line-height: 1.8666666666666667rem;
         text-shadow: 0rem 0.06666666666666667rem 0.13333333333333333rem rgba(0,0,0,.5);
@@ -217,7 +217,7 @@ article {
 
     .about_me .link {
         font-family: personicon !important;
-        font-size: 3rem;
+        font-size: 2rem;
         font-style: normal;
     }
 
@@ -288,6 +288,24 @@ article {
         .recommend li a:hover {
             background: rgba(0,0,0,0.2)
         }
+
+
+/*今日热点*/
+.hot {
+    background-color: white;
+    margin-top: 1.3333333333333333rem;
+}
+    .hot li a {
+        position: relative;
+        display: block;
+        padding: 10px 20px;
+        border-radius: 4px;
+        color: #337ab7;
+        text-decoration: none;
+    }
+.hot li a:hover {
+    background: rgba(0,0,0,0.2)
+}
 
 /*footer*/
 footer {

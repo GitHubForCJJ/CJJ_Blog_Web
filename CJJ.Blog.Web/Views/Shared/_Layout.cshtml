@@ -13,11 +13,11 @@
         <nav>
             <div class="logo"><a href="#">Rodman博客</a></div>
             <ul id="catlist">
-                <li class="selected"><a href="#">首页</a></li>
-                <li><a href="http://www.baidu.com" target="_blank">技术杂谈</a></li>
-                <li><a href="#">框架整理</a></li>
-                <li><a href="#">经验积累</a></li>
-                <li><a href="#">实用工具</a></li>
+                <li class="selected"><a href="/Blog/index">首页</a></li>
+                @*<li><a href="/Blog/index?categorytype=1">技术杂谈</a></li>
+                <li><a href="/Blog/index?categorytype=2">框架整理</a></li>
+                <li><a href="/Blog/index?categorytype=3">经验积累</a></li>
+                <li><a href="/Blog/index?categorytype=4">实用工具</a></li>*@
             </ul>
         </nav>
     </header>
@@ -29,25 +29,25 @@
         @*右边aside*@
         <div class="aside">
             @*热点推荐*@
-            <div class="hot-container">
+            @*<div class="hot-container">
                 <div class="hotitem">
                     <img src="~/Content/201904121811133022935876.jpg" />
                     <h2>FastDev框架的日志组件1</h2>
                     <span>框架整理</span>
-                </div>
+                </div>*@
                 @*<div class="hotitem">
                     <img src="~/Content/201904121811145366134525.jpg" />
                     <h2>FastDev框架的日志组件</h2>
                     <span>框架整理</span>
                 </div>*@
-            </div>
+            @*</div>*@
             @*关于我*@
             <div class="about_me">
                 <h3>个人资料</h3>
                 <p>网名：Rodman</p>
-                <p>职业：码农</p>
-                <p>现居：四川成都</p>
-                <p>Email：1057295105@qq.com</p>
+                <p>职业：软件产品的组装者</p>
+                <p>现居：四川成都武侯</p>
+                <p>Email：cjj.rodman@qq.com</p>
                 <ul>
                     <li class=""><a href="#"><i class="link email">&#xe612;</i></a></li>
                     <li class=""><a href="#"><i class="link qq">&#xf00a6;</i></a></li>
@@ -56,20 +56,29 @@
                 </ul>
             </div>
             @*博客分类*@
-            <div class="category">
+            @*<div class="category">
                 <h2>文章分类</h2>
                 <ul>
                     <li><a href="#">技术框架分享</a></li>
                     <li><a href="#">Bug整理</a></li>
                     <li><a href="#">技术点分享</a></li>
                 </ul>
-            </div>
+            </div>*@
             @*推荐*@
             <div class="recommend">
                 <h2>博客推荐</h2>
                 <ul>
-                    <li><i></i><a href="#">技术框架分享</a></li>
+                    @*<li><i></i><a href="#">技术框架分享</a></li>
                     <li><i></i><a href="#">Bug整理</a></li>
+                    <li><a href="#">技术点分享</a></li>*@
+                </ul>
+            </div>
+            @*今日热点*@
+            <div class="hot">
+                <h2>今日热点</h2>
+                <ul>
+                    <li><a href="#">技术框架分享</a></li>
+                    <li><a href="#">Bug整理</a></li>
                     <li><a href="#">技术点分享</a></li>
                 </ul>
             </div>
@@ -80,7 +89,47 @@
     </footer>
 
 
+
     <script type="text/javascript">
+        $(document).ready(function () {
+            var categorytype = $(".categorytype").val();
+            console.log(categorytype)
+            $.ajax({
+                url: '/Blog/GetCatList',
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (suc) {
+                    console.log(suc.Categorys)
+                    //处理nav导航
+                    for (var item in suc.Categorys) {
+                        var kid = suc.Categorys[item].KID;
+                        if (kid == categorytype) {
+                            $("#catlist li").removeClass('selected');
+                            var li = $(" <li class='selected'><a href='/Blog/index?categorytype=" + kid + "'>" + suc.Categorys[item].Name + "</a></li>");
+                            $("#catlist").append(li);                        }
+                        else {
+                            var li = $(" <li><a href='/Blog/index?categorytype=" + kid + "'>" + suc.Categorys[item].Name + "</a></li>");
+                            $("#catlist").append(li);
+                        }
+                  
+                    }
+                    //处理博客推荐
+                    for (var i in suc.BloginfoViews) {
+                        var kid = suc.BloginfoViews[i].KID;
+                        var title = suc.BloginfoViews[i].Title;
+                        var li = $(" <li><a href='/Blog/Detail?blogid=" + kid + "'>" + title + "</a></li>");
+                        $(".recommend ul").append(li);
+                    }
+                 
+                },
+                error: function () {
+
+                }
+            })
+        })
+
+
         var beforeScrollTop = $(window).scrollTop();
         console.log(beforeScrollTop)
         $(window).scroll(function () {
