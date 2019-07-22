@@ -121,6 +121,7 @@
     <Content Include="Content\Swiper\swiper.min.css" />
     <Content Include="Content\Swiper\swiper.min.js" />
     <Content Include="Scripts\Blog\Index.js" />
+    <Content Include="Scripts\layout.js" />
     <Content Include="ueditornet\dialogs\anchor\anchor.html" />
     <Content Include="ueditornet\dialogs\attachment\attachment.css" />
     <Content Include="ueditornet\dialogs\attachment\attachment.html" />
