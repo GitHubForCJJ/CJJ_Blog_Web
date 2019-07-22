@@ -418,6 +418,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Filters\AccessRecordFilter.cs" />
     <Compile Include="Models\BloginfoView.cs" />
     <Compile Include="Models\CategoryView.cs" />
     <Compile Include="Models\Constant.cs" />
