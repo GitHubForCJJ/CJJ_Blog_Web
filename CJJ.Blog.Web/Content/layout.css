@@ -19,10 +19,14 @@
 
 html {
     display: block;
+    box-sizing:border-box;
     /*min-height: 100%;
         width: 100%;*/
 }
 
+div {
+    box-sizing: border-box;
+}
 * {
     margin: 0;
 }
@@ -307,6 +311,13 @@ article {
     background: rgba(0,0,0,0.2)
 }
 
+.numicon{
+    display:inline-block;
+    text-align:center;
+    background-color:red;
+    width:1rem;
+    height:1rem;
+}
 /*footer*/
 footer {
     width: 100%;

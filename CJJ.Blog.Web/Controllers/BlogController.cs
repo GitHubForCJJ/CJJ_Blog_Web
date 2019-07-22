@@ -25,6 +25,8 @@ namespace CJJ.Blog.Web.Controllers
                 ViewBag.categorytype = categorytype;
                 where.Add(nameof(Bloginfo.Type), categorytype);
             }
+            where.Add(nameof(Bloginfo.IsDeleted), 0);
+            where.Add(nameof(Bloginfo.States), 0);
             var jresult = BlogHelper.GetJsonListPage_Bloginfo(1, 15, "", where);
             if (jresult != null && jresult.code.Toint() == 0)
             {
@@ -33,34 +35,14 @@ namespace CJJ.Blog.Web.Controllers
             return View(list);
         }
         /// <summary>
-        /// 
+        /// 详情页面
         /// </summary>
-        /// <param name="categorytype"></param>
+        /// <param name="blogid"></param>
         /// <returns></returns>
-        //[HttpPost]
-        //public List<Bloginfo> Index(string categorytype)
-        //{
-        //    var list = new List<Bloginfo>();
-        //    var where = new Dictionary<string, object>();
-        //    if (!string.IsNullOrEmpty(categorytype))
-        //    {
-        //        where.Add(nameof(Bloginfo.Type), categorytype);
-        //    }
-        //    var jresult = BlogHelper.GetJsonListPage_Bloginfo(1, 15, "", where);
-        //    if (jresult.code.Toint() == 0)
-        //    {
-        //        list = jresult.data;
-        //    }
-        //    return list;
-        //    //return FastJson(list,"操作成功",0,list.Count);
-        //}
-
         [HttpGet]
         public ActionResult Detail(int blogid)
         {
-            var blog = BlogHelper.GetModelByWhere_Blogcontent(new Dictionary<string, object>() {
-                { nameof(Blogcontent.BloginfoId),blogid}
-            });
+            var blog = BlogHelper.GetModelByKID_Bloginfo(blogid);
             return View(blog);
         }
         /// <summary>
@@ -72,13 +54,14 @@ namespace CJJ.Blog.Web.Controllers
         {
             var listdata = BlogHelper.GetJsonListPage_Bloginfo(1, 5, "SORC DESC", new Dictionary<string, object>()
             {
-                {nameof(Bloginfo.IsDeleted),0 }
+                {nameof(Bloginfo.IsDeleted),0 },
+                 {nameof(Bloginfo.States),0 }
             });
             return Json(listdata);
         }
 
         /// <summary>
-        /// 获取博客分类数据
+        /// 模板也的数据，先读取缓存
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -87,12 +70,14 @@ namespace CJJ.Blog.Web.Controllers
             var layoutmodel = new LayoutModel();
             var catlistdata = new List<CategoryView>();
             var recomlistdata = new List<RecomBloginfoView>();
-
+            var hotlistdata = new List<HotNewView>();
             try
             {
                 var categorycachedata = HttpContext.Cache.Get(Constant.CategoryKey);
                 var hotnewsdata = HttpContext.Cache.Get(Constant.HotKey);
                 var recommenddata = HttpContext.Cache.Get(Constant.RecommendKey);
+
+                #region 导航博客分类NAV数据
                 if (categorycachedata != null)
                 {
                     catlistdata = categorycachedata.DeserializeObject<CategoryView>();
@@ -104,6 +89,24 @@ namespace CJJ.Blog.Web.Controllers
                     catlistdata = selectdata.SerializeObject().DeserializeObject<CategoryView>();
                     HttpContext.Cache.Insert(Constant.CategoryKey, selectdata.SerializeObject(), null, DateTime.Now.AddYears(1), TimeSpan.Zero, CacheItemPriority.High, null);
                 }
+                #endregion
+
+                #region 热点数据
+                if (hotnewsdata != null)
+                {
+                    hotlistdata = hotnewsdata.DeserializeObject<HotNewView>();
+                }
+                else
+                {
+                    var list = BlogHelper.GetJsonListPage_HotNew(1, 15, $" CreateTime desc ", new Dictionary<string, object>());
+                    var selectdata = list?.data?.Select((x) => new { x.KID, x.Title, x.Url }).OrderByDescending(X => X.KID).ToList();
+                    hotlistdata = selectdata.SerializeObject().DeserializeObject<HotNewView>();
+                    var hotexpirtime = DateTime.Parse($"{DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd 23:59:59")}");
+                    HttpContext.Cache.Insert(Constant.HotKey, selectdata.SerializeObject(), null, hotexpirtime, Cache.NoSlidingExpiration, CacheItemPriority.High, null);
+                }
+                #endregion
+
+                #region 推荐博客数据
                 if (recommenddata != null)
                 {
                     recomlistdata = recommenddata.DeserializeObject<RecomBloginfoView>();
@@ -117,11 +120,14 @@ namespace CJJ.Blog.Web.Controllers
                     var selectdata = list?.data?.Select(x => new { x.KID, x.Title }).ToList();
                     recomlistdata = selectdata.SerializeObject().DeserializeObject<RecomBloginfoView>();
 
-                    var hotexpirtime = DateTime.Parse($"{DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd 23:59:59")}");
-                    HttpContext.Cache.Insert(Constant.RecommendKey, recomlistdata.SerializeObject(),null, hotexpirtime,Cache.NoSlidingExpiration);
+                    var recomexpirtime = DateTime.Parse($"{DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd 23:59:59")}");
+                    HttpContext.Cache.Insert(Constant.RecommendKey, recomlistdata.SerializeObject(), null, recomexpirtime, Cache.NoSlidingExpiration, CacheItemPriority.High, null);
                 }
+                #endregion
+
                 layoutmodel.BloginfoViews = recomlistdata;
                 layoutmodel.Categorys = catlistdata;
+                layoutmodel.HotNews = hotlistdata;
             }
             catch
             {

@@ -13,5 +13,6 @@ namespace CJJ.Blog.Web.Models
     {
         public List<CategoryView> Categorys { get; set; }
         public List<RecomBloginfoView> BloginfoViews { get; set; }
+        public List<HotNewView> HotNews { get; set; }
     }
 }

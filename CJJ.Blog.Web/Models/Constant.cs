@@ -7,9 +7,13 @@ namespace CJJ.Blog.Web.Models
 {
     public class Constant
     {
-        //博客分类KEY
+        /// <summary>
+        /// 博客分类KEY
+        /// </summary>
         public static string CategoryKey = "categorylistcachekey";
-        //今日热点key
+        /// <summary>
+        /// 今日热点key
+        /// </summary>
         public static string HotKey = "hotnewskey";
         /// <summary>
         /// 博客推荐key

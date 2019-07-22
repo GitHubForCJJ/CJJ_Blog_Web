@@ -421,6 +421,7 @@
     <Compile Include="Models\BloginfoView.cs" />
     <Compile Include="Models\CategoryView.cs" />
     <Compile Include="Models\Constant.cs" />
+    <Compile Include="Models\HotNewView.cs" />
     <Compile Include="Models\JsonExpand.cs" />
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\LayoutModel.cs" />
