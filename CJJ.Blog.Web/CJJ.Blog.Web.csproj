@@ -116,6 +116,7 @@
     <Content Include="Content\201904121811145366134525.jpg" />
     <Content Include="Content\detail.css" />
     <Content Include="Content\Icon\iconfont.svg" />
+    <Content Include="Content\Icon\backtop.svg" />
     <Content Include="Content\index.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\Swiper\swiper.min.css" />
