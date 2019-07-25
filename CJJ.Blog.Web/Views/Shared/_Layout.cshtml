@@ -14,10 +14,6 @@
             <div class="logo"><a href="#">Rodman博客</a></div>
             <ul id="catlist">
                 <li class="selected"><a href="/Blog/index">首页</a></li>
-                @*<li><a href="/Blog/index?categorytype=1">技术杂谈</a></li>
-                <li><a href="/Blog/index?categorytype=2">框架整理</a></li>
-                <li><a href="/Blog/index?categorytype=3">经验积累</a></li>
-                <li><a href="/Blog/index?categorytype=4">实用工具</a></li>*@
             </ul>
         </nav>
     </header>
@@ -84,28 +80,37 @@
     </article>
     <footer>
         <div class="contact">
-            <div class="left">
-                <div>
-                    你的称呼：<input type="text" />
-                </div>
-                <div>
-                    你的email：<input type="text" />
-                </div>
+            <div class="lrcont">
+                <div class="left">
+                    <div class="input_inline">
+                        <span>联系我</span>
+                    </div>
+                    <div class="input_inline">
+                        <span class="inline_left">你的称呼：</span><input class="inline_right" type="text" />
+                    </div>
+                    <div class="input_inline">
+                        <span class="inline_left">你的Email：</span><input class="inline_right" type="text" />
+                    </div>
 
+                </div>
+                <div class="right">
+                        <textarea class="textarea"></textarea>                                             
+                </div>
+                <div class="btn">
+                    <button type="submit">提交</button>
+                </div>
             </div>
-            <div class="right">
 
-            </div>
         </div>
-        <div class="support">
+        <div class="abc">
             <a href="#">腾讯云提供服务</a>&<a href="#">七牛云存储</a>
         </div>
        
     </footer>
 
-    <div class="backtop">
+    @*<div class="backtop">
         <img src="~/Content/Icon/backtop.svg" />
-    </div>
+    </div>*@
 
 
     <script src="~/Scripts/layout.js"></script>

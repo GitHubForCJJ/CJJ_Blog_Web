@@ -110,6 +110,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\addoredit.css" />
+    <Content Include="Content\config.js" />
+    <Content Include="Content\formSelects.js" />
     <Content Include="Content\Layui\css\layui.css" />
     <Content Include="Content\Layui\css\layui.mobile.css" />
     <Content Include="Content\Layui\css\modules\code.css" />
@@ -201,6 +203,12 @@
     <Content Include="Content\Layui\lay\modules\element.js" />
     <Content Include="Content\Layui\lay\modules\flow.js" />
     <Content Include="Content\Layui\lay\modules\form.js" />
+    <Content Include="Content\lib\admin.js" />
+    <Content Include="Content\lib\extend\echarts.js" />
+    <Content Include="Content\lib\extend\echartsTheme.js" />
+    <Content Include="Content\lib\index.js" />
+    <Content Include="Content\lib\view.js" />
+    <Content Include="Content\Style\admin.css" />
     <Content Include="Content\Views\index.js" />
     <Content Include="Content\Layui\lay\modules\jquery.js" />
     <Content Include="Content\Layui\lay\modules\laydate.js" />
