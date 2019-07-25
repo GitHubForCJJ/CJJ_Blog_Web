@@ -1,13 +1,352 @@
-﻿
-
+﻿@*@using Go.Travel.WebUI.Controllers
+@model List<EastWestWalk.User.Service.Model.Model.MenuManage_NoEnum>*@
 <!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Layui/css/layui.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <title>博客系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="~/Content/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="~/Content/style/admin.css" media="all">
+    <link href="~/Content/style/index.css" rel="stylesheet" />
+    <link rel="icon" href="~/favicon.ico" mce_href="~/favicon.ico" type="image/x-icon">
+    <link href="~/Content/public/css/view/Home/noticeInformation.css" rel="stylesheet" />
+    <style>
+        #LAY_app .layui-nav-tree .layui-this,
+        #LAY_app .layui-nav-tree .layui-this > a,
+        #LAY_app .layui-nav-tree .layui-nav-child dd.layui-this,
+        #LAY_app .layui-nav-tree .layui-nav-child dd.layui-this a {
+            background-color: #ff6a00 !important;
+        }
+        /*.layui-side-menu .layui-nav .layui-nav-item a {
+            height:25px !important;
+            line-height: 25px !important;
+        }*/
+    </style>
+    <script>
+        /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+    </script>
 </head>
-<body>
+<body class="layui-layout-body">
 
+    <div id="LAY_app">
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header">
+                <!-- 头部区域 -->
+                <ul class="layui-nav layui-layout-left">
+                    <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                        <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                            <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                        </a>
+                    </li>
+                    @*<li class="layui-nav-item layui-hide-xs" lay-unselect>
+                            <a href="/home/index" target="_blank" title="前台">
+                                <i class="layui-icon layui-icon-website"></i>
+                            </a>
+                        </li>*@
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;" layadmin-event="refresh" title="刷新">
+                            <i class="layui-icon layui-icon-refresh-3"></i>
+                        </a>
+                    </li>
+                    @*<li class="layui-nav-item layui-hide-xs" lay-unselect>
+                            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
+                        </li>*@
+                </ul>
+                <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+                    <!-- <li class="layui-nav-item" lay-unselect>
+                    <a lay-href="/Demo/app/message/index.html" layadmin-event="message" lay-text="消息中心">
+                    <i class="layui-icon layui-icon-notice"></i>
+
+                    如果有新消息，则显示小圆点 <!--
+                    <span class="layui-badge-dot"></span>
+                    </a>
+                    </li> -->
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="theme">
+                            <i class="layui-icon layui-icon-theme"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="note">
+                            <i class="layui-icon layui-icon-note"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="fullscreen">
+                            <i class="layui-icon layui-icon-screen-full"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;">
+                            <cite>RODMAN姓名</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a lay-href="/TravelBusiness/UpdateCompanyMsg">基本资料</a></dd>
+                            <dd><a lay-href="/TravelBusiness/UpdateCompanyMsg#change_pas">修改密码</a></dd>
+                            <hr>
+                            <dd layadmin-event="logout" style="text-align:center;"><a class="out">退出</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                    </li>
+                    <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+                        <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 侧边菜单 -->
+            <div class="layui-side layui-side-menu">
+                <div class="layui-side-scroll" id="loginoutbox">
+                    <div class="layui-logo" lay-href="/Home/Home">
+                        <img src="~/Content/public/img/logo1.png" /><span>博客后台系统</span>
+                    </div>
+
+                    <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                        @if (Model == null || !Model.Any())
+                        {
+                            <li data-name="user" class="layui-nav-item">
+                                <a href="javascript:;" lay-tips="暂无菜单权限" lay-direction="2">
+                                    <i class="layui-icon layui-icon-user"></i>
+                                    <cite>暂无菜单权限</cite>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            foreach (var first in Model)
+                            {
+                                <li data-name="user" class="layui-nav-item">
+                                    <a href="javascript:;" lay-tips="@first.MenuName" lay-direction="2">
+                                        <i class="layui-icon @first.MenuIco"></i>
+                                        <cite>@first.MenuName</cite>
+                                    </a>
+                                    <dl class="layui-nav-child">
+                                        @foreach (var second in first.SubMenu)
+                                        {
+                                            if (second.MenuUrl.IndexOf("dongzouxizou.com") > -1 && second.MenuUrl.IndexOf("http") > -1 && WebUtil.IsRelease)
+                                            {
+                                                <dd>
+                                                    <a lay-href="@second.MenuUrl.Replace("dongzouxizou.com","dongzouxizou.cn")" title="@second.MenuName">@second.MenuName</a>
+                                                </dd>
+                                            }
+                                            else
+                                            {
+                                                <dd>
+                                                    <a lay-href="@second.MenuUrl" title="@second.MenuName">@second.MenuName</a>
+                                                </dd>
+                                            }
+                                        }
+                                    </dl>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                    <div style="height: 40px;"></div>
+                    <div class="loginout">
+                        <div class="login">
+                            <span>123</span>
+                            <div class="logincon">
+                                <span>123   </span>
+                                <a lay-href="/TravelBusiness/UpdateCompanyMsg">基本资料</a>
+                                <a lay-href="/TravelBusiness/UpdateCompanyMsg#change_pas">修改密码</a>
+                                <a class="out" href="/sysuser/login" target="_self">退出</a>
+                                <p class="icon"><i class="layui-icon layui-icon-triangle-d"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--页面标签-->
+            <div class="layadmin-pagetabs" id="LAY_app_tabs">
+                <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+                <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+                <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                    <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+                        <li class="layui-nav-item" lay-unselect>
+                            <a href="javascript:;"></a>
+                            <dl class="layui-nav-child layui-anim-fadein">
+                                <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                                <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                                <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+                <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                    <ul class="layui-tab-title" id="LAY_app_tabsheader">
+
+                            <li lay-id="/Home/Home" lay-attr="/Home/Home" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 主体内容 -->
+            <div class="layui-body" id="LAY_app_body">
+                <div class="layadmin-tabsbody-item layui-show">
+ 
+                        <iframe src="/Home/Home" frameborder="0" class="layadmin-iframe"></iframe>
+               
+                </div>
+                @*@if (BaseController.IsHaveRoleById())
+                    {*@
+                <div class="informPopBox" id="informPopBox" style="display: none;">
+                    <div class="informPopHead">
+                        <span class="tit">通知中心</span>
+                        <span class="closePop" style="float: right" onclick="$('#informPopBox').hide(200)">
+                            <img src="~/Content/public/img/closeSmall.png">
+                        </span>
+                    </div>
+                    <div id="UnessageBox">
+                        <div class="popContentRed"><img src="~/Content/public/img/new_notice_icon.png" alt=""><p class="noInform">暂时没有新通知哦~</p> </div>
+                    </div>
+                    <div class="msg_div">
+                        <span class="ReadMsg" onclick="settingAllRead()">全部标记已读</span>
+                    </div>
+                </div>
+                <!--通知按钮-->
+                <div class="noticBtn" id="noticBtn" onclick="$('#informPopBox').toggle(200)">
+                    <img src="~/Content/public/img/new_notice_icon.png">
+                    <span style="margin: 0 3px">通知</span>
+                    <span class="show">0</span>
+                </div>
+                @*}*@
+            </div>
+
+            <!-- 辅助元素，一般用于移动设备下遮罩 -->
+            <div class="layadmin-body-shade" layadmin-event="shade"></div>
+        </div>
+    </div>
+
+    <script src="~/Content/public/js/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Content/Views/public.js"></script>
+    <script>
+        layui.config({
+            base: '../Content/' //静态资源所在路径
+        }).use('index');
+        $(function () {
+            var vd = $("#ValidDate").val();
+            if (vd != "0") {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.alert('您的合同还有' + vd + '天到期，为了不影响您的系统使用，请及时续签！谢谢您的合作。', {
+                        closeBtn: 0
+                        , anim: 4 //动画类型
+                    });
+                });
+            };
+        });
+    </script>
+
+    @*@if (BaseController.IsHaveRoleById())
+        {*@
+    <script>
+            $(function () {
+                var companyid = $("#ComapnyId").val();
+                //客户端先与服务器连接起来，拿到服务器的代理操作对象
+                var hubConnection = $.connection.chatHub;
+                //注册客户端函数
+                hubConnection.client.receiveMessage = function (obj) {
+                    if (obj.CompanyId == companyid &&
+                        companyid != "0" &&
+                        companyid != "" &&
+                        companyid != null &&
+                        companyid != undefined) {
+                        initNotification();
+                    }
+                }
+                //启动连接到服务器
+                $.connection.hub.start().done(function () {
+                    initNotification();
+                });
+            });
+
+            //初始化通知
+            var initNotification = function () {
+                $.post("/home/GetMessageList", {}, function (ret) {
+                    if (ret.IsSuccess) {
+                        var datadom = $("#UnessageBox");
+                        var datahtml = '';
+                        var nothtml = '<div class="popContentRed"><img src="/Content/public/img/new_notice_icon.png" alt=""><p class="noInform">暂时没有新通知哦~</p> </div>';
+                        var oldcount = $("#UnessageBox .Unessage").length;
+                        var newcount = ret.Message.length;
+                        var data = [];
+                        $(ret.Message).each(function (i, item) {
+                            var exit = datadom.find(".Unessage[data-kid=" + item.KID + "]");
+                            if (exit != undefined && exit.length >= 1) {
+
+                            } else {
+                                data.push(item);
+                            }
+                            datahtml += '<div class="Unessage" data-kid="' + item.KID + '">';
+                            datahtml += '<p class="remind">' + item.Title + '<span onclick="settingRead(' + item.KID + ')">标记为已读</span></p>';
+                            datahtml += '<div class="UnessageMsg">';
+                            datahtml += '<div class="msg">';
+                            datahtml += '<p class="item"><label>订单联系人：</label><span><label>' + item.OrderContacts + '</label><i style="margin-right:5px"></i><span>' + item.ContactPhone + '</span></span></p> ';
+                            datahtml += '<p class="item"><label>订单号：</label><span><label>' + item.OrderId + '</label></span></p> ';
+                            datahtml += '<p class="item"><label>支付时间：</label><span><label>' + item.PayTime + '</label></span></p> ';
+                            datahtml += '<p class="item"><label>出团时间：</label><span><label>' + item.OutTime + '</label></span></p> ';
+                            datahtml += '</div>';
+                            datahtml += '<div class="Conent_div"></div>';
+                            datahtml += '</div>';
+                            datahtml += '</div>';
+                        });
+                        if (newcount > 0) {
+                            $("#noticBtn .show").html(newcount);
+                            datadom.html(datahtml);
+                        } else {
+                            $("#noticBtn .show").html(0);
+                            datadom.html(nothtml);
+                        }
+                        // 播放声音
+                        if (data.length > 1) {
+                            //播放公共音频
+                            var auto1 = document.getElementById("audio1");
+                            auto1.play();
+                        } else if (data.length == 1) {
+                            //播放不一样的那一条音频
+                            var autoitem = document.getElementById("audio" + data[0].VoiceName);
+                            autoitem.play();
+                        }
+                    }
+                });
+            }
+
+            //单条标记为已读
+            var settingRead = function (kid) {
+                ReadTo(kid);
+            }
+            //全部标记为已读
+            var settingAllRead = function () {
+                var str = "";
+                $("#UnessageBox .Unessage").each(function (i, item) {
+                    str += "," + $(item).attr("data-kid");
+                });
+                if (str != "") {
+                    str = str.substring(1);
+                    ReadTo(str);
+                }
+            }
+            //已读动作
+            var ReadTo = function (ids) {
+                $.post("/SignalrPush/UpdateBykids", { kids: ids }, function (ret) {
+                    if (ret.IsSuccess) {
+                        initNotification();
+                    } else {
+                        layer.msg(ret.Message);
+                    }
+                });
+            }
+    </script>
+    @*}*@
 </body>
-
+</html>

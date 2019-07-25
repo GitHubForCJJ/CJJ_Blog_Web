@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CJJ.Blog.Main.Models;
+using CJJ.Blog.Service.Model.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,8 +11,9 @@ namespace CJJ.Blog.Main.Controllers
     public class HomeController : BaseController
     {
         // GET: Home
-        public ActionResult Index(int a=123)
+        public ActionResult Index()
         {
+            SysLoginUser emp = UserData.GetSysLoginUser();
             return View();
         }
     }
