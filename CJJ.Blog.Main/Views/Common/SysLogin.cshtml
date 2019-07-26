@@ -177,6 +177,10 @@
                     dataType: 'json',
                     success: function (res) {
                         console.log(res)
+                        var result = JSON.parse(res);
+                        var token = result.token;
+
+                      
                         if (res.Code == 0) {
                             window.location = "/Blog/Addoredit";
                         }

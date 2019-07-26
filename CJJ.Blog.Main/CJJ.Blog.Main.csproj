@@ -49,7 +49,8 @@
     <Reference Include="CJJ.Blog.NetWork.WcfHelper">
       <HintPath>..\dll\CJJ.Blog.NetWork.WcfHelper.dll</HintPath>
     </Reference>
-    <Reference Include="CJJ.Blog.Service.Model">
+    <Reference Include="CJJ.Blog.Service.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dll\CJJ.Blog.Service.Model.dll</HintPath>
     </Reference>
     <Reference Include="FastDev.Common">
