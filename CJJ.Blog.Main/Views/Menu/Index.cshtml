@@ -1,0 +1,111 @@
+﻿@model CJJ.Blog.Service.Models.Data.Sysmenu
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .menucont {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .left {
+        width: 40rem;
+        height: 100rem;
+        margin-right: 3rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .right {
+        width: 50rem;
+        height: 100rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .layui-card{
+        padding:2rem;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">菜单列表</div>
+            </div>
+        </div>
+        <div class="layui-col-md7">
+            <div class="layui-card">
+                <div class="layui-card-header">当前菜单</div>
+
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">菜单名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">图标</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">URL</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">显示顺序</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-block">
+                            越靠前越大
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">描述信息</label>
+                        <div class="layui-input-block">
+                            <textarea class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">描述信息</label>
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-disabled">立即提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    //layui模块的使用
+    layui.use(['jquery'], function (args) {
+        var $ = layui.$
+        $(function () {
+
+        })
+
+        //……
+
+    });
+</script>
+

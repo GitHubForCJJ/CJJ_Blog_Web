@@ -14,7 +14,7 @@ namespace CJJ.Blog.Main.Controllers
         public ActionResult Index()
         {
             SysLoginUser emp = UserData.GetSysLoginUser();
-            return View();
+            return View(emp.UserAuthorMenu.UserMenuList);
         }
     }
 }
