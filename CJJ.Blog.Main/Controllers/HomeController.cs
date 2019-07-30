@@ -1,4 +1,5 @@
-﻿using CJJ.Blog.Main.Models;
+﻿using CJJ.Blog.Main.Filters;
+using CJJ.Blog.Main.Models;
 using CJJ.Blog.Service.Model.View;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,14 @@ using System.Web.Mvc;
 
 namespace CJJ.Blog.Main.Controllers
 {
+    [UserAuthorize]
     public class HomeController : BaseController
     {
         // GET: Home
         public ActionResult Index()
         {
             SysLoginUser emp = UserData.GetSysLoginUser();
-            return View(emp.UserAuthorMenu.UserMenuList);
+            return View(emp.UserAuthorMenu.UserMenuByLevel);
         }
     }
 }

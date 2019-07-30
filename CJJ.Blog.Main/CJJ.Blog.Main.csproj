@@ -212,6 +212,7 @@
     <Content Include="Content\lib\index.js" />
     <Content Include="Content\lib\view.js" />
     <Content Include="Content\Style\admin.css" />
+    <Content Include="Content\Style\index.css" />
     <Content Include="Content\Views\index.js" />
     <Content Include="Content\Layui\lay\modules\jquery.js" />
     <Content Include="Content\Layui\lay\modules\laydate.js" />
@@ -592,7 +593,6 @@
     <Content Include="Content\zTree_v3-master\api\en\zTreeObj.updateNode.html" />
     <Content Include="Content\zTree_v3-master\css\awesomeStyle\awesome.css" />
     <Content Include="Content\zTree_v3-master\css\awesomeStyle\img\loading.gif" />
-    <Content Include="Content\zTree_v3-master\css\demo.css" />
     <Content Include="Content\zTree_v3-master\css\metroStyle\img\line_conn.png" />
     <Content Include="Content\zTree_v3-master\css\metroStyle\img\loading.gif" />
     <Content Include="Content\zTree_v3-master\css\metroStyle\img\metro.gif" />
@@ -1048,6 +1048,8 @@
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\CommonHelper.cs" />
+    <Compile Include="Tools\ConfigUtil.cs" />
+    <Compile Include="Tools\JsonExtension.cs" />
     <Compile Include="ueditornet\net\App_Code\Config.cs" />
     <Compile Include="ueditornet\net\App_Code\ConfigHandler.cs" />
     <Compile Include="ueditornet\net\App_Code\CrawlerHandler.cs" />

@@ -13,10 +13,10 @@ namespace CJJ.Blog.Main.Models
         public static SysLoginUser GetSysLoginUser()
         {
             string token = "";
-            token = HttpContext.Current.Request.Params?["Token"]?.ToString();
+            token = HttpContext.Current.Request.Params?[ConfigUtil.Tokenkey]?.ToString();
             if (string.IsNullOrEmpty(token))
             {
-                token = HttpContext.Current.Request.Cookies?["Token"].Value?.ToString();
+                token = HttpContext.Current.Request.Cookies?[ConfigUtil.Tokenkey].Value?.ToString();
             }
             if (string.IsNullOrEmpty(token))
             {

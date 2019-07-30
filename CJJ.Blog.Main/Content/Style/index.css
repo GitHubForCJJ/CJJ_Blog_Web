@@ -1,0 +1,86 @@
+﻿.layui-nav-tree .layui-nav-bar {
+    background-color: #ff6a00;
+}
+
+.layui-logo span {
+    color: #fff;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+.layui-logo img {
+    vertical-align: middle;
+}
+
+#loginoutbox {
+    position: relative;
+}
+
+    #loginoutbox .loginout {
+        position: fixed;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        left: 0;
+        bottom: 0;
+        width: 180px;
+        height: 35px;
+        line-height: 35px;
+        z-index: 1010;
+    }
+
+        #loginoutbox .loginout .login {
+            background: #535353;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1.2em;
+            position: relative;
+        }
+
+        #loginoutbox .loginout .logincon {
+            display: none;
+            position: absolute;
+            top: -140px;
+            left: 30px;
+            right: 30px;
+            z-index: 999;
+            line-height: 35px;
+        }
+
+            #loginoutbox .loginout .logincon > span {
+                background: #F8F8F8;
+                color: #333;
+                font-size: 16px;
+                text-align: center;
+                display: block;
+            }
+
+            #loginoutbox .loginout .logincon > a:hover {
+                background: #ccc;
+                color: #333;
+            }
+
+            #loginoutbox .loginout .logincon > a {
+                display: block;
+                font-size: 15px;
+                background: #fff;
+            }
+
+            #loginoutbox .loginout .logincon .icon {
+                text-align: center;
+                padding: 0px;
+                margin: 0px;
+                line-height: 10px;
+            }
+
+                #loginoutbox .loginout .logincon .icon i {
+                    font-size: 25px;
+                }
+
+            #loginoutbox .loginout .logincon > a.out {
+                border-top: 1px solid #ddd;
+            }
+
+        #loginoutbox .loginout:hover .logincon {
+            display: block;
+        }
