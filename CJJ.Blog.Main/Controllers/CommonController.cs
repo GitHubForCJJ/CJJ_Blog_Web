@@ -20,9 +20,15 @@ namespace CJJ.Blog.Main.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 登录页面
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult SysLogin()
         {
+            WebUtil.WriteCookie(WebUtil.Userinfokey,"",DateTime.Now.AddDays(-5));
+            WebUtil.WriteCookie(WebUtil.Tokenkey,"", DateTime.Now.AddDays(-5));
             return View();
         }
         /// <summary>
@@ -43,20 +49,25 @@ namespace CJJ.Blog.Main.Controllers
             var res = BlogHelper.EmployeePasswordLogin(model.UserAccount, model.Password, srcip, agent, dns);
             if (res.IsSucceed)
             {
-                var cookie = new HttpCookie(ConfigUtil.Userinfokey, res.SerializeObject());
-                //cookie.Domain = ".cjj81.cn";
-                cookie.HttpOnly = true;
-                cookie.Expires = DateTime.Parse(res.TokenExpiration);
-                System.Web.HttpContext.Current?.Response.Cookies.Add(cookie);
-                var cookietoken = new HttpCookie(ConfigUtil.Tokenkey, res.Token);
-                //cookie.Domain = ".cjj81.cn";
-                cookietoken.HttpOnly = true;
-                cookietoken.Expires = DateTime.Parse(res.TokenExpiration);
-                System.Web.HttpContext.Current?.Response.Cookies.Add(cookietoken);
+
+                WebUtil.WriteCookie(WebUtil.Userinfokey, res.SerializeObject(), DateTime.Parse(res.TokenExpiration));
+                WebUtil.WriteCookie(WebUtil.Tokenkey,res.Token, DateTime.Parse(res.TokenExpiration));              
                 return MyJson(new JsonResponse(res, 0, "登录成功"));
             }
             return MyJson(new JsonResponse("", 1, "登录失败"));
 
+        }
+
+        /// <summary>
+        /// loginout
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult LoginOut()
+        {
+            WebUtil.WriteCookie(WebUtil.Userinfokey, "", DateTime.Now.AddDays(-5));
+            WebUtil.WriteCookie(WebUtil.Tokenkey, "", DateTime.Now.AddDays(-5));
+            return RedirectToAction("SysLogin");
         }
 
 

@@ -28,9 +28,10 @@
     }
 
     .layui-card {
-        padding: 2rem;
+        padding-top: 0px;
     }
 </style>
+
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md5">
@@ -43,38 +44,35 @@
             </div>
         </div>
         <div class="layui-col-md7">
-            <div class="layui-card">
-                <div class="layui-card-header">当前菜单</div>
+            <div class="layui-card" style="padding:15px">
+                <div id="menuheader" class="layui-card-header">当前菜单</div>
 
                 <form class="layui-form">
+                    <input type="hidden" name="KID" />
+                    <input type="hidden" name="Fatherid" />
+                    <input type="hidden" name="Opertype" />
                     <div class="layui-form-item">
                         <label class="layui-form-label">菜单名称</label>
                         <div class="layui-input-block">
-                            <input type="text" class="layui-input" />
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">菜单名称</label>
-                        <div class="layui-input-block">
-                            <input type="text" class="layui-input" />
+                            <input type="text" class="layui-input" name="Menuname" />
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">图标</label>
                         <div class="layui-input-block">
-                            <input type="text" class="layui-input" />
+                            <input type="text" class="layui-input" name="Menuicon" />
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">URL</label>
                         <div class="layui-input-block">
-                            <input type="text" class="layui-input" />
+                            <input type="text" class="layui-input" name="MenuUrl" />
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">显示顺序</label>
                         <div class="layui-input-block">
-                            <input type="text" class="layui-input" />
+                            <input type="text" class="layui-input" name="Menusorc" />
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -86,13 +84,13 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">描述信息</label>
                         <div class="layui-input-block">
-                            <textarea class="layui-textarea"></textarea>
+                            <textarea class="layui-textarea" name="Menuremark"></textarea>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">描述信息</label>
                         <div class="layui-input-block">
-                            <button class="layui-btn layui-btn-disabled">立即提交</button>
+                            <button id="Menusavebtn" class="layui-btn layui-btn-disabled">立即提交</button>
                         </div>
                     </div>
                 </form>
@@ -101,207 +99,168 @@
     </div>
 
 </div>
-<link href="~/Content/zTree_v3-master/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
-<script src="~/Content/zTree_v3-master/js/jquery-1.4.4.min.js"></script>
-<script src="~/Content/zTree_v3-master/js/jquery.ztree.all.js"></script>
+<link href="~/Content/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
 <script type="text/javascript">
+    //layui模块的使用
+    layui.use(['zTree', 'jquery'], function (args) {
+        var $ = layui.$, zTree = layui.zTree;
 
-    $(function () {
-        var setting = {
-            view: {
-                addHoverDom: addHoverDom,
-                removeHoverDom: removeHoverDom,
-                selectedMulti: false
-            },
-            edit: {
-                enable: true,
-                editNameSelectAll: true,
-                showRemoveBtn: showRemoveBtn,
-                showRenameBtn: false
-            },
-            data: {
-                key: {
-                    name: 'name'
+        var $Fatherid = $("input[name='Fatherid']");
+        var $kid = $("input[name='KID']");
+        var $Opertype = $("input[name='Opertype']");
+        var $save = $("#Menusavebtn");
+        var $header = $("#menuheader");
+        $(function () {
+            var setting = {
+                view: {
+                    addHoverDom: addHoverDom,
+                    removeHoverDom: removeHoverDom,
+                    selectedMulti: false
                 },
-                simpleData: {
+                edit: {
                     enable: true,
-                    idKey: 'id',
-                    pIdKey: 'pId'
+                    editNameSelectAll: true,
+                    showRemoveBtn: showRemoveBtn,
+                    showRenameBtn: false
+                },
+                data: {
+                    key: {
+                        name: 'name'
+                    },
+                    simpleData: {
+                        enable: true,
+                        idKey: 'id',
+                        pIdKey: 'pId'
+                    }
+                },
+                callback: {
+                    beforeRemove: beforeRemove,
+                    onClick: onClick
                 }
-            },
-            callback: {
-                beforeRemove: beforeRemove,
-                onClick: onClick
+            };
+            var zNodes = [];
+            // 是否显示删除按钮
+            function showRemoveBtn(treeId, treeNode) {
+                return treeNode.id != 0;
             }
-        };
-        var zNodes = [];
-        // 是否显示删除按钮
-        function showRemoveBtn(treeId, treeNode) {
-            return treeNode.KID != 0;
-        }
-        // 点击node
-        function onClick(event, treeId, treeNode, clickFlag) {
-            $operate.val('edit');
-            reForm();
-            if (treeNode.KID == 0) {
-                layer.msg('顶级目录不允许编辑');
-                clearForm();
-                return;
-            }
-            $('input[name="MenuName"]').val(treeNode.MenuName);
-            $('input[name="KID"]').val(treeNode.KID);
-            $('input[name="MenuIco"]').val(treeNode.MenuIco);
-            $('input[name="MenuUrl"]').val(treeNode.MenuUrl);
-            $('input[name="MenuSort"]').val(treeNode.MenuSort);
-            $('input[name="MenuMsg"]').val(treeNode.MenuMsg);
-            $FatherID.val(treeNode.FatherID);
-        }
-        // 删除前
-        function beforeRemove(treeId, treeNode, isdelcallback) {
-            var zTree = $.fn.zTree.getZTreeObj('LAY-MenuMana-Tree');
-            zTree.selectNode(treeNode);
-
-            if (treeNode.children) {
-                layer.msg('该菜单下有子菜单，不能删除！');
-                return false;
-            }
-            if (isdelcallback == 1) {
-                $('#' + treeNode.tId).remove();
-                var data = {};
-                data.kid = treeNode.KID;
-                if (data.kid) {
-                    GHM.post(GHM_config.url.DelItemMenuByKid, { Data: JSON.stringify(data) }).then(function () {
-                        initTree();
-                        layer.msg('删除成功');
-                    })
-                }
-            } else {
-                layer.confirm('确认删除 菜单 -- ' + treeNode.MenuName + ' 吗？', {
-                    btn: ['确认', '取消']
-                }, function () {
-                    //执行删除操作
-                    beforeRemove(treeId, treeNode, 1);
-                    layer.closeAll();
-                });
-                return false;
-            }
-        }
-        // 鼠标移入事件
-        function addHoverDom(treeId, treeNode) {
-            var sObj = $('#' + treeNode.tId + '_span');
-            if (treeNode.editNameFlag || $('#addBtn_' + treeNode.tId).length > 0) return;
-            var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-                + "' title='add node' onfocus='this.blur();'></span>";
-            sObj.after(addStr);
-            var btn = $('#addBtn_' + treeNode.tId);
-            //添加节点
-            if (btn) btn.bind('click', function () {
-                // 添加操作
-                $('input[name=MenuName]').focus();
-                $operate.val('add');
-                clearForm();
+            // 点击node
+            function onClick(event, treeId, treeNode, clickFlag) {
+                //设置为修改
+                $('input[name="Opertype"]').val('edit');
                 reForm();
-                $FatherID.val(treeNode.KID);
-
-                return false;
-            });
-        }
-
-        // 鼠标移出事件
-        function removeHoverDom(treeId, treeNode) {
-            $('#addBtn_' + treeNode.tId).unbind().remove();
-        }
-
-        $.ajax({
-            type: 'post',
-            url: '/Menu/list',
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (res) {
-                console.log(res)
-                zNodes = res;
-                zNodes.push({ id: 0, name: '菜单管理',open:'true' });
-                console.log(zNodes)
-                $.fn.zTree.init($('#LAY-Menu-Tree'), setting, zNodes);
-            },
-            error: function (err) {
-                console.log(err)
+                if (treeNode.KID == 0) {
+                    layer.msg('顶级目录不允许编辑');
+                    clearForm();
+                    return;
+                }
+                console.log(treeNode)
+                $('input[name="Menuname"]').val(treeNode.name);
+                $('input[name="KID"]').val(treeNode.id);
+                $('input[name="Menuicon"]').val(treeNode.ico);
+                $('input[name="MenuUrl"]').val(treeNode.url);
+                $('input[name="Menusorc"]').val(treeNode.sort);
+               // $('input[name="Menuremark"]').val(treeNode.MenuMsg);
+                $('input[name="KID"]').val(treeNode.pId);
             }
+            //清除右侧表单
+            function clearForm() {
+                $('input[name="Menuname"]').val("");
+                $('input[name="KID"]').val("");
+                $('input[name="Menuico"]').val("");
+                $('input[name="MenuUrl"]').val("");
+                $('input[name="Menusort"]').val("");
+                // $('input[name="Menuremark"]').val(treeNode.MenuMsg);
+                $('input[name="KID"]').val("");
+            }
+            //切换form样式
+            function reForm() {
+                var action = $Opertype.val();
+                $save.removeClass('layui-btn-disabled').attr('disabled', false);
+                if (action == 'edit') {
+                    $header.text("修改菜单");
+                    $save.text("立即修改");
+   
+                }
+                else {
+                    $header.text("新增菜单");
+                    $save.text("立即添加");
+                }
+            }
+            // 删除前
+            function beforeRemove(treeId, treeNode, isdelcallback) {
+                var zTree = $.fn.zTree.getZTreeObj('LAY-Menu-Tree');
+                zTree.selectNode(treeNode);
+                if (treeNode.children) {
+                    layer.msg('该菜单下有子菜单，不能删除！');
+                    return false;
+                }
+                if (isdelcallback == 1) {
+                    $('#' + treeNode.tId).remove();
+                    var data = {};
+                    data.kid = treeNode.id;
+                    console.log(data)
+                    if (data.kid) {
+                        //GHM.post(GHM_config.url.DelItemMenuByKid, { Data: JSON.stringify(data) }).then(function () {
+                        //    initTree();
+                        //    layer.msg('删除成功');
+                        //})
+                    }
+                } else {
+                    layer.confirm('确认删除 菜单 -- ' + treeNode.name + ' 吗？', {
+                        btn: ['确认', '取消']
+                    }, function () {
+                        //执行删除操作
+                        beforeRemove(treeId, treeNode, 1);
+                        layer.closeAll();
+                    });
+                    return false;
+                }
+            }
+            // 鼠标移入事件
+            function addHoverDom(treeId, treeNode) {
+                var sObj = $("#" + treeNode.tId + "_span");
+                if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
+                var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+                    + "' title='添加子节点' onfocus='this.blur();'></span>";
+                sObj.after(addStr);
+                var btn = $("#addBtn_" + treeNode.tId);
+                if (btn) btn.bind("click", function () {
+                    $('input[name=MenuName]').focus();
+                    $Opertype.val('add');
+                    clearForm();
+                    reForm();
+                    console.log(treeNode)
+                    $Fatherid.val(treeNode.id);
+                    return false;//阻止onclick触发
+                });
+             
+            }
+
+            // 鼠标移出事件
+            function removeHoverDom(treeId, treeNode) {
+                $('#addBtn_' + treeNode.tId).unbind().remove();
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/Menu/list',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (res) {
+                    console.log(res)
+                    zNodes = res;
+                    zNodes.push({ id: 0, name: '菜单管理', open: 'true' });
+                    zTree.init($('#LAY-Menu-Tree'), setting, zNodes);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+
+            })
 
         })
-
     })
 
 
 </script>
 
-
-@*<script type="text/javascript">
-        //layui模块的使用
-        layui.use(['zTree', 'jquery'], function (args) {
-            var $ = layui.$, zTree = layui.zTree
-
-            $(function () {
-                var setting = {
-                    view: {
-                        addHoverDom: addHoverDom,
-                        removeHoverDom: removeHoverDom,
-                        selectedMulti: false
-                    },
-                    edit: {
-                        enable: true,
-                        editNameSelectAll: true,
-                        showRemoveBtn: showRemoveBtn,
-                        showRenameBtn: false
-                    },
-                    data: {
-                        key: {
-                            name: 'MenuName'
-                        },
-                        simpleData: {
-                            enable: true,
-                            idKey: 'KID',
-                            pIdKey: 'FatherID'
-                        }
-                    },
-                    callback: {
-                        beforeRemove: beforeRemove,
-                        onClick: onClick
-                    }
-                };
-                var zNodes = [];
-                // 鼠标移入事件
-                function addHoverDom(treeId, treeNode) {
-                    var sObj = $('#' + treeNode.tId + '_span');
-                    if (treeNode.editNameFlag || $('#addBtn_' + treeNode.tId).length > 0) return;
-                    var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-                        + "' title='add node' onfocus='this.blur();'></span>";
-                    sObj.after(addStr);
-                    var btn = $('#addBtn_' + treeNode.tId);
-                    //添加节点
-                    if (btn) btn.bind('click', function () {
-                        // 添加操作
-                        $('input[name=MenuName]').focus();
-                        $operate.val('add');
-                        clearForm();
-                        reForm();
-                        $FatherID.val(treeNode.KID);
-
-                        return false;
-                    });
-                }
-
-                // 鼠标移出事件
-                function removeHoverDom(treeId, treeNode) {
-                    $('#addBtn_' + treeNode.tId).unbind().remove();
-                }
-            })
-            zNodes =@Model;
-            zNodes.push({ KID: 0, MenuName: '菜单管理' });
-            console.log(zNodes)
-            zTree.init($('#LAY-Menu-Tree'), setting, zNodes);
-
-            //……
-
-        });
-    </script>*@

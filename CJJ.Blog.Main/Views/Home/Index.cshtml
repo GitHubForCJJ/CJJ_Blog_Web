@@ -20,14 +20,14 @@
         #LAY_app .layui-nav-tree .layui-nav-child dd.layui-this a {
             background-color: #ff6a00 !important;
         }
+        .layadmin-iframe {
+            padding: 10px;
+        }
         /*.layui-side-menu .layui-nav .layui-nav-item a {
             height:25px !important;
             line-height: 25px !important;
         }*/
     </style>
-    <script>
-        /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
-    </script>
 </head>
 <body class="layui-layout-body">
 
@@ -74,13 +74,13 @@
                     </li>
                     <li class="layui-nav-item" lay-unselect>
                         <a href="javascript:;">
-                            <cite>RODMAN姓名</cite>
+                            <cite>RODMAN</cite>
                         </a>
                         <dl class="layui-nav-child">
                             <dd><a lay-href="/TravelBusiness/UpdateCompanyMsg">基本资料</a></dd>
                             <dd><a lay-href="/TravelBusiness/UpdateCompanyMsg#change_pas">修改密码</a></dd>
                             <hr>
-                            <dd layadmin-event="logout" style="text-align:center;"><a class="out">退出</a></dd>
+                            <dd layadmin-event="logout" style="text-align:center;"><a class="out"  href="/common/syslogin" target="_self">退出</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -95,7 +95,7 @@
             <div class="layui-side layui-side-menu">
                 <div class="layui-side-scroll" id="loginoutbox">
                     <div class="layui-logo" lay-href="/Home/Home">
-                        @*<img src="~/Content/public/img/logo1.png" />*@<span>博客后台系统</span>
+                        @*<img src="~/Content/public/img/logo1.png" />*@<span>博客后台</span>
                     </div>
 
                     <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
@@ -141,7 +141,7 @@
                                 <span>123   </span>
                                 <a lay-href="/TravelBusiness/UpdateCompanyMsg">基本资料</a>
                                 <a lay-href="/TravelBusiness/UpdateCompanyMsg#change_pas">修改密码</a>
-                                <a class="out" href="/sysuser/login" target="_self">退出</a>
+                                <a class="out" href="/common/SysLogin" target="_self">退出</a>
                                 <p class="icon"><i class="layui-icon layui-icon-triangle-d"></i></p>
                             </div>
                         </div>

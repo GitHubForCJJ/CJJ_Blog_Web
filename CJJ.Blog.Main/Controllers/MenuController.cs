@@ -26,7 +26,7 @@ namespace CJJ.Blog.Main.Controllers
         {
             //var emp = EmployeeInfo.Model;
             //var menus = BlogHelper.GetListByuserid_Sysmenu(emp.KID);
-            var userinfo = System.Web.HttpContext.Current?.Request?.Cookies.Get(ConfigUtil.Userinfokey)?.Value;
+            var userinfo = System.Web.HttpContext.Current?.Request?.Cookies.Get(WebUtil.Userinfokey)?.Value;
             var menus = userinfo.DeserializeObject<SysLoginUser>()?.UserAuthorMenu?.UserMenuList;
             return MyJson(menus);
         }
