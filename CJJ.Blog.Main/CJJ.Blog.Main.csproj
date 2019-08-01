@@ -230,6 +230,7 @@
     <Content Include="Content\Layui\lay\modules\util.js" />
     <Content Include="Content\Layui\public\js\view\blog\blog.js" />
     <Content Include="Content\Views\Blog.js" />
+    <Content Include="Content\Views\Menu.js" />
     <Content Include="Content\zTree\css\awesomeStyle\awesome.css" />
     <Content Include="Content\zTree\css\awesomeStyle\img\loading.gif" />
     <Content Include="Content\zTree\css\metroStyle\img\line_conn.png" />
@@ -552,6 +553,7 @@
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\CommonHelper.cs" />
+    <Compile Include="Tools\JsonResultExtension.cs" />
     <Compile Include="Tools\WebUtil.cs" />
     <Compile Include="Tools\JsonExtension.cs" />
     <Compile Include="ueditornet\net\App_Code\Config.cs" />

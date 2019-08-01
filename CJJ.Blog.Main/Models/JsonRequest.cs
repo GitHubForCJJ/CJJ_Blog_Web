@@ -7,5 +7,7 @@ namespace CJJ.Blog.Main.Models
 {
     public class JsonRequest
     {
+        public string Token { get; set; }
+        public object Data { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CJJ.Blog.Main.Filters;
 using CJJ.Blog.Main.Models;
+using CJJ.Blog.Main.Tools;
 using CJJ.Blog.Service.Model.View;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,11 @@ namespace CJJ.Blog.Main.Controllers
         {
             return Json(data, "application/json; charset=utf-8", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
-        //public JsonResult FastRes(string data, int code = 0, string msg = "", int count = 0)
-        //{
-           
-        //}
+        protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
+        {
+            return new JsonResultExtension()
+            { Data = data, ContentType = contentType, ContentEncoding = contentEncoding, JsonRequestBehavior = behavior };
+        }
 
         public SysLoginUser EmployeeInfo
         {
