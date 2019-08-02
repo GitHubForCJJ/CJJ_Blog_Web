@@ -25,10 +25,11 @@
             base: '../Content/' //静态资源所在路径
         }).extend({
             index: 'lib/index', //主入口模块
-            zTree:'/zTree/js/jquery.ztree.all'//ztree模块
+            zTree: '/zTree/js/jquery.ztree.all',//ztree模块
+            formSelects: '/formSelect/formSelects-v4',
         }).use(['index', 'jquery']);
     </script>
-    <div class="scroll-wrapper">
+    <div class="scroll-wrapper" style="padding:10px">
         @RenderBody()
     </div>
 </body>

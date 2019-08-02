@@ -1,5 +1,9 @@
 ﻿
-@model List<CJJ.Blog.Service.Model.View.zTreeModel>
+@*@model List<CJJ.Blog.Service.Model.View.zTreeModel>*@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,9 +24,10 @@
         #LAY_app .layui-nav-tree .layui-nav-child dd.layui-this a {
             background-color: #ff6a00 !important;
         }
-        .layadmin-iframe {
+
+        /*.layadmin-iframe {
             padding: 10px;
-        }
+        }*/
         /*.layui-side-menu .layui-nav .layui-nav-item a {
             height:25px !important;
             line-height: 25px !important;
@@ -80,7 +85,7 @@
                             <dd><a lay-href="/TravelBusiness/UpdateCompanyMsg">基本资料</a></dd>
                             <dd><a lay-href="/TravelBusiness/UpdateCompanyMsg#change_pas">修改密码</a></dd>
                             <hr>
-                            <dd layadmin-event="logout" style="text-align:center;"><a class="out"  href="/common/syslogin" target="_self">退出</a></dd>
+                            <dd layadmin-event="logout" style="text-align:center;"><a class="out" href="/common/syslogin" target="_self">退出</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -99,7 +104,7 @@
                     </div>
 
                     <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
-                        @if (Model == null || !Model.Any())
+                        @*@if (Model == null || !Model.Any())
                         {
                             <li data-name="user" class="layui-nav-item">
                                 <a href="javascript:;" lay-tips="暂无菜单权限" lay-direction="2">
@@ -130,7 +135,7 @@
                                     </dl>
                                 </li>
                             }
-                        }
+                        }*@
 
                     </ul>
                     <div style="height: 40px;"></div>
@@ -192,6 +197,40 @@
         layui.config({
             base: '../Content/' //静态资源所在路径
         }).use('index');
+
+        layui.use(['jquery'], function (args) {
+            var $ = layui.$
+
+            $(function () {
+                var userinfo = JSON.parse(localStorage.userinfo);
+                var authmenu = userinfo.UserAuthorMenu.UserMenuByLevel;
+                console.log(authmenu)
+                if (authmenu.length > 0) {
+                    for (var i in authmenu) {
+                        var str = ' <li data-name="user" class="layui-nav-item">  <li data-name="user" class="layui-nav-item">';
+                        str = str + ' <a href="javascript:;" lay-tips="' + authmenu[i].name + '" lay-direction="2">';
+                        str = str + '     <i class="layui-icon ' + authmenu[i].icon + '"></i> ';
+                        str = str + ' <cite>' + authmenu[i].name + '</cite></a>'//父结束  
+                        str = str + '<dl class="layui-nav-child">'
+                        console.log(authmenu[i].subMenuLst.length)
+                        if (authmenu[i].subMenuLst.length > 0) {
+                            for (var y in authmenu[i].subMenuLst) {
+                                str = str + '<dd> <a lay-href="' + authmenu[i].subMenuLst[y].url + '" title="' + authmenu[i].subMenuLst[y].name + '">' + authmenu[i].subMenuLst[y].name + '</a></dd>'
+                            }
+                        }
+
+                        str = str + '</dl></li>'
+                        $('.layui-nav-tree').append(str);
+                    }
+                }
+                else {
+                    var str = '<li data-name="user" class="layui-nav-item">< a href = "javascript:;" lay-tips="暂无菜单权限" lay - direction="2" ><i class="layui-icon layui-icon-user"></i><cite>暂无菜单权限</cite></a ></li >';
+                    $('.layui-nav-tree').append(str);
+                }
+
+            })
+
+        })
     </script>
 
 </body>

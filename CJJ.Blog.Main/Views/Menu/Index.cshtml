@@ -116,32 +116,37 @@
         var $header = $("#menuheader");
 
 
+
         form.on('submit(Lay-Menu-Submit)', function (data) {
-            console.log("a")
             var field = data.field;
 
             // var data = { Token: "123", Data: JSON.stringify(field) }
-            var data = { dic: field }
+            var data = new Object();
+            data.dic = field;
             console.log(data);
             $.ajax({
                 type: 'post',
                 url: '/Menu/AddOrUpdate',
                 dataType: 'json',
                 contentType: 'application/json',
-                data: data,
+                data: JSON.stringify(data),
                 success: function (res) {
-                    layer.msg("操作成功");
-                    console.log(res)
+                    if (res.IsSuccess) {
+                        layer.msg("操作成功");
+                        console.log(res)
+                        initztree();
+                    }
+                    layer.msg("操作失败");
                 },
                 error: function (err) {
-                    console.log(err)
+                    layer.msg("系统错误");
                 }
 
             })
             return false;
         })
 
-        $(function () {
+        var initztree = function () {
             var setting = {
                 view: {
                     addHoverDom: addHoverDom,
@@ -170,8 +175,6 @@
                 }
             };
             var zNodes = [];
-  
-
             $.ajax({
                 type: 'post',
                 url: '/Menu/list',
@@ -191,8 +194,8 @@
                 }
 
             })
+        }
 
-        })
 
         // 是否显示删除按钮
         function showRemoveBtn(treeId, treeNode) {
@@ -214,7 +217,7 @@
             $('input[name="Menuicon"]').val(treeNode.Menuicon);
             $('input[name="MenuUrl"]').val(treeNode.MenuUrl);
             $('input[name="Menusort"]').val(treeNode.Menusort);
-            $('input[name="Menuremark"]').val(treeNode.Menuremark);
+            $('textarea[name="Menuremark"]').val(treeNode.Menuremark);
             $Fatherid.val(treeNode.Fatherid);
         }
         //清除右侧表单
@@ -224,8 +227,9 @@
             $('input[name="Menuicon"]').val("");
             $('input[name="MenuUrl"]').val("");
             $('input[name="Menusort"]').val("");
-            $('input[name="Menuremark"]').val("");
+            $('textarea[name="Menuremark"]').val("");
             $('input[name="KID"]').val("");
+            $Fatherid.val("");
         }
         //切换form样式
         function reForm() {
@@ -295,6 +299,11 @@
         function removeHoverDom(treeId, treeNode) {
             $('#addBtn_' + treeNode.tId).unbind().remove();
         }
+
+        $(function () {
+
+            initztree();
+        })
 
     })
 

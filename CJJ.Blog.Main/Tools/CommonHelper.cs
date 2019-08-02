@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CJJ.Blog.Main
 {
@@ -36,6 +37,22 @@ namespace CJJ.Blog.Main
             }
 
 
+        }
+
+        public static Dictionary<string, object> FormToDic(FormCollection form)
+        {
+            var dic = new Dictionary<string, object>();
+            if (form.AllKeys.Length > 0)
+            {
+                foreach (var itemkey in form.AllKeys)
+                {
+                    if (!dic.ContainsKey(itemkey))
+                    {
+                        dic.Add(itemkey, form[itemkey]);
+                    }
+                }
+            }
+            return dic;
         }
     }
 }

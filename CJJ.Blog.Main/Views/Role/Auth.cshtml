@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Auth";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">可操作菜单列表</div>
+                <div class="layui-card-body">
+                    <ul id="LAY-Auth-Tree" class="ztree"></ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-col-md7">
+            <div class="layui-card">
+                <div class="layui-card-header">组织成员</div>
+            </div>
+            <div class="layui-card-body">
+                <select id='employeeids' name="employee" xm-select="select1">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/Content/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<link href="~/Content/formSelect/formSelects-v4.css" rel="stylesheet" />
+<script type="text/javascript">
+    //layui模块的使用
+    layui.use(['index','zTree', 'jquery', 'table', 'form', 'formSelects'], function (args) {
+
+        var $ = layui.$
+            , table = layui.table
+            , zTree = layui.zTree
+            , form = layui.form
+            , formSelects = layui.formSelects;
+
+        var initztree = function () {
+            var setting = {
+                view: {
+                    //addHoverDom: addHoverDom,
+                    //removeHoverDom: removeHoverDom,
+                    selectedMulti: true
+                },
+                edit: {
+                    enable: true,
+                    editNameSelectAll: true,
+                    showRemoveBtn: false,
+                    showRenameBtn: false
+                },
+                data: {
+                    key: {
+                        name: 'Menuname'
+                    },
+                    simpleData: {
+                        enable: true,
+                        idKey: 'KID',
+                        pIdKey: 'Fatherid'
+                    }
+                },
+                callback: {
+                    onClick: onClick
+                },
+                check: {
+                    enable: true,   //true / false 分别表示 显示 / 不显示 复选框或单选框
+                    autoCheckTrigger: true,   //true / false 分别表示 触发 / 不触发 事件回调函数
+                    chkStyle: "checkbox",   //勾选框类型(checkbox 或 radio）
+                    chkboxType: { "Y": "ps", "N": "ps" }   //勾选 checkbox 对于父子节点的关联关系
+                }
+            };
+            var zNodes = [];
+            $.ajax({
+                type: 'post',
+                url: '/Menu/list',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (res) {
+
+                    zNodes = res;
+                    for (var i in zNodes) {
+                        zNodes[i].nocheck = false;
+                        zNodes[i].open = 'true';
+                    }
+                    zNodes.push({ KID: 0, Menuname: '菜单管理', open: 'true', nocheck: false });
+                    console.log(zNodes)
+                    zTree.init($('#LAY-Auth-Tree'), setting, zNodes);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+
+            })
+        }
+
+
+        // 是否显示删除按钮
+        function showRemoveBtn(treeId, treeNode) {
+            return treeNode.id != 0;
+        }
+        // 点击node
+        function onClick(event, treeId, treeNode, clickFlag) {
+            //设置为修改
+            $('input[name="Opertype"]').val('edit');
+            reForm();
+            if (treeNode.KID == 0) {
+                layer.msg('顶级目录不允许编辑');
+                clearForm();
+                return;
+            }
+            console.log(treeNode)
+            $('input[name="Menuname"]').val(treeNode.Menuname);
+            $('input[name="KID"]').val(treeNode.KID);
+            $('input[name="Menuicon"]').val(treeNode.Menuicon);
+            $('input[name="MenuUrl"]').val(treeNode.MenuUrl);
+            $('input[name="Menusort"]').val(treeNode.Menusort);
+            $('textarea[name="Menuremark"]').val(treeNode.Menuremark);
+            $Fatherid.val(treeNode.Fatherid);
+        }
+
+
+        $(function () {
+            alert("1")
+            initztree();
+            var option = '<option value="1">rodman</option>';
+            $("#employeeids").append(option);
+            formSelects.render();
+            form.render('select');
+        })
+
+    })
+
+</script>
+

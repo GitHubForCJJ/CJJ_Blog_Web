@@ -77,7 +77,7 @@ layui.extend({
 
     //将模块根路径设置为 controller 目录
     layui.config({
-        base: setter.base + 'Views/'
+       // base: setter.base + 'Views/'
     });
 
     //扩展 lib 目录下的其它模块

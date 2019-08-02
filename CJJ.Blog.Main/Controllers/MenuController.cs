@@ -10,6 +10,7 @@ using CJJ.Blog.Service.Models.Data;
 using CJJ.Blog.Main.Filters;
 using CJJ.Blog.Main.Models;
 using Newtonsoft.Json;
+using FastDev.Common.Code;
 
 namespace CJJ.Blog.Main.Controllers
 {
@@ -40,20 +41,37 @@ namespace CJJ.Blog.Main.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddOrUpdate(FormCollection dic) 
+        public JsonResult AddOrUpdate(Dictionary<string, Object> dic)
         {
             //var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(model.Data.ToString());
-
-            return MyJson(dic.AllKeys);
-        }
-        private Dictionary<string,object>FormToDic(FormCollection form)
-        {
-            var dic = new Dictionary<string, object>();
-            foreach(var item in form.Keys)
+            var result = new Result() { IsSucceed=false};
+            var emp = EmployeeInfo;
+            string kid = string.Empty;
+            if (dic == null || dic?.Keys.Count <= 0)
             {
-
+                return MyJson(result);
             }
-            return dic;
+            if (dic.ContainsKey(nameof(Sysmenu.KID)))
+            {
+                kid = dic[nameof(Sysmenu.KID)].ToString();
+            }
+            if (!string.IsNullOrEmpty(kid))
+            {
+                dic.Remove(nameof(Sysmenu.KID));
+                dic.Add(nameof(Sysmenu.UpdateTime), DateTime.Now);
+                dic.Add(nameof(Sysmenu.UpdateUserId), emp?.Model.KID);
+                dic.Add(nameof(Sysmenu.UpdateUserName), emp?.Model.UserName);
+                result = BlogHelper.Update_Sysmenu(dic, kid.ToInt(), new Service.Models.View.OpertionUser());
+            }
+            else
+            {
+                dic.Remove(nameof(Sysmenu.KID));
+                dic.Add(nameof(Sysmenu.CreateTime), DateTime.Now);
+                dic.Add(nameof(Sysmenu.CreateUserId), emp?.Model.KID);
+                dic.Add(nameof(Sysmenu.CreateUserName), emp?.Model.UserName);
+                result = BlogHelper.Add_Sysmenu(dic, new Service.Models.View.OpertionUser());
+            }
+            return MyJson(result);
         }
     }
 }

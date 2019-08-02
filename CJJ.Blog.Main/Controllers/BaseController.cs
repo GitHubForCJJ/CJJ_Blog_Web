@@ -31,6 +31,11 @@ namespace CJJ.Blog.Main.Controllers
             }
         }
 
+        //public void AddBaseInfo<T>(Dictionary<string,object>data,out Dictionary<string, object> outdata)
+        //{
+            
+        //}
+
         /// <summary>
         /// 获取客户端IP地址
         /// </summary>

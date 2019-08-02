@@ -1,0 +1,230 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .layui-layer-btn {
+        text-align: center;
+    }
+    .layui-layer-btn0 {
+        background-color: #ff5a1e !important;
+        color: #fff !important;
+        width: 100px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        line-height: 38px !important;
+        text-align: center !important;
+        font-size: 14px !important;
+        border: none !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        margin-right: -110px !important;
+    }
+
+    .layui-layer-btn1 {
+        background-color: #444a5a !important;
+        color: #fff !important;
+        height: 38px !important;
+        padding: 0 !important;
+        width: 100px !important;
+        line-height: 38px !important;
+        text-align: center !important;
+        font-size: 14px !important;
+        border: none !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        margin-left: -110px !important;
+    }
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">订单编号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="OrderId|l" placeholder="请输入" autocomplete="on" class="layui-input" style="width: 212px;">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="LoginId|l" placeholder="请输入" autocomplete="on" class="layui-input" style="width: 212px;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-card-body">
+
+            <div style="padding-bottom: 10px;text-align:center">
+                <button class="layui-btn layui-btn-danger layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Role-front-search">查询</button>
+
+                <button class="layui-btn layui-btn-normal layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Role-front-Add">添加</button>
+
+            </div>
+
+            <table class="layui-table" lay-data="{url:'/Role/GetListData',method:'post',dataType: 'json', page:true, id:'LAY-Role-manage'}" lay-filter="LAY-Role-manage">
+                <thead>
+                    <tr>
+                        <th lay-data="{ field: 'KID', align:'center',  width: 200}">kid</th>
+                        <th lay-data="{ field: 'Rolename', align:'center',  width: 300}">名称</th>
+                        <th lay-data="{ field: 'Roleremark', align:'center',  width: 600}">备注</th>
+                        <th lay-data="{ field: 'CreateTime', align:'center',  width: 200}">创建时间</th>
+                        <th lay-data="{align:'center', toolbar: '#table-Role-opertool'}"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="temp_Role_CreateTime">
+    <div>1{{ layui.laytpl.toDateString(d.CreatedTime) }}</div>
+</script>
+<script type="text/html" id="table-Role-opertool">
+
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="Delete">删除</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Authinfo">权限信息</a>
+
+</script>
+
+
+<script>
+    layui.use(['index', 'table', 'laydate'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        //laydate init
+        lay('.search_date').each(function () {
+            laydate.render({
+                elem: this
+            })
+        });
+        //时间戳的处理
+        layui.laytpl.toDateString = function (d, format) {
+            var date = new Date(d || new Date())
+                , ymd = [
+                    this.digit(date.getFullYear(), 4)
+                    , this.digit(date.getMonth() + 1)
+                    , this.digit(date.getDate())
+                ]
+                , hms = [
+                    this.digit(date.getHours())
+                    , this.digit(date.getMinutes())
+                    , this.digit(date.getSeconds())
+                ];
+
+            format = format || 'yyyy-MM-dd HH:mm:ss';
+
+            return format.replace(/yyyy/g, ymd[0])
+                .replace(/MM/g, ymd[1])
+                .replace(/dd/g, ymd[2])
+                .replace(/HH/g, hms[0])
+                .replace(/mm/g, hms[1])
+                .replace(/ss/g, hms[2]);
+        };
+
+        //数字前置补零
+        layui.laytpl.digit = function (num, length, end) {
+            var str = '';
+            num = String(num);
+            length = length || 2;
+            for (var i = num.length; i < length; i++) {
+                str += '0';
+            }
+            return num < Math.pow(10, length) ? str + (num | 0) : num;
+        }
+
+
+        //监听工具条
+        table.on('tool(LAY-Role-manage)', function (obj) {
+            var data = obj.data;
+            var kid = data.KID;
+            console.log(kid)
+
+            //删除
+            if (obj.event === 'Delete') {
+                //删除
+                layer.confirm('确认删除该条出团信息？,删除后信息不可恢复', { title: '删除' }, function (index) {
+                    $.ajax({
+                        type: "post",
+                        url: "/Role/Delete",
+                        data: { "KID": data.KID },
+                        dataType: "json",
+                        success: function (ret) {
+                            if (ret.code == "0") {
+                                obj.del();
+                                layer.close(index);
+                            }
+                            else {
+                                if (ret.msg == null)
+                                    layer.msg("删除失败,服务器未返回失败信息");
+                                else
+                                    layer.msg(ret.msg);
+                            }
+                        }
+                    });
+                });
+
+            }
+            //授权
+            else if (obj.event === 'Authinfo') {
+                layer.open({
+                    type: 2
+                    , title: '授权'
+                    , area: ['100%', '100%']
+                    , btn: ['确定', '取消']
+                    , content: '/Role/Auth?Roleid=' + kid
+                    , yes: function (index, layero) {
+                        console.log(index,layero)
+                    }             
+                    ,end: function () {
+                        //table.reload('LAY-Role-manage'); //数据刷新
+                        //layer.close(index); //关闭弹层
+                    }
+                    , success: function (layero, index) {
+
+                    }
+                });
+
+
+            }
+            //编辑
+            else if (obj.event === 'Edit') {
+                var kid = data.KID;
+                console.log(kid)
+                window.location.href = '/Role/AddOrEdit?Roleid=' + kid;
+            }
+            //日志
+            else if (obj.event === 'Log') {
+                var kid = data.KID;
+                var proedit = layer.open({
+                    type: 2,
+                    area: ["860px", "860px"]
+                    , title: '日志'
+                    , content: '/Rolelog/List?Roleid=' + kid
+                    , btn: ['关闭']
+                    , btnAlign: 'c'
+                    , end: function () {
+                        table.reload('LAY-Role-manage', {
+                        });
+                    }
+                });
+            }
+            //下载附件
+            else if (obj.event === 'Download') {
+
+                var kid = data.KID;
+                window.location.href = '/Role/GetFiles?kid=' + kid;
+            }
+        });
+
+    });
+</script>
+
+

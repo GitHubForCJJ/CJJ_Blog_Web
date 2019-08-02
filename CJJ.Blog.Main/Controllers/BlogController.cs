@@ -29,25 +29,13 @@ namespace CJJ.Blog.Main.Controllers
         [HttpPost]
         public JsonResult GetListData(FormCollection form)
         {
-            var where = FormToDic(form);
+            var where = CommonHelper.FormToDic(form);
+            where.Add(nameof(Bloginfo.IsDeleted), 0);
+            where.Add(nameof(Bloginfo.States), 0);
             var list = BlogHelper.GetJsonListPage_Bloginfo(1, 10, "", where);
             return MyJson(list);
         }
-        private Dictionary<string, object> FormToDic(FormCollection form)
-        {
-            var dic = new Dictionary<string, object>();
-            if (form.AllKeys.Length > 0)
-            {
-                foreach (var itemkey in form.AllKeys)
-                {
-                    if (!dic.ContainsKey(itemkey))
-                    {
-                        dic.Add(itemkey, form[itemkey]);
-                    }
-                }
-            }
-            return dic;
-        }
+
         [HttpGet]
         public ActionResult AddOrEdit(int blogid=0)
         {

@@ -27,7 +27,7 @@ namespace CJJ.Blog.Main.Controllers
         [HttpGet]
         public ActionResult SysLogin()
         {
-            WebUtil.WriteCookie(WebUtil.Userinfokey,"",DateTime.Now.AddDays(-5));
+            //WebUtil.WriteCookie(WebUtil.Userinfokey,"",DateTime.Now.AddDays(-5));
             WebUtil.WriteCookie(WebUtil.Tokenkey,"", DateTime.Now.AddDays(-5));
             return View();
         }
@@ -50,7 +50,7 @@ namespace CJJ.Blog.Main.Controllers
             if (res.IsSucceed)
             {
 
-                WebUtil.WriteCookie(WebUtil.Userinfokey, res.SerializeObject(), DateTime.Parse(res.TokenExpiration));
+                //WebUtil.WriteCookie(WebUtil.Userinfokey, res.SerializeObject(), DateTime.Parse(res.TokenExpiration));
                 WebUtil.WriteCookie(WebUtil.Tokenkey,res.Token, DateTime.Parse(res.TokenExpiration));              
                 return MyJson(new JsonResponse(res, 0, "登录成功"));
             }
@@ -65,7 +65,7 @@ namespace CJJ.Blog.Main.Controllers
         [HttpGet]
         public ActionResult LoginOut()
         {
-            WebUtil.WriteCookie(WebUtil.Userinfokey, "", DateTime.Now.AddDays(-5));
+            //WebUtil.WriteCookie(WebUtil.Userinfokey, "", DateTime.Now.AddDays(-5));
             WebUtil.WriteCookie(WebUtil.Tokenkey, "", DateTime.Now.AddDays(-5));
             return RedirectToAction("SysLogin");
         }

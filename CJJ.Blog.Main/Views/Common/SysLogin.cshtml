@@ -179,6 +179,7 @@
                         console.log(res)
                     
                         if (res.Code == 0) {
+                            localStorage.userinfo=JSON.stringify(res.Data);
                             window.location = "/Home/index";
                         }
                     }, error: function (err) {
