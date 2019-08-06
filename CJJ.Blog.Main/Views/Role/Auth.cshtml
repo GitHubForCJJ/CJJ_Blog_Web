@@ -4,6 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .layui-card{
+        min-height:500px;
+    }
+    .employeeidroom {
+        width: 500px;
+    }
+</style>
+
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md5">
@@ -18,14 +27,19 @@
         <div class="layui-col-md7">
             <div class="layui-card">
                 <div class="layui-card-header">组织成员</div>
+                <div class="layui-card-body">
+                    <div class="employeeidroom">
+                        <select id='employeeids' name="employee" xm-select="select1">
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                </div>
             </div>
-            <div class="layui-card-body">
-                <select id='employeeids' name="employee" xm-select="select1">
-                    <option value=""></option>
-                </select>
-            </div>
+
         </div>
     </div>
+    <input type="hidden" id="roleid" value="@ViewBag.Roleid"/>
 </div>
 <link href="~/Content/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
 <link href="~/Content/formSelect/formSelects-v4.css" rel="stylesheet" />
@@ -123,13 +137,39 @@
 
 
         $(function () {
-            alert("1")
             initztree();
-            var option = '<option value="1">rodman</option>';
-            $("#employeeids").append(option);
-            formSelects.render();
-            form.render('select');
+
+            Inittreeselect();
+
         })
+
+        function Inittreeselect() {
+            var t =@ViewBag.Roleid;
+            var roleid = $("#roleid").val();
+            console.log(t);
+            $.ajax({
+                type: 'post',
+                url: '/Role/GetRoleMember',
+                data: JSON.stringify({ "roleid": roleid }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (res) {
+                    console.log(res)
+                    for (var i = 0; i < res.length; i++) {
+                        var option = '<option checked=' + res[i].Checked + ' value="' + res[i].KID + '">' + res[i].UserName + '</option>';
+                        $("#employeeids").append(option);
+                    }
+
+                    formSelects.render();
+                    form.render('select');
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+
+            })
+        }
+
 
     })
 

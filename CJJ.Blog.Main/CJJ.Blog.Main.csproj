@@ -559,6 +559,7 @@
     <Compile Include="Models\JsonRequest.cs" />
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\LoginView.cs" />
+    <Compile Include="Models\Roleview.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\CommonExension.cs" />
