@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CJJ.Blog.Main.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,7 +7,7 @@ using System.Web.Mvc;
 
 namespace CJJ.Blog.Main
 {
-    public class CommonHelper
+    public static class CommonHelper
     {
 
         public static Dictionary<string, object> ModelToDic<T>(T model)
@@ -53,6 +54,43 @@ namespace CJJ.Blog.Main
                 }
             }
             return dic;
+        }
+        /// <summary>
+        /// layui的表格渲染条件
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
+        public static FormItem TableWhere(this FormCollection form)
+        {
+            var item = new FormItem();
+            try
+            {
+                if (form.AllKeys.Length > 0)
+                {
+                    item.DicWhere = new Dictionary<string, object>();
+                    foreach (var itemkey in form.AllKeys)
+                    {
+                        if (itemkey == "page")
+                        {
+                            item.Page = Convert.ToInt32(form[itemkey]);
+                        }
+                        else if (itemkey == "limit")
+                        {
+                            item.Limit = Convert.ToInt32(form[itemkey]);
+                        }
+                        else
+                        {
+                            item.DicWhere.Add(itemkey, form[itemkey]);
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            return item;
         }
     }
 }

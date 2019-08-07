@@ -73,5 +73,19 @@ namespace CJJ.Blog.Main.Controllers
             }
             return MyJson(result);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="menuid"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult Delete(int menuid)
+        {
+            var result = new Result();
+            result = BlogHelper.DeleteByWhere_Sysmenu(new Dictionary<string, object>() { {
+                    nameof(Sysmenu.KID),menuid
+                } }, new Service.Models.View.OpertionUser());
+            return MyJson(result);
+        }
     }
 }

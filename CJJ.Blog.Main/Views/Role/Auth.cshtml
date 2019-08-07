@@ -11,6 +11,55 @@
     .employeeidroom {
         width: 500px;
     }
+    .auth-btn-area{
+        position:fixed;
+        bottom:0;
+        left:0;
+        width:100%;
+        height:80px;
+        background-color:white;
+        text-align:center;
+        line-height:80px;
+    }
+    .auth-btn0 {
+        background-color: #ff5a1e !important;
+        color: #fff !important;
+        width: 100px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        line-height: 38px !important;
+        text-align: center !important;
+        font-size: 14px !important;
+        border: none !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        margin-right: -110px !important;
+        text-decoration: none;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        /*vertical-align: top;*/
+    }
+
+    .auth-btn1 {
+        background-color: #444a5a !important;
+        color: #fff !important;
+        height: 38px !important;
+        padding: 0 !important;
+        width: 100px !important;
+        line-height: 38px !important;
+        text-align: center !important;
+        font-size: 14px !important;
+        border: none !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        margin-left: -110px !important;
+        text-decoration: none;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        /*vertical-align: top;*/
+    }
 </style>
 
 <div class="layui-fluid">
@@ -26,7 +75,7 @@
         </div>
         <div class="layui-col-md7">
             <div class="layui-card">
-                <div class="layui-card-header">组织成员</div>
+                <div class="layui-card-header">属于该角色的成员</div>
                 <div class="layui-card-body">
                     <div class="employeeidroom">
                         <select id='employeeids' name="employee" xm-select="select1">
@@ -39,18 +88,24 @@
 
         </div>
     </div>
+    <div class="auth-btn-area">
+        <a class="auth-btn0" id="auth-btn0" >确定</a>
+        <a class="auth-btn1" id="auth-btn1">取消</a>
+    </div>
+    @*<input type="hidden" layui-submit lay-filter="operateputbtn" id="operateputbtn"/>*@
     <input type="hidden" id="roleid" value="@ViewBag.Roleid"/>
 </div>
 <link href="~/Content/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
 <link href="~/Content/formSelect/formSelects-v4.css" rel="stylesheet" />
 <script type="text/javascript">
     //layui模块的使用
-    layui.use(['index','zTree', 'jquery', 'table', 'form', 'formSelects'], function (args) {
+    layui.use(['index','zTree','layer', 'jquery', 'table', 'form', 'formSelects'], function (args) {
 
         var $ = layui.$
             , table = layui.table
             , zTree = layui.zTree
             , form = layui.form
+            , layer = layui.layer
             , formSelects = layui.formSelects;
 
         var initztree = function () {
@@ -68,6 +123,7 @@
                 },
                 data: {
                     key: {
+                        checked:'Checked',
                         name: 'Menuname'
                     },
                     simpleData: {
@@ -77,7 +133,7 @@
                     }
                 },
                 callback: {
-                    onClick: onClick
+                    //onClick: onClick
                 },
                 check: {
                     enable: true,   //true / false 分别表示 显示 / 不显示 复选框或单选框
@@ -87,20 +143,19 @@
                 }
             };
             var zNodes = [];
+            var roleid = $("#roleid").val();
             $.ajax({
                 type: 'post',
-                url: '/Menu/list',
+                url: '/Role/GetRoleMenu',
                 dataType: 'json',
+                data: JSON.stringify({ "roleid": roleid }),
                 contentType: 'application/json',
                 success: function (res) {
-
                     zNodes = res;
                     for (var i in zNodes) {
                         zNodes[i].nocheck = false;
                         zNodes[i].open = 'true';
                     }
-                    zNodes.push({ KID: 0, Menuname: '菜单管理', open: 'true', nocheck: false });
-                    console.log(zNodes)
                     zTree.init($('#LAY-Auth-Tree'), setting, zNodes);
                 },
                 error: function (err) {
@@ -109,6 +164,49 @@
 
             })
         }
+
+        //确定
+        $(".auth-btn0").on("click", function (data) {
+            var ztreeobj = zTree.getZTreeObj("LAY-Auth-Tree");          
+            //选择了的menu对象
+            var nodes = ztreeobj.getCheckedNodes(true);
+            var nodestr = "";
+            if (nodes.length > 0) {
+                for (var i in nodes) {
+                    nodestr = nodestr + nodes[i].KID+","
+                }
+            }
+            //员工ids
+            var selectval = formSelects.value("select1", "valStr");
+            var data = { "roleid": $("#roleid").val(), "userids": selectval, "menuids": nodestr.substring(0, nodestr.lastIndexOf(',')) }
+            console.log(data)
+            $.ajax({
+                type: 'post',
+                url: '/Role/OperateRole',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.IsSucceed) {
+                        layer.msg("操作成功")
+                        parent.layer.closeAll()
+                    }
+                    else {
+                        layer.msg("操作失败")
+                    }
+                },
+                error: function (err) {
+                    layer.msg("操作错误")
+                    console.log(err)
+                }
+
+            })           
+        })
+        //取消
+        $(".auth-btn1").on("click", function (data) {
+            console.log("aclick11")
+            parent.layer.closeAll()
+        })
 
 
         // 是否显示删除按钮
@@ -135,18 +233,18 @@
             $Fatherid.val(treeNode.Fatherid);
         }
 
-
+        //初始化
         $(function () {
             initztree();
 
             Inittreeselect();
 
         })
-
+        //初始化formselect
         function Inittreeselect() {
-            var t =@ViewBag.Roleid;
+
             var roleid = $("#roleid").val();
-            console.log(t);
+
             $.ajax({
                 type: 'post',
                 url: '/Role/GetRoleMember',
@@ -156,8 +254,16 @@
                 success: function (res) {
                     console.log(res)
                     for (var i = 0; i < res.length; i++) {
-                        var option = '<option checked=' + res[i].Checked + ' value="' + res[i].KID + '">' + res[i].UserName + '</option>';
-                        $("#employeeids").append(option);
+                        if (res[i].Checked) {
+                            var option = '<option selected="selected" value="' + res[i].KID + '">' + res[i].UserName + '</option>';
+                            $("#employeeids").append(option);
+                        }
+                        else {
+                            var option = '<option value="' + res[i].KID + '">' + res[i].UserName + '</option>';
+                            $("#employeeids").append(option);
+                        }
+
+          
                     }
 
                     formSelects.render();

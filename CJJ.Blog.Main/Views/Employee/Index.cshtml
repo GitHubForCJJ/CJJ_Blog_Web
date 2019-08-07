@@ -9,21 +9,21 @@
     }
 </style>
 
-<div class="layui-fluid" >
+<div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-form layui-card-header" style="padding-top:15px;height: auto;">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">角色名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="Rolename|l" placeholder="请输入" autocomplete="on" class="layui-input" style="width: 212px;">
+                        <input type="text" name="UserName|l" placeholder="请输入" autocomplete="on" class="layui-input" style="width: 212px;">
                     </div>
                 </div>
 
                 <div class="layui-block" style="text-align:center">
-                    <button class="layui-btn layui-btn-danger layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Role-front-search">查询</button>
+                    <button class="layui-btn layui-btn-danger layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Employee-front-search">查询</button>
 
-                    <button class="layui-btn layui-btn-normal layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Role-front-Add">添加</button>
+                    <button class="layui-btn layui-btn-normal layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Employee-front-Add">添加</button>
 
                 </div>
             </div>
@@ -32,14 +32,15 @@
         </div>
         <div class="layui-card-body">
 
-            <table class="layui-table" lay-data="{url:'/Role/GetListData',method:'post',dataType: 'json', page:true, id:'LAY-Role-manage'}" lay-filter="LAY-Role-manage">
+            <table class="layui-table" lay-data="{url:'/Employee/GetListData',method:'post',dataType: 'json', page:true, id:'LAY-Employee-manage'}" lay-filter="LAY-Employee-manage">
                 <thead>
                     <tr>
                         <th lay-data="{ field: 'KID', align:'center',  width: 200}">kid</th>
-                        <th lay-data="{ field: 'Rolename', align:'center',  width: 300}">名称</th>
-                        <th lay-data="{ field: 'Roleremark', align:'center',  width: 600}">备注</th>
-                        <th lay-data="{ field: 'CreateTime', align:'center',  width: 200}">创建时间</th>
-                        <th lay-data="{align:'center', toolbar: '#table-Role-opertool'}"></th>
+                        <th lay-data="{ field: 'UserName', align:'center',  width: 300}">用户名</th>
+                        <th lay-data="{ field: 'UserAcount', align:'center',  width: 300}">登录名</th>
+                        <th lay-data="{ field: '', align:'center',  width: 100 ,templet:'#temp_Employee_State'}">状态</th>
+                        <th lay-data="{ field: 'CreateTime', align:'center',  width: 300}">创建时间</th>
+                        <th lay-data="{ align:'center', toolbar: '#table-Employee-opertool'}"></th>
                     </tr>
                 </thead>
             </table>
@@ -47,72 +48,80 @@
     </div>
 </div>
 
-<div class="layui-card" id="addform" style="display:none">
-    <form class="layui-form" style="padding:10px">
-        <div class="layui-form-item">
-            <label class="layui-form-label">角色新名称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input rolename" name="rolename" />
-            </div>
-        </div>
-    </form>
-</div>
 
-<div class="layui-card" id="editform" style="display:none">
-    <form class="layui-form" style="padding:10px">
-        <input type="hidden" id="Roleid" name="Roleid" />
-        <div class="layui-form-item">
-            <label class="layui-form-label">角色原名称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input roleoldname" readonly name="roleoldname" />
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">角色新名称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input rolenewname" name="rolenewname" />
-            </div>
-        </div>
-    </form>
-</div>
 
-<script type="text/html" id="temp_Role_CreateTime">
+<script type="text/html" id="temp_Employee_State">
+    <input type="checkbox" lay-filter="startorstop" value="{{d.KID}}" name="States" {{d.States==0 ? "checked":""}} lay-skin="switch" lay-text="开启|关闭">
+</script>
+
+<script type="text/html" id="temp_Employee_CreateTime">
     <div>1{{ layui.laytpl.toDateString(d.CreatedTime) }}</div>
 </script>
-<script type="text/html" id="table-Role-opertool">
+<script type="text/html" id="table-Employee-opertool">
 
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="Delete">删除</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Authinfo">权限信息</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Authinfo">分配角色</a>
 
 </script>
 
 
 <script>
-    layui.use(['index','layer', 'table', 'laydate', 'zTree'], function () {
+    layui.use(['index', 'layer', 'table', 'laydate', 'zTree'], function () {
         var $ = layui.$,
             layer = layui.layer,
             form = layui.form,
             zTree = layui.zTree,
             table = layui.table,
             laydate = layui.laydate;
-        form.on("submit(LAY-Role-front-search)", function (data) {
+
+        form.on("submit(LAY-Employee-front-search)", function (data) {
             var field = data.field;
             console.log(field)
             //执行重载
-            table.reload('LAY-Role-manage', {
+            table.reload('LAY-Employee-manage', {
                 where: field,
                 page: {
-                    limit:10,
+                    limit: 10,
                     curr: 1 //重新从第 1 页开始
                 }
 
             });
         })
+        //监听开关
+        form.on('switch(startorstop)', function (data) {
+            var field = data;
+            var kid = data.value;
+            var name = data.elem.name;
+            var checked = data.elem.checked;
+            var sdata = checked ? 0 : 1;
 
-        form.on("submit(LAY-Role-front-Add)", function (data) {
+            var strdata = JSON.stringify({ "states": sdata, "kid": kid })
+
+            console.log(strdata);
+            $.ajax({
+                type: 'post',
+                url: '/Employee/StartOrClose',
+                data:  strdata ,
+                dataType: 'json',
+                contentType:'application/json',
+                success: function (ret) {
+                    console.log(ret)
+                    if (ret.IsSucceed) {
+                        layer.msg("操作成功");
+             
+                    }
+   
+                    else {
+                        layer.msg("操作失败");
+                    }
+                }
+            })
+        })
+
+        form.on("submit(LAY-Employee-front-Add)", function (data) {
             console.log(data)
-            $(".rolename").val("");
+            $(".Employeename").val("");
             layer.open({
                 type: 1
                 , title: '添加'
@@ -121,12 +130,12 @@
                 , content: $('#addform')
                 , yes: function (data) {
 
-                    var rolename = $("input[name='rolename']").val();
-                    var dd = { "kid": 0, "rolename": rolename }
+                    var Employeename = $("input[name='Employeename']").val();
+                    var dd = { "kid": 0, "Employeename": Employeename }
                     console.log(dd)
                     $.ajax({
                         type: 'post',
-                        url: '/Role/AddOrEdit',
+                        url: '/Employee/AddOrEdit',
                         data: JSON.stringify(dd),
                         dataType: 'json',
                         contentType: 'application/json',
@@ -151,9 +160,9 @@
         })
 
         var refresh = function () {
-            var btnrefresh = window.parent.document.getElementsByClassName('LAY-Role-front-search')[0];
+            var btnrefresh = window.parent.document.getElementsByClassName('LAY-Employee-front-search')[0];
             if (btnrefresh == null) {
-                layui.table.reload('LAY-Role-manage');
+                layui.table.reload('LAY-Employee-manage');
             }
             else {
                 btnrefresh.click();
@@ -204,7 +213,7 @@
 
 
         //监听工具条
-        table.on('tool(LAY-Role-manage)', function (obj) {
+        table.on('tool(LAY-Employee-manage)', function (obj) {
             var data = obj.data;
             var kid = data.KID;
 
@@ -214,30 +223,30 @@
                 layer.confirm('确认删除该条出团信息？,删除后信息不可恢复', { title: '删除' }, function (index) {
                     $.ajax({
                         type: "post",
-                        url: "/Role/Delete",
-                        data: { "roleid": data.KID },
+                        url: "/Employee/Delete",
+                        data: { "Employeeid": data.KID },
                         dataType: "json",
                         success: function (res) {
                             if (res.IsSucceed) {
                                 refresh();
                                 layer.close(index);
                             }
-                            else {        
-                                    layer.msg("删除失败,服务器未返回失败信息");
+                            else {
+                                layer.msg("删除失败,服务器未返回失败信息");
                             }
                         }
                     });
                 });
 
             }
-            //授权
+            //分配角色
             else if (obj.event === 'Authinfo') {
                 layer.open({
                     type: 2
                     , title: '授权'
                     , area: ['100%', '100%']
                     //, btn: ['确定', '取消']
-                    , content: '/Role/Auth?Roleid=' + kid
+                    , content: '/Employee/Auth?Employeeid=' + kid
                     , success: function (layero, index) {
                         console.log(layero, index)
                     }
@@ -245,7 +254,7 @@
 
                     }
                     , end: function () {
-                        //table.reload('LAY-Role-manage'); //数据刷新
+                        //table.reload('LAY-Employee-manage'); //数据刷新
                         //layer.close(index); //关闭弹层
                     }
 
@@ -256,11 +265,11 @@
             //编辑
             else if (obj.event === 'Edit') {
                 var kid = data.KID;
-                $("#Roleid").val(" ");
-                $(".roleoldname").val("");
-                $(".rolenewname").val("");
-                $("#Roleid").val(kid);
-                $(".roleoldname").val(data.Rolename);
+                $("#Employeeid").val(" ");
+                $(".Employeeoldname").val("");
+                $(".Employeenewname").val("");
+                $("#Employeeid").val(kid);
+                $(".Employeeoldname").val(data.Employeename);
                 layer.open({
                     type: 1
                     , title: '编辑角色'
@@ -268,13 +277,13 @@
                     , btn: ['确定', '取消']
                     , content: $('#editform')
                     , yes: function (data) {
-                        var roleid = $("#Roleid").val();
-                        var rolename = $("input[name='rolenewname']").val();
-                        var dd = { "kid": roleid, "rolename": rolename }
+                        var Employeeid = $("#Employeeid").val();
+                        var Employeename = $("input[name='Employeenewname']").val();
+                        var dd = { "kid": Employeeid, "Employeename": Employeename }
                         console.log(dd)
                         $.ajax({
                             type: 'post',
-                            url: '/Role/AddOrEdit',
+                            url: '/Employee/AddOrEdit',
                             data: JSON.stringify(dd),
                             dataType: 'json',
                             contentType: 'application/json',
@@ -284,7 +293,7 @@
                                     layer.msg("操作成功")
                                     refresh();
                                     layer.closeAll()
-                     
+
                                 }
                                 else {
                                     layer.msg("操作失败")

@@ -28,12 +28,49 @@ namespace CJJ.Blog.Main.Controllers
         [HttpPost]
         public JsonResult GetListData(FormCollection form)
         {
-            var where = CommonHelper.FormToDic(form);
-            where.Add(nameof(Employee.IsDeleted), 0);
-            where.Add(nameof(Employee.States), 0);
-            var list = BlogHelper.GetJsonListPage_Employee(1, 15, "", where);
+            var where = form.TableWhere();
+            where.DicWhere.Add(nameof(Employee.IsDeleted), 0);
+            var list = BlogHelper.GetJsonListPage_Employee(where.Page, where.Limit, "", where.DicWhere);
             return MyJson(list);
         }
+        /// <summary>
+        /// 启用禁用员工
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult StartOrClose(int kid, int states)
+        {
+            var res = new Result();
+            var emp = EmployeeInfo.Model;
+            res = BlogHelper.UpdateByWhere_Employee(new Dictionary<string, object>()
+            {
+                {nameof(Employee.UpdateTime),DateTime.Now },
+                {nameof(Employee.CreateUserId),emp.KID },
+                { nameof(Employee.CreateUserName),emp.UserName },
+                {nameof(Employee.States),states }
+            }, new Dictionary<string, object>() { {
+                    nameof(Employee.KID),kid
+                } }, new Service.Models.View.OpertionUser());
+            return MyJson(res);
+        }
+        /// <summary>
+        /// 添加或修改
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AddOrEdit(string kid)
+        {
+            if (string.IsNullOrEmpty(kid))
+            {
+                return MyJson(new Employee());
+            }
+            else
+            {
+                var emp = BlogHelper.GetModelByKID_Employee(kid.Toint());
+                return MyJson(emp);
+            }
+        }
+
         /// <summary>
         /// 用户授权页面
         /// </summary>
@@ -67,7 +104,7 @@ namespace CJJ.Blog.Main.Controllers
                     res.Message = "参数不合法";
                 }
                 res = BlogHelper.SetEmployeeRole(empid, roleids);
-                           
+
             }
             catch (Exception ex)
             {

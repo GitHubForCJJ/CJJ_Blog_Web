@@ -68,6 +68,7 @@
     <Reference Include="Qiniu, Version=7.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Qiniu.7.3.1.1\lib\Net40\Qiniu.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -556,9 +557,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Blogview.cs" />
+    <Compile Include="Models\FormItem.cs" />
     <Compile Include="Models\JsonRequest.cs" />
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\LoginView.cs" />
+    <Compile Include="Models\MenuView.cs" />
     <Compile Include="Models\Roleview.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -608,6 +611,8 @@
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Auth.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\AddOrEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -617,7 +622,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Employee\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>

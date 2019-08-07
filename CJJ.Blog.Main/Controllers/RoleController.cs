@@ -20,6 +20,66 @@ namespace CJJ.Blog.Main.Controllers
             return View();
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult AddOrEdit(int kid,string rolename)
+        {
+            var result = new Result();
+            if (string.IsNullOrEmpty(rolename))
+            {
+                result.IsSucceed = false;
+                result.Message = "名称不能为空";
+                return MyJson(result);
+            }
+            var emp = EmployeeInfo?.Model;
+            if (kid <= 0)
+            {
+                var role = new Sysrole();
+                role.CreateTime = DateTime.Now;
+                role.CreateUserId = emp?.KID.ToString();
+                role.CreateUserName = emp?.UserName;
+                role.Rolename = rolename;
+                role.UpdateTime = DateTime.Now;
+                result = BlogHelper.AddByEntity_Sysrole(role, new Service.Models.View.OpertionUser());
+            }
+            else
+            {
+                result = BlogHelper.UpdateByWhere_Sysrole(new Dictionary<string, object>() {
+                    {nameof(Sysrole.CreateTime),DateTime.Now },
+                    {nameof(Sysrole.CreateUserId), emp?.KID.ToString()},
+                    {nameof(Sysrole.CreateUserName), emp?.UserName},
+                    {nameof(Sysrole.Rolename), rolename}
+                }, new Dictionary<string, object>() { { nameof(Sysrole.KID), kid } }, new Service.Models.View.OpertionUser());
+            }
+
+            return MyJson(result);
+        }
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult Delete(int roleid)
+        {
+            var result = new Result();
+            if (roleid <= 0)
+            {
+                result.IsSucceed = false;
+                result.Message = "参数错误";
+                return MyJson(result);
+            }
+            result = BlogHelper.DeleteByWhere_Sysrole(new Dictionary<string, object>()
+            {
+                {nameof(Sysrole.KID),roleid }
+            }, new Service.Models.View.OpertionUser());
+
+            return MyJson(result);
+
+        }
+        /// <summary>
         /// 授权
         /// </summary>
         /// <returns></returns>
@@ -30,7 +90,33 @@ namespace CJJ.Blog.Main.Controllers
             return View();
         }
         /// <summary>
-        /// 获取属于这个角色的员工
+        /// 设置角色的权限列表 (左边)
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetRoleMenu(int roleid)
+        {
+            var allmenu = BlogHelper.GetAllList_Sysmenu();
+            var reslist = new List<MenuView>();
+            reslist = allmenu.SerializeObject().DeserializeObject<List<MenuView>>();
+            var current = BlogHelper.GetModelByKID_Sysrole(roleid);
+            if (current != null && !string.IsNullOrEmpty(current?.MenuList))
+            {
+                var list = current.MenuList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)?.ToList();
+                for (var i = 0; i < reslist.Count(); i++)
+                {
+                    if (list.Contains(reslist[i].KID.ToString()))
+                    {
+                        reslist[i].Checked = true;
+                    }
+                }
+            }
+            return MyJson(reslist);
+
+        }
+        /// <summary>
+        /// 获取所有的员工包括属于这个角色的，（角色操作页面右边）
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -51,8 +137,8 @@ namespace CJJ.Blog.Main.Controllers
 
             for (var i = 0; i < reslist.Count; i++)
             {
-                var id = reslist[i].KID;
-                var emp = emps.FirstOrDefault(x => x.KID == id);
+                var id = reslist[i].KID.ToString();
+                var emp = emps.FirstOrDefault(x => x.Userid == id);
                 if (emp != null)
                 {
                     reslist[i].Checked = true;
@@ -102,10 +188,10 @@ namespace CJJ.Blog.Main.Controllers
         [HttpPost]
         public JsonResult GetListData(FormCollection form)
         {
-            var where = CommonHelper.FormToDic(form);
-            where.Add(nameof(Sysrole.IsDeleted), 0);
-            where.Add(nameof(Sysrole.States), 0);
-            var list = BlogHelper.GetJsonListPage_Sysrole(1, 10, "", where);
+            var where = form.TableWhere();
+            where.DicWhere.Add(nameof(Sysrole.IsDeleted), 0);
+            where.DicWhere.Add(nameof(Sysrole.States), 0);
+            var list = BlogHelper.GetJsonListPage_Sysrole(where.Page,where.Limit, "", where.DicWhere);
             return MyJson(list);
         }
     }

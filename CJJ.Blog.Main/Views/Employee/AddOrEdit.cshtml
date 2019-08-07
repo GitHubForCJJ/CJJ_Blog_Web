@@ -1,0 +1,58 @@
+﻿@using CJJ.Blog.Service.Models.Data;
+@model CJJ.Blog.Service.Models.Data.Employee
+@{
+    ViewBag.Title = "AddOrEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .btn-area{
+        text-align:center;
+    }
+</style>
+
+<div class="layui-card">
+    <div class="layui-form">
+        <div class="layui-form-item">
+
+            <div class="layui-inline">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="UserName" value="@Model.UserName" class="layui-input" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="UserNikeName" value="@Model.UserNikeName" class="layui-input" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">登录名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="UserAccount" value="@Model.UserAcount" class="layui-input" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="UserPassword" value="@Model.UserPassword" class="layui-input" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item btn-area">
+            <button>提交</button>
+        </div>
+        <input type="hidden" name="KID" value="@Model.KID" />
+        <input type="hidden" name="CreateTime" value="@Model.CreateTime" />
+        <input type="hidden" name="CreateUserId" value="@Model.CreateUserId" />
+        <input type="hidden" name="CreateUserName" value="@Model.CreateUserName" />
+        <input type="hidden" name="UpdateTime" value="@Model.UpdateTime" />
+    </div>
+</div>
+

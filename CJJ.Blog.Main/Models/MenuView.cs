@@ -7,11 +7,8 @@ using System.Web;
 
 namespace CJJ.Blog.Main.Models
 {
-    public class Roleview:Employee
+    public class MenuView : Sysmenu
     {
-        /// <summary>
-        /// 是否选中
-        /// </summary>
         [DataMember]
         public bool Checked { get; set; }
     }
