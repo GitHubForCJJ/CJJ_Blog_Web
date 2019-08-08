@@ -58,14 +58,14 @@
     <div>1{{ layui.laytpl.toDateString(d.CreatedTime) }}</div>
 </script>
 <script type="text/html" id="table-Employee-opertool">
-
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="Reset">重置密码</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="Delete">删除</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Authinfo">分配角色</a>
 
 </script>
 
-
+<script src="~/Content/Md5.js"></script>
 <script>
     layui.use(['index', 'layer', 'table', 'laydate', 'zTree'], function () {
         var $ = layui.$,
@@ -123,39 +123,10 @@
             console.log(data)
             $(".Employeename").val("");
             layer.open({
-                type: 1
+                type: 2
                 , title: '添加'
-                , area: ['400px', '200px']
-                , btn: ['确定', '取消']
-                , content: $('#addform')
-                , yes: function (data) {
-
-                    var Employeename = $("input[name='Employeename']").val();
-                    var dd = { "kid": 0, "Employeename": Employeename }
-                    console.log(dd)
-                    $.ajax({
-                        type: 'post',
-                        url: '/Employee/AddOrEdit',
-                        data: JSON.stringify(dd),
-                        dataType: 'json',
-                        contentType: 'application/json',
-                        success: function (res) {
-                            if (res.IsSucceed) {
-                                layer.msg("操作成功")
-
-                                refresh();
-                                layer.closeAll()
-                            }
-                            else {
-                                layer.msg("操作失败")
-                            }
-                        },
-                        error: function (err) {
-                            console.log(err)
-                        }
-
-                    })
-                }
+                , area: ['600px', '400px']
+                , content:'/Employee/AddOrEdit'
             })
         })
 
@@ -217,6 +188,30 @@
             var data = obj.data;
             var kid = data.KID;
 
+            //重置密码
+            if (obj.event === 'Reset') {
+                layer.confirm('确认重置密码', { title: '重置密码' }, function (index) {
+                    var dd = { "kid": data.KID, "password": md5(888888).toUpperCase() };
+                    console.log(dd)
+                    $.ajax({
+                        type: "post",
+                        url: "/Employee/Reset",
+                        data: JSON.stringify(dd),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (res) {
+                            if (res.IsSucceed) {
+                                layer.msg("操作成功");
+                                layer.close(index);
+                            }
+                            else {
+                                layer.msg("删除失败,服务器未返回失败信息");
+                            }
+                        }
+                    });
+                });
+
+            }
             //删除
             if (obj.event === 'Delete') {
                 //删除
@@ -224,8 +219,9 @@
                     $.ajax({
                         type: "post",
                         url: "/Employee/Delete",
-                        data: { "Employeeid": data.KID },
+                        data: { "kid": data.KID },
                         dataType: "json",
+                        contentType: "application/json",
                         success: function (res) {
                             if (res.IsSucceed) {
                                 refresh();
@@ -244,67 +240,26 @@
                 layer.open({
                     type: 2
                     , title: '授权'
-                    , area: ['100%', '100%']
+                    , area: ['500px', '300px']
                     //, btn: ['确定', '取消']
-                    , content: '/Employee/Auth?Employeeid=' + kid
+                    , content: '/Employee/EmpRole?kid=' + kid
                     , success: function (layero, index) {
-                        console.log(layero, index)
-                    }
-                    , yes: function (index, layero) {
 
                     }
                     , end: function () {
-                        //table.reload('LAY-Employee-manage'); //数据刷新
-                        //layer.close(index); //关闭弹层
+
                     }
 
                 });
-
-
             }
             //编辑
             else if (obj.event === 'Edit') {
                 var kid = data.KID;
-                $("#Employeeid").val(" ");
-                $(".Employeeoldname").val("");
-                $(".Employeenewname").val("");
-                $("#Employeeid").val(kid);
-                $(".Employeeoldname").val(data.Employeename);
                 layer.open({
-                    type: 1
-                    , title: '编辑角色'
-                    , area: ['400px', '240px']
-                    , btn: ['确定', '取消']
-                    , content: $('#editform')
-                    , yes: function (data) {
-                        var Employeeid = $("#Employeeid").val();
-                        var Employeename = $("input[name='Employeenewname']").val();
-                        var dd = { "kid": Employeeid, "Employeename": Employeename }
-                        console.log(dd)
-                        $.ajax({
-                            type: 'post',
-                            url: '/Employee/AddOrEdit',
-                            data: JSON.stringify(dd),
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            success: function (res) {
-                                console.log(res)
-                                if (res.IsSucceed) {
-                                    layer.msg("操作成功")
-                                    refresh();
-                                    layer.closeAll()
-
-                                }
-                                else {
-                                    layer.msg("操作失败")
-                                }
-                            },
-                            error: function (err) {
-                                console.log(err)
-                            }
-
-                        })
-                    }
+                    type: 2
+                    , title: '编辑'
+                    , area: ['600px', '400px']
+                    , content: '/Employee/AddOrEdit?kid=' + kid
                 })
             }
         });

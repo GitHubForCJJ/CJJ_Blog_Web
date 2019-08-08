@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "ChangePsw";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .layui-form{
+        margin-top:60px;
+        padding-left:30px;
+        width:400px;
+    }
+    .btn-area{
+        text-align:center;
+        margin-top:50px;
+    }
+</style>
+<div class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码：</label>
+        <div class="layui-input-block">
+            <input type="password" class="layui-input" name="UserPassword" placeholder="新密码"/>
+        </div>
+    </div>
+    <div class="layui-form-item btn-area">
+        <button lay-submit class="layui-btn layui-btn-danger">提交</button>
+    </div>
+</div>
+
+<script src="~/Content/Md5.js"></script>
+<script>
+    layui.use(['index','jquery', 'form'], function () {
+        var form = layui.form,
+            $ = layui.$;
+
+        form.on('submit', function (data) {
+            var field = data.field;
+            var dd = { "psw": md5(field.UserPassword).toUpperCase() }
+            $.ajax({
+                type: 'post',
+                url: '/Common/ChangePsw',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(dd),
+                success: function (res) {
+                    if (res.IsSucceed) {
+                        layer.msg("操作成功");
+
+                    }
+                    else {
+                        layer.msg("操作失败");
+                    }
+
+                },
+                error: function (err) {
+                    console.log(err)
+                    layer.msg("系统错误");
+                }
+
+            })
+        })
+    })
+</script>
+

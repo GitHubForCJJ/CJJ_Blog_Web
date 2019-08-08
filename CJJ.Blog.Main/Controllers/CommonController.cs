@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LoginView = CJJ.Blog.Main.Models.LoginView;
 using CJJ.Blog.Main.Tools;
+using FastDev.Common.Code;
 
 namespace CJJ.Blog.Main.Controllers
 {
@@ -68,6 +69,32 @@ namespace CJJ.Blog.Main.Controllers
             //WebUtil.WriteCookie(WebUtil.Userinfokey, "", DateTime.Now.AddDays(-5));
             WebUtil.WriteCookie(WebUtil.Tokenkey, "", DateTime.Now.AddDays(-5));
             return RedirectToAction("SysLogin");
+        }
+        [HttpGet]
+        public ActionResult ChangePsw()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 改密码
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult ChangePsw(string psw)
+        {
+            var res = new Result() { IsSucceed=false};
+            if (string.IsNullOrEmpty(psw))
+            {
+                return MyJson(res);
+            }
+            var emp = EmployeeInfo?.Model;
+            res = BlogHelper.UpdateByWhere_Employee(new Dictionary<string, object>()
+            {
+                {nameof(Employee.UserPassword),psw }
+            }, new Dictionary<string, object>() {
+                {nameof(Employee.KID), emp?.KID}
+            }, new Service.Models.View.OpertionUser());
+            return MyJson(res);
         }
 
 

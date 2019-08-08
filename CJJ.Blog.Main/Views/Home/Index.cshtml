@@ -79,7 +79,7 @@
                     </li>
                     <li class="layui-nav-item" lay-unselect>
                         <a href="javascript:;">
-                            <cite>RODMAN</cite>
+                            <cite class="loginname">RODMAN</cite>
                         </a>
                         <dl class="layui-nav-child">
                             <dd><a lay-href="/TravelBusiness/UpdateCompanyMsg">基本资料</a></dd>
@@ -104,48 +104,16 @@
                     </div>
 
                     <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
-                        @*@if (Model == null || !Model.Any())
-                        {
-                            <li data-name="user" class="layui-nav-item">
-                                <a href="javascript:;" lay-tips="暂无菜单权限" lay-direction="2">
-                                    <i class="layui-icon layui-icon-user"></i>
-                                    <cite>暂无菜单权限</cite>
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            foreach (var first in Model)
-                            {
-                                <li data-name="user" class="layui-nav-item">
-                                    <a href="javascript:;" lay-tips="@first.name" lay-direction="2">
-                                        <i class="layui-icon @first.ico"></i>
-                                        <cite>@first.name</cite>
-                                    </a>
-                                    <dl class="layui-nav-child">
-                                        @foreach (var second in first.subMenuLst)
-                                        {
-
-                                            <dd>
-                                                <a lay-href="@second.url" title="@second.name">@second.name</a>
-                                            </dd>
-
-
-                                        }
-                                    </dl>
-                                </li>
-                            }
-                        }*@
 
                     </ul>
                     <div style="height: 40px;"></div>
                     <div class="loginout">
                         <div class="login">
-                            <span>123</span>
+                            <span class="loginname"></span>
                             <div class="logincon">
-                                <span>123   </span>
+                                <span class="loginname"></span>
                                 <a lay-href="/TravelBusiness/UpdateCompanyMsg">基本资料</a>
-                                <a lay-href="/TravelBusiness/UpdateCompanyMsg#change_pas">修改密码</a>
+                                <a lay-href="/Common/ChangePsw">修改密码</a>
                                 <a class="out" href="/common/SysLogin" target="_self">退出</a>
                                 <p class="icon"><i class="layui-icon layui-icon-triangle-d"></i></p>
                             </div>
@@ -204,6 +172,8 @@
             $(function () {
                 var userinfo = JSON.parse(localStorage.userinfo);
                 var authmenu = userinfo.UserAuthorMenu.UserMenuByLevel;
+                var user = userinfo.Model;
+                $(".loginname").text(user.UserName);
                 console.log(authmenu)
                 if (authmenu.length > 0) {
                     for (var i in authmenu) {

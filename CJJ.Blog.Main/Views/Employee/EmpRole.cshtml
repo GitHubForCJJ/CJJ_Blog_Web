@@ -1,0 +1,83 @@
+﻿@using CJJ.Blog.Main.Models;
+@model List<EmployeeView>
+@{
+    ViewBag.Title = "EmpRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .btn-area {
+        text-align: center;
+        margin-top: 80px;
+    }
+</style>
+<div class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">授权列表:</label>
+        <div class="layui-input-block">
+
+            @foreach (var item in Model)
+            {
+                if (item.Checked)
+                {
+                    <input type="checkbox" class="" name="Roleid" value="@item.KID" title="@item.Rolename" checked />
+                }
+                else
+                {
+                    <input type="checkbox" name="Roleid" value="@item.KID" title="@item.Rolename" />
+                }
+            }
+
+        </div>
+    </div>
+    <input type="hidden" name="kid" value="@ViewBag.KID"/>
+    <div class="layui-form-item btn-area">
+        <button lay-submit onclick="parent.layer.closeAll()" class="layui-btn layui-btn-primary br5">取消</button>
+        <button lay-submit lay-filter="addrole" class="layui-btn layui-btn-danger">提交</button>
+    </div>
+</div>
+
+<script>
+    layui.use(['index','jquery', 'form'], function () {
+        var form = layui.form,
+            $ = layui.$;
+        //checkedbox渲染
+        //form.render();
+
+        form.on('submit(addrole)', function () {
+            var checkedval = "";
+            $("input[name='Roleid']:checked").each(function () {
+                checkedval = checkedval + $(this).val()+",";
+            })
+            var kid = $("input[name='kid']").val();
+            var data = { "kid": kid, "roleids": checkedval }
+            console.log(data)
+            $.ajax({
+                type: 'post',
+                url: '/Employee/SetRole',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.IsSucceed) {
+                        layer.msg("操作成功");
+                        //parent.layui.table.reload('LAY-Employee-manage');
+                        parent.layer.closeAll();
+             
+                    }
+                    else {
+                        layer.msg("操作失败");
+                    }
+             
+                },
+                error: function (err) {
+                    console.log(err)
+                    layer.msg("系统错误");
+                }
+
+            })
+        })
+
+    })
+</script>
+
+

@@ -214,6 +214,7 @@
     <Content Include="Content\lib\extend\echartsTheme.js" />
     <Content Include="Content\lib\index.js" />
     <Content Include="Content\lib\view.js" />
+    <Content Include="Content\Md5.js" />
     <Content Include="Content\Style\admin.css" />
     <Content Include="Content\Style\index.css" />
     <Content Include="Content\tpl\layim\demo.html" />
@@ -557,6 +558,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Blogview.cs" />
+    <Compile Include="Models\EmployeeView.cs" />
     <Compile Include="Models\FormItem.cs" />
     <Compile Include="Models\JsonRequest.cs" />
     <Compile Include="Models\JsonResponse.cs" />
@@ -613,6 +615,8 @@
     <Content Include="Views\Role\Auth.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\AddOrEdit.cshtml" />
+    <Content Include="Views\Employee\EmpRole.cshtml" />
+    <Content Include="Views\Common\ChangePsw.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

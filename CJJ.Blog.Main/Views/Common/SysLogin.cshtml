@@ -156,7 +156,7 @@
         </form>
 
         <script src="~/Scripts/jquery-1.10.2.js"></script>
-        <script src="~/Scripts/md5.js"></script>
+        <script src="~/Content/Md5.js"></script>
         <script type="text/javascript">
             //$(".login-form").submit(function (res) {
             //    var a = $(".login-form").serialize();
@@ -166,7 +166,7 @@
             $(".enter-btn").click(function () {
                 var uc = $("#UserAccount").val();
                 var pw = $("#UserPassword").val();
-                var pass = hex_md5(pw).toUpperCase();
+                var pass = md5(pw).toUpperCase();
                 var dd = { "UserAccount": uc, "Password": pass };
                 console.log(dd)
                 $.ajax({

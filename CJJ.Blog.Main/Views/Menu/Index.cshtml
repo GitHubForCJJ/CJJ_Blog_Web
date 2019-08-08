@@ -131,12 +131,14 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    if (res.IsSuccess) {
+                    if (res.IsSucceed) {
                         layer.msg("操作成功");
-                        console.log(res)
                         initztree();
                     }
-                    layer.msg("操作失败");
+                    else {
+                        layer.msg("操作失败");
+                    }
+      
                 },
                 error: function (err) {
                     layer.msg("系统错误");
@@ -271,7 +273,10 @@
                                 console.log(res)
                                 initztree();
                             }
-                            layer.msg("操作失败");
+                            else {
+                                layer.msg("操作失败");
+                            }
+                
                         },
                         error: function (err) {
                             layer.msg("系统错误");
