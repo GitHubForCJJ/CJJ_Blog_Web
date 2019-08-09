@@ -21,71 +21,10 @@ layui.define(['table', 'form'], function (exports) {
         });
     });
 
-    //监听导出
-    form.on('submit(LAY-Blog-front-ExportData)', function (data) {
-        var field = data.field;
-
-        var $iframe = $('<iframe id="down-file-iframe_Blog" />');
-        var $form = $('<form target="down-file-iframe_Blog" method="post" />');
-        $form.attr('action', "ExportData");
-        for (var key in field) {
-            $form.append('<input type="hidden" name="' + key + '" value="' + field[key] + '" />');
-        }
-        $iframe.append($form);
-        $(document.body).append($iframe);
-        $form[0].submit();
-        $iframe.remove();
-    });
-
     //事件
     var active = {
-        BatchDelete: function () {
-            var checkStatus = table.checkStatus('LAY-Blog-manage');
-            //得到选中的数据
-            var selectkids = "";
-            for (var i = 0; i < checkStatus.data.length; i++) {
-                selectkids += checkStatus.data[i].KID + ","
-            }
-            if (selectkids.length === 0) {
-                return layer.msg('请选择数据');
-            }
-            layer.prompt({
-                formType: 1
-                , title: '敏感操作，请输入第一条数据ID验证'
-            }, function (value, index) {
-                if (value == checkStatus.data[0].KID) {
-                    layer.close(index);
 
-                    layer.confirm('确定删除吗？', function (index) {
-
-                        $.ajax({
-                            type: "post",
-                            url: "Delete",
-                            data: { "kid": selectkids },
-                            dataType: "json",
-                            success: function (ret) {
-                                if (ret.code == "0") {
-                                    layer.close(index);
-                                    table.reload('LAY-Blog-manage', {
-                                    });
-                                }
-                                else {
-                                    if (ret.msg == null)
-                                        layer.msg("删除失败,服务器未返回失败信息");
-                                    else
-                                        layer.msg(ret.msg);
-                                }
-                            }
-                        });
-                    });
-                }
-                else {
-                    layer.msg('口令错误,无法执行删除动作');
-                    layer.close(index);
-                }
-            });
-        }
-        , Add: function () {
+         Add: function () {
             layer.open({
                 type: 1
                 , title: '添加'
@@ -116,11 +55,6 @@ layui.define(['table', 'form'], function (exports) {
         })
     })
 
-    //添加出团信息
-    $('.layui-btn.layuiadmin-btn-Blog').on('click', function () {
-        var type = $(this).data('type');
-        active[type] ? active[type].call(this) : '';
-    });
 
     //监听工具条
     table.on('tool(LAY-Blog-manage)', function (obj) {

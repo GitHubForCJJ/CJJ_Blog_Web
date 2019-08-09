@@ -4,19 +4,70 @@
 @using CJJ.Blog.Service.Model.View;
 @model CJJ.Blog.Service.Model.View.BloginfoView
 
+<style>
+    .layui-form{
 
+    }
+    .auth-btn-area {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background-color: white;
+        text-align: center;
+        line-height: 80px;
+        z-index:999;
+    }
 
-<div class="layui-form form1" style="width:65%">
+    .auth-btn0 {
+        background-color: #ff5a1e !important;
+        color: #fff !important;
+        width: 100px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        line-height: 38px !important;
+        text-align: center !important;
+        font-size: 14px !important;
+        border: none !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        margin-right: -110px !important;
+        text-decoration: none;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        /*vertical-align: top;*/
+    }
+
+    .auth-btn1 {
+        background-color: #444a5a !important;
+        color: #fff !important;
+        height: 38px !important;
+        padding: 0 !important;
+        width: 100px !important;
+        line-height: 38px !important;
+        text-align: center !important;
+        font-size: 14px !important;
+        border: none !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        margin-left: -110px !important;
+        text-decoration: none;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        /*vertical-align: top;*/
+    }
+</style>
+
+<div class="layui-form">
 
     <div class="layui-form-item">
-
         <label class="layui-form-label">Title</label>
         <div class="layui-input-block">
-            <input type="text" id="Title" name="Title" value='@(Model?.Title ?? " ")'  placeholder="TItle" class="layui-input" />
+            <input type="text" id="Title" name="Title" value='@(Model?.Title ?? " ")' placeholder="TItle" class="layui-input" />
         </div>
-
-
-
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">DetailTitle</label>
@@ -25,9 +76,7 @@
 @(Model?.DetailTitle ?? "")
                 </textarea>
         </div>
-
     </div>
-
     <div class="layui-form-item">
         <label class="layui-form-label">artic</label>
         <div class="layui-input-block">
@@ -37,9 +86,10 @@
         </div>
 
     </div>
-    <input type="hidden" name="KID" value='@(Model?.KID >0?Model.KID.ToString() : "" )'/>
-    <div class="layui-form-item" style="text-align:center">
-        <button lay-submit class="layui-btn layui-btn-danger">提交</button>
+    <input type="hidden" name="KID" value='@(Model?.KID >0?Model.KID.ToString() : "" )' />
+    <div class="auth-btn-area">
+        <a class="auth-btn0" id="auth-btn0">确定</a>
+        <a class="auth-btn1" id="auth-btn1">取消</a>
     </div>
 
 </div>
@@ -67,9 +117,9 @@
 
         $(function () {
 
- 
+
         })
-  
+
 
 
 

@@ -3,7 +3,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<style>
+    .layui-card-header{
+        padding-top:20px;
+        height:auto;
+    }
+    .btn-area {
+        text-align: center;
+    }
+</style>
 
 <div class="layui-fluid">
     <div class="layui-card">
@@ -22,16 +30,16 @@
                     </div>
                 </div>
             </div>
+            <div class="layui-form-item btn-area">
+
+                    <button class="layui-btn layui-btn-danger layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Blog-front-search">查询</button>
+
+                    <button class="layui-btn layui-btn-normal layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Blog-front-Add">添加</button>
+
+            </div>
 
         </div>
         <div class="layui-card-body">
-
-            <div style="padding-bottom: 10px;margin:0 auto;">
-                <button class="layui-btn layui-btn-danger layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Blog-front-search">查询</button>
-
-                <button class="layui-btn layui-btn-normal layuiadmin-btn-Line br5" lay-submit lay-filter="LAY-Blog-front-Add">添加</button>
-
-            </div>
 
             <table class="layui-table" lay-data="{url:'/Blog/GetListData',method:'post',dataType: 'json', page:true, id:'LAY-Blog-manage'}" lay-filter="LAY-Blog-manage">
                 <thead>
@@ -47,6 +55,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/html" id="temp_Blog_CreateTime">
     <div>1{{ layui.laytpl.toDateString(d.CreatedTime) }}</div>
 </script>
@@ -65,7 +74,7 @@
 <script src="~/ueditornet/lang/zh-cn/zh-cn.js"></script>
 
 <script>
-    layui.use(['index', 'Blog', 'table', 'laydate'], function () {
+    layui.use(['index','form', 'table', 'laydate'], function () {
         var $ = layui.$,
             form = layui.form,
             table = layui.table,
@@ -77,6 +86,102 @@
                 elem: this
             })
         });
+
+
+        //监听搜索
+        form.on('submit(LAY-Blog-front-search)', function (data) {
+            var field = data.field;
+            //执行重载
+            table.reload('LAY-Blog-manage', {
+                where: field,
+                page: 1
+            });
+        });
+
+        //事件
+        var active = {
+
+            Add: function () {
+                layer.open({
+                    type: 1
+                    , title: '添加'
+                    , content: 'AddOrEdit'
+                    , area: [resizeIframe(640) + 'px', resizeIframe(740) + 'px']
+                    , end: function () {
+                        if ($("button").hasClass("layui-laypage-btn")) {
+                            $(".layui-laypage-btn").click(); //数据刷新
+                        } else {
+                            table.reload('LAY-Blog-manage', {});
+                        }
+                    }
+                });
+            }
+        };
+
+        //点击查看大图
+        $(document).on('click', '.show_img', function () {
+            var src = $(this).attr('src');
+            var html = '<img src =' + src + ' style="width:100%;">';
+            layer.open({
+                type: 1,
+                title: false,
+                area: 'auto',
+                maxWidth: resizeIframe(1000),
+                maxHeight: resizeIframe(800),
+                content: html
+            })
+        })
+
+
+        //监听工具条
+        table.on('tool(LAY-Blog-manage)', function (obj) {
+            var data = obj.data;
+
+            if (obj.event === 'Delete') {
+                //删除
+                layer.confirm('确认删除该条出团信息？,删除后信息不可恢复', { title: '删除' }, function (index) {
+                    $.ajax({
+                        type: "post",
+                        url: "/Blog/Delete",
+                        data: { "KID": data.KID },
+                        dataType: "json",
+                        success: function (ret) {
+                            if (ret.code == "0") {
+                                obj.del();
+                                layer.close(index);
+                            }
+                            else {
+                                if (ret.msg == null)
+                                    layer.msg("删除失败,服务器未返回失败信息");
+                                else
+                                    layer.msg(ret.msg);
+                            }
+                        }
+                    });
+                });
+
+            }
+            //编辑
+            else if (obj.event === 'Edit') {
+                var kid = data.KID;
+                layer.open({
+                    type: 2
+                    , title: '编辑'
+                    , area:['100%','100%']
+                    , content: '/Blog/AddOrEdit?blogid=' + kid
+                    , end: function () {
+                        table.reload('LAY-Blog-manage'); //数据刷新
+                        //layer.close(index); //关闭弹层
+                    }
+                    , success: function (layero, index) {
+
+                    }
+                });
+
+            }
+        });
+
+
         //时间戳的处理
         layui.laytpl.toDateString = function (d, format) {
             var date = new Date(d || new Date())
@@ -111,6 +216,7 @@
             }
             return num < Math.pow(10, length) ? str + (num | 0) : num;
         }
+
 
     });
 </script>
