@@ -158,9 +158,8 @@
                     </form>
                 </div>
 
-                <div class="layui-tab-item">
-
-                    <input type="hidden" id="loginkey" value=uuid()/>
+                <div class="layui-tab-item codebox" style="text-align:center">
+                    @*<image  src='/Common/CreateCode?key=" + uuid()+"' style='height: 200px;width: 200px;'  ></image>*@
                 </div>
             </div>
         </div>
@@ -169,27 +168,66 @@
 
 
     </div>
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
     <script src="~/Content/Md5.js"></script>
     <script src="~/Content/Layui/layui.js"></script>
 
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
     <script>
         //$(".login-form").submit(function (res) {
         //    var a = $(".login-form").serialize();
         //    console.log(a)
         //})
-        layui.use(['form','jquery', 'element'], function (args) {
+
+        $(function () {
+            //客户端先与服务器连接起来，拿到服务器的代理操作对象
+            console.log($.connection)
+            var hubConnection = $.connection.code;
+            console.log(hubConnection)
+            //注册客户端函数
+            hubConnection.client.receiveMessage = function (obj) {
+                console.log(obj);
+            }
+            //启动连接到服务器
+            $.connection.hub.start().done(function () {
+                var logincodekey = localStorage.getItem("logincodekey");
+                hubConnection.server.getCodeState(logincodekey);
+            });
+        })
+
+        layui.use(['form', 'jquery', 'element'], function (args) {
             var element = layui.element;
-            var $ = jquery.$;
+            var $ = layui.$;
 
             element.on('tab(logtab)', function () {
                 var id = this.getAttribute('lay-id');
                 if (id == 222) {
                     var logkey = uuid();
+                    console.log(logkey);
                     localStorage.setItem("logincodekey", logkey);
-                    $.post({
-                        url:'Common/'
-                    })
+                    $(".codebox img").remove();
+
+                    var codeimg = "<image  src='/Common/CreateCode?key=" + logkey + "' style='height: 200px;width: 200px;' ></image>";
+                    $(".codebox").append(codeimg);
+
+
+                    //var hub = $.connection.codeHub;
+                    //$.connection.loggint = true;
+                    //$.connection.url = '/codeconf';
+                    //hub.client.message = function (res) {
+                    //    console.log(res);
+                    //}
+                    ////hub.on('codeUpdate', function (res) {
+                    ////    console.log("aa");
+                    ////   console.log(res)
+                    ////});
+                    //console.log("bb");
+                    //$.connection.hub.start().done(function () {
+                    //    hub.invoke("SendLoginRes");
+                    //});
+                    //console.log("cc");
                 }
             });
         })

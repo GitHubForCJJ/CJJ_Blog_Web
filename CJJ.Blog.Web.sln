@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CJJ.Blog.Main", "CJJ.Blog.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CJJ.WeChart.API", "CJJ.WeChart.API\CJJ.WeChart.API.csproj", "{6CA8108C-0B89-4021-A185-7AA18E1D3268}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dll", "Dll", "{85BFD0E5-B657-404C-B65D-2A23F79AB6CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastDev.Config", "FastDev.Config\FastDev.Config.csproj", "{54F5CBC8-9612-41B3-8648-784FF319F897}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastDev.Log", "FastDev.Log\FastDev.Log.csproj", "{5072D21A-645E-4AD7-B211-229A34AAD7AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +33,14 @@ Global
 		{6CA8108C-0B89-4021-A185-7AA18E1D3268}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CA8108C-0B89-4021-A185-7AA18E1D3268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CA8108C-0B89-4021-A185-7AA18E1D3268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54F5CBC8-9612-41B3-8648-784FF319F897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54F5CBC8-9612-41B3-8648-784FF319F897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54F5CBC8-9612-41B3-8648-784FF319F897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54F5CBC8-9612-41B3-8648-784FF319F897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5072D21A-645E-4AD7-B211-229A34AAD7AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5072D21A-645E-4AD7-B211-229A34AAD7AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5072D21A-645E-4AD7-B211-229A34AAD7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5072D21A-645E-4AD7-B211-229A34AAD7AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

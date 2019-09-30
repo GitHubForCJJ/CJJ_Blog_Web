@@ -2,6 +2,7 @@
 using CJJ.Blog.Service.Models.Data;
 using CJJ.WeChart.API.Helper;
 using CJJ.WeChart.API.Models;
+using FastDev.Common.Encrypt;
 using FastDev.Http;
 using FastDev.Log;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -85,6 +87,91 @@ namespace CJJ.WeChart.API.Controllers
             }
         }
 
+        #region JSAPI
+
+        /// <summary>
+        /// 获取jsapi accesstoken
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResponse GetJsapiToken()
+        {
+            string res = GetJStoken();
+            return FastResponse(res);
+        }
+        private string GetJStoken()
+        {
+            string jstoken = "";
+            try
+            {
+                jstoken = HttpContext.Current.Cache.Get(WchartApiConst.jsapiaccesstokenkey)?.ToString() ?? "";
+                if (!string.IsNullOrEmpty(jstoken))
+                {
+                    return jstoken;
+                }
+                string url = @"https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + GetAccesstoken() + "&type=jsapi";
+                string res = BuildGet(url);
+                LogHelper.WriteLog("jsapires:" + res);
+                JSAcctokenModel model = JsonConvert.DeserializeObject<JSAcctokenModel>(res);
+                if (model.errcode == 0)
+                {
+                    HttpContext.Current.Cache.Insert(WchartApiConst.jsapiaccesstokenkey, model.ticket, null, DateTime.Now.AddMinutes(119), System.Web.Caching.Cache.NoSlidingExpiration);
+                }
+
+                jstoken = model?.ticket ?? "";
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(ex, "GetJStoken");
+            }
+            return jstoken;
+        }
+        /// <summary>
+        /// 计算签名值
+        /// </summary>
+        /// <param name="noncestr"></param>
+        /// <param name="timespan"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResponse BuildSign([FromBody]Signdata data)
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            data.appId = WchartApiConst.appid;
+            data.noncestr = Guid.NewGuid().ToString();
+            data.timespan = Convert.ToInt32(ts.TotalSeconds).ToString();
+            string jsapi_acctoken = GetJStoken();
+            LogHelper.WriteLog("jsapi_acctoken:" + jsapi_acctoken);
+            data.url = HttpUtility.UrlDecode(data.url, System.Text.Encoding.UTF8);
+            LogHelper.WriteLog(data.url);
+            string signdata = $"jsapi_ticket={jsapi_acctoken}&noncestr={data.noncestr}&timestamp={data.timespan}&url={data.url}";
+            LogHelper.WriteLog(signdata);
+            string res = Sha1Encrypt(signdata)?.ToLower();
+            data.signature = res;
+            return FastResponse(data);
+        }
+
+        private string Sha1Encrypt(string source)
+        {
+            try
+            {
+                var sha1 = new SHA1CryptoServiceProvider();
+                byte[] byt1 = System.Text.Encoding.UTF8.GetBytes(source);
+                byte[] byt2 = sha1.ComputeHash(byt1);
+                sha1.Dispose();
+                string result = BitConverter.ToString(byt2);
+                result = result.Replace("-", "");
+                return result;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        #endregion
+
+
         #region 扫码登录
 
         /// <summary>
@@ -157,7 +244,7 @@ namespace CJJ.WeChart.API.Controllers
                 var model = JsonConvert.DeserializeObject<AccesstokenModel>(reshtml);
                 if (model.errcode == 0)
                 {
-                    HttpContext.Current.Cache.Insert(WchartApiConst.accesstokenkey, model.access_token, null, DateTime.Now.AddMinutes(20), System.Web.Caching.Cache.NoSlidingExpiration);
+                    HttpContext.Current.Cache.Insert(WchartApiConst.accesstokenkey, model.access_token, null, DateTime.Now.AddMinutes(120), System.Web.Caching.Cache.NoSlidingExpiration);
                     return model.access_token;
                 }
             }
@@ -269,7 +356,7 @@ namespace CJJ.WeChart.API.Controllers
             var buttonlist = new List<MenuModel>();
             buttonlist.Add(new MenuModel
             {
-                name = "今朝有酒t6",
+                name = "今朝有酒t7",
                 sub_button = new List<MenuModel>()
                   {
                       new MenuModel
@@ -282,20 +369,22 @@ namespace CJJ.WeChart.API.Controllers
             });
             buttonlist.Add(new MenuModel
             {
-                name = "今朝有酒tt6",
+                name = "今朝有酒tt7",
                 sub_button = new List<MenuModel>()
                   {
                       new MenuModel
                       {
                           type="view",
                           name="获取info2",
-                          url=@"https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WchartApiConst.appid+"&redirect_uri=http%3a%2f%2frodman.nat300.top%2fapi%2fwchart%2fGetUserBaseInfo&response_type=code&scope=snsapi_userinfo&state=aaa&connect_redirect=1#wechat_redirect"
+                          url=@"https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WchartApiConst.appid+"&redirect_uri=http%3a%2f%2frodman.nat300.top%2fwsdk%2findex&response_type=code&scope=snsapi_userinfo&state=aaa&connect_redirect=1#wechat_redirect"
                       }
                   }
             });
 
             HttpItem httpItem = new HttpItem();
             httpItem.URL = url;
+            httpItem.PostEncoding = System.Text.Encoding.UTF8;
+            httpItem.Encoding = System.Text.Encoding.UTF8;
             httpItem.Method = "POST";
             httpItem.Postdata = JsonConvert.SerializeObject(new { button = buttonlist });
             HttpHelper helper = new HttpHelper();
