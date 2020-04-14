@@ -620,6 +620,7 @@
     <Compile Include="ueditornet\net\App_Code\MyUploadHandler.cs" />
     <Compile Include="ueditornet\net\App_Code\NotSupportedHandler.cs" />
     <Compile Include="ueditornet\net\App_Code\PathFormater.cs" />
+    <Compile Include="ueditornet\net\App_Code\QiniutokenHelper.cs" />
     <Compile Include="ueditornet\net\App_Code\UploadHandler.cs" />
   </ItemGroup>
   <ItemGroup>

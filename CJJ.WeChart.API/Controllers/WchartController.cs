@@ -6,6 +6,9 @@ using FastDev.Common.Encrypt;
 using FastDev.Http;
 using FastDev.Log;
 using Newtonsoft.Json;
+using Senparc.Weixin;
+using Senparc.Weixin.WxOpen.AdvancedAPIs.Sns;
+using Senparc.Weixin.WxOpen.Containers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +18,7 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Http;
 using HttpHelper = CJJ.WeChart.API.Helper.HttpHelper;
 using HttpItem = CJJ.WeChart.API.Helper.HttpItem;
@@ -32,7 +36,7 @@ namespace CJJ.WeChart.API.Controllers
         public JsonResponse Test()
         {
             LogHelper.WriteLog("测试");
-            return FastResponse("测试");
+            return FastResponse("测试",0,"TTT2");
         }
 
         /// <summary>
@@ -84,6 +88,39 @@ namespace CJJ.WeChart.API.Controllers
             else
             {
                 return echostr;
+            }
+        }
+
+        /// <summary>
+        /// wx.login登陆成功之后发送的请求
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResponse OnLogin(string code)
+        {
+            try
+            {
+                var jsonResult = SnsApi.JsCode2Json("wxad6fecee3bf4ba2f", "f2b4532be0ba85edee3425bfa86f2187", code);
+                if (jsonResult.errcode == ReturnCode.请求成功)
+                {
+                    var unionId = "";
+                    var sessionBag = SessionContainer.UpdateSession(null, jsonResult.openid, jsonResult.session_key, unionId);
+                    HttpRuntime.Cache.Insert($"{sessionBag.OpenId}_openid", sessionBag.OpenId, null, DateTime.Now.AddMinutes(15), Cache.NoSlidingExpiration, CacheItemPriority.High, null);
+                    HttpRuntime.Cache.Insert($"{sessionBag.OpenId}_unionid", sessionBag.UnionId, null, DateTime.Now.AddMinutes(15), Cache.NoSlidingExpiration, CacheItemPriority.High, null);
+
+
+
+                    return FastResponse(new { IsSuccess = true, Message = "", sessionId = sessionBag.Key, openId = sessionBag.OpenId, unionId = sessionBag.UnionId });
+                }
+                else
+                {
+                    return FastResponse(new { IsSuccess = false, Message = jsonResult.errmsg });
+                }
+            }
+            catch (Exception ex)
+            {
+                return FastResponse(new { IsSuccess = false, Message = ex.Message });
             }
         }
 
@@ -248,7 +285,9 @@ namespace CJJ.WeChart.API.Controllers
                     return model.access_token;
                 }
             }
+#pragma warning disable CS0168 // 声明了变量“ex”，但从未使用过
             catch (Exception ex)
+#pragma warning restore CS0168 // 声明了变量“ex”，但从未使用过
             {
 
             }
